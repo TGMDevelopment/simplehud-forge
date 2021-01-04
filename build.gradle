@@ -1,0 +1,66 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+version = "1.0"
+group= "ga.matthewtgm.simplehud"
+archivesBaseName = "SimpleHUD"
+
+sourceCompatibility = targetCompatibility = 1.8
+
+minecraft {
+    version = "1.8.9-11.15.1.2318-1.8.9"
+    runDir = "run"
+
+    replace("@VER@": project.version)
+	
+    mappings = "stable_20"
+}
+
+dependencies {
+    compile('com.googlecode.json-simple:json-simple:1.1.1')
+}
+
+shadowJar {
+    dependencies {
+        include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
+    }
+
+    classifier = "working"
+}
+
+reobf {
+    shadowJar {
+        mappingType = 'SEARGE'
+    }
+}
+
+processResources
+{
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+tasks.reobfJar.dependsOn(tasks.shadowJar)

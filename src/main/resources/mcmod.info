@@ -1,0 +1,14 @@
+[{
+  "modid": "simplehud",
+  "name": "SimpleHUD",
+  "description": "Displays simple information on your screen in a neat little overlay.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/MatthewTGM/simplehud-forge",
+  "updateUrl": "https://github.com/MatthewTGM/simplehud-forge/releases/latest",
+  "authorList": ["MatthewTGM"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}]

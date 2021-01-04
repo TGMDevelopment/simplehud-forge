@@ -1,0 +1,15 @@
+# Gradle
+.gradle
+/build/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+
+# IntelliJ
+/.idea/
+/output/
+
+
+# Minecraft
+/run/

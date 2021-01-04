@@ -20,7 +20,7 @@ public class ElementManager {
             new ElementPing(),
             new ElementDay(),
             new ElementMemory(),
-            new ElementReach(),
+            new ElementReachDisplay(),
             new ElementTime()
     );
 

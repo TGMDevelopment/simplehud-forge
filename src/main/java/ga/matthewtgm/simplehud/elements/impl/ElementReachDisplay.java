@@ -13,12 +13,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-public class ElementReach extends Element {
+public class ElementReachDisplay extends Element {
 
     private Double reach = null;
     private long lastHit = 0L;
 
-    public ElementReach() {
+    public ElementReachDisplay() {
         super("Reach");
         this.height = 10;
         this.elementScreen = new ElementGUI(this);

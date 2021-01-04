@@ -27,13 +27,14 @@ public class SimpleHUD {
     }
 
     private static final FileHandler FILE_HANDLER = new FileHandler();
-    private static final ElementManager ELEMENT_MANAGER = new ElementManager();
+    private static ElementManager ELEMENT_MANAGER;
 
     private final KeyBinding openGuiKeyBinding = new KeyBinding("Open GUI", Keyboard.KEY_N, "SimpleHUD");
     public GuiScreen configGui;
 
     @Mod.EventHandler
     protected void onInit(FMLInitializationEvent event) {
+        ELEMENT_MANAGER = new ElementManager();
         this.configGui = new GuiConfiguration(null);
         getFileHandler().init();
         MinecraftForge.EVENT_BUS.register(this);

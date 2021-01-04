@@ -3,11 +3,15 @@ package ga.matthewtgm.simplehud.elements;
 import ga.matthewtgm.simplehud.Constants;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.enums.Colour;
+import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.guielements.GuiSimpleButton;
+import ga.matthewtgm.simplehud.gui.guielements.GuiSimpleSlider;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.client.config.GuiSlider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -39,22 +43,23 @@ public class Element {
         this.logger = LogManager.getLogger(Constants.NAME + " (" + name + ")");
 
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load(name, SimpleHUD.getFileHandler().elementDir) == null;
+        final FileHandler handler = SimpleHUD.getFileHandler();
 
         if(isConfigFileNull) this.toggle = false;
-        else this.toggle = (boolean) SimpleHUD.getFileHandler().load(name, SimpleHUD.getFileHandler().elementDir).get("toggle");
+        else this.toggle = (boolean) handler.load(name, SimpleHUD.getFileHandler().elementDir).get("toggle");
 
         if(this.position == null) this.position = new ElementPosition(
                 isConfigFileNull ?
                         10 :
-                        Integer.parseInt(String.valueOf(((JSONObject) SimpleHUD.getFileHandler().load(this.name, SimpleHUD.getFileHandler().elementDir).get("position")).get("x"))),
+                        Integer.parseInt(String.valueOf(((JSONObject) handler.load(this.name, SimpleHUD.getFileHandler().elementDir).get("position")).get("x"))),
                 isConfigFileNull ?
                         10 :
-                        Integer.parseInt(String.valueOf(((JSONObject) SimpleHUD.getFileHandler().load(this.name, SimpleHUD.getFileHandler().elementDir).get("position")).get("y"))));
+                        Integer.parseInt(String.valueOf(((JSONObject) handler.load(this.name, SimpleHUD.getFileHandler().elementDir).get("position")).get("y"))));
 
         try {
             if(this.colour == null && isConfigFileNull) this.colour = Colour.WHITE;
             else {
-                String colourAsString = String.valueOf(SimpleHUD.getFileHandler().load(name, SimpleHUD.getFileHandler().elementDir).get("colour"));
+                String colourAsString = String.valueOf(handler.load(name, SimpleHUD.getFileHandler().elementDir).get("colour"));
                 this.colour = Colour.valueOf(colourAsString.toUpperCase().replaceAll(" ", "_"));
             }
         } catch(Exception e) {

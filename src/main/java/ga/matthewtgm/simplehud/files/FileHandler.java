@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FileHandler {
 
-    public File matthewtgmModsDir = new File(Minecraft.getMinecraft().mcDataDir, "MatthewTGM's Mods");
+    public File matthewtgmModsDir = new File(Minecraft.getMinecraft().mcDataDir.getPath() + "/config", "MatthewTGM's Mods");
     public File modDir = new File(matthewtgmModsDir, Constants.NAME);
     public File elementDir = new File(modDir, "HUD Elements");
     public List<File> directories = Arrays.asList(matthewtgmModsDir, modDir, elementDir);

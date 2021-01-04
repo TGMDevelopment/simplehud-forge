@@ -5,7 +5,7 @@ import ga.matthewtgm.simplehud.elements.Element;
 public class ElementDay extends Element {
 
     public ElementDay() {
-        super("day");
+        super("Day");
         this.height = 10;
         if(this.prefix == null) this.prefix = "Day";
         this.elementScreen = new ElementGUI(this);

@@ -8,8 +8,8 @@ import java.util.List;
 
 public class ElementCPS extends Element {
 
-    private List<Long> leftClicks = new ArrayList<>();
-    private List<Long> rightClicks = new ArrayList<>();
+    private final List<Long> leftClicks = new ArrayList<>();
+    private final List<Long> rightClicks = new ArrayList<>();
 
     private boolean leftWasPressed = false;
     private long leftLastPressed;

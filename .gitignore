@@ -9,6 +9,9 @@ gradle-app.setting
 # IntelliJ
 /.idea/
 /output/
+*.iml
+*.ipr
+*.iws
 
 
 # Minecraft

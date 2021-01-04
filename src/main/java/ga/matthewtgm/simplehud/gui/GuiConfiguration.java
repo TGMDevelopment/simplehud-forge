@@ -37,9 +37,7 @@ public class GuiConfiguration extends GuiScreen {
 
     public GuiConfiguration(GuiScreen parent) {
         this.parent = parent;
-        SimpleHUD.getInstance().getElementManager().getElements().forEach(e -> {
-            elements.put(e, e.getPosition());
-        });
+        SimpleHUD.getInstance().getElementManager().getElements().forEach(e -> elements.put(e, e.getPosition()));
     }
 
     @Override
@@ -104,7 +102,7 @@ public class GuiConfiguration extends GuiScreen {
                 this.buttonList.add(new GuiSimpleButton(SimpleHUD.getInstance().getElementManager().getElements().indexOf(element) + 1, 0, this.height - offset, element.getName()));
                 offset = offset + 20;
                 element.elementScreen = new ElementGUI(this, element);
-                if(offset > 120) offset = 0;
+                if(offset > SimpleHUD.getInstance().getElementManager().getElements().size() * 20) offset = 0;
             } else if(type.equalsIgnoreCase("action")) {
                 if(button.id == SimpleHUD.getInstance().getElementManager().getElements().indexOf(element) + 1) {
                     element.elementScreen = new ElementGUI(this, element);

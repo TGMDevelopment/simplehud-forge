@@ -19,7 +19,8 @@ public class ElementManager {
             new ElementCPS(),
             new ElementPing(),
             new ElementDay(),
-            new ElementMemory()
+            new ElementMemory(),
+            new ElementReach()
     );
 
     public void init() {

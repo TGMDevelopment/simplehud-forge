@@ -55,7 +55,7 @@ public class Element {
             if(this.colour == null && isConfigFileNull) this.colour = Colour.WHITE;
             else {
                 String colourAsString = String.valueOf(SimpleHUD.getFileHandler().load(name, SimpleHUD.getFileHandler().elementDir).get("colour"));
-                this.colour = Colour.valueOf(colourAsString.toUpperCase());
+                this.colour = Colour.valueOf(colourAsString.toUpperCase().replaceAll(" ", "_"));
             }
         } catch(Exception e) {
             e.printStackTrace();
@@ -101,7 +101,7 @@ public class Element {
         final JSONObject posObj = (JSONObject) obj.get("position");
         this.toggle = (boolean) obj.get("toggle");
         this.position.setPosition(Integer.parseInt(String.valueOf(posObj.get("x"))), Integer.parseInt(String.valueOf(posObj.get("y"))));
-        this.colour = Colour.valueOf(String.valueOf(obj.get("colour")).toUpperCase());
+        this.colour = Colour.valueOf(String.valueOf(obj.get("colour")).toUpperCase().replaceAll(" ", "_"));
         this.renderBrackets = (boolean) obj.get("show_brackets");
     }
 

@@ -4,7 +4,6 @@ import ga.matthewtgm.simplehud.elements.Element;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class ElementTime extends Element {
 

@@ -10,7 +10,7 @@ public class ElementTime extends Element {
 
     public ElementTime() {
         super("Time");
-        this.width = 10;
+        this.height = 10;
         this.elementScreen = new ElementGUI(this);
     }
 

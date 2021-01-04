@@ -1,5 +1,6 @@
 package ga.matthewtgm.simplehud;
 
+import ga.matthewtgm.simplehud.command.SimpleHudCommand;
 import ga.matthewtgm.simplehud.elements.ElementManager;
 import ga.matthewtgm.simplehud.enums.Colour;
 import ga.matthewtgm.simplehud.files.FileHandler;
@@ -7,6 +8,7 @@ import ga.matthewtgm.simplehud.gui.GuiConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -36,6 +38,7 @@ public class SimpleHUD {
         getFileHandler().init();
         MinecraftForge.EVENT_BUS.register(this);
         ClientRegistry.registerKeyBinding(openGuiKeyBinding);
+        ClientCommandHandler.instance.registerCommand(new SimpleHudCommand());
         this.getElementManager().init();
     }
 

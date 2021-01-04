@@ -25,8 +25,11 @@ public class ElementPing extends Element {
 
     @Override
     public void onRendered() {
-        boolean isPingNull = String.valueOf(Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime()) == null;
-        this.setRenderedValue(String.valueOf(isPingNull ? "Unknown" : Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime()));
+        try {
+            this.setRenderedValue(String.valueOf(Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime()));
+        } catch(Exception e) {
+            this.setRenderedValue("Unknown");
+        }
         this.mc.fontRendererObj.drawString(this.getRenderedString(), this.getPosition().getX(), this.getPosition().getY(), this.colour.getHex());
         this.width = this.mc.fontRendererObj.getStringWidth(this.getRenderedString());
         super.onRendered();

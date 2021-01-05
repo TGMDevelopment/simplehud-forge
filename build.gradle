@@ -31,21 +31,11 @@ minecraft {
 
 dependencies {
     compile('com.googlecode.json-simple:json-simple:1.1.1')
+    provided files("libs/modcore.jar")
 }
 
-shadowJar {
-    dependencies {
-        include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
-    }
+//why do you need to obfuscate the jar if the mod is open source???
 
-    classifier = "working"
-}
-
-reobf {
-    shadowJar {
-        mappingType = 'SEARGE'
-    }
-}
 
 processResources
 {
@@ -63,4 +53,10 @@ processResources
     }
 }
 
-tasks.reobfJar.dependsOn(tasks.shadowJar)
+jar {
+    manifest {
+        attributes "FMLCorePlugin": "ga.matthewgm.modcore.forge.FMLLoadingPlugin",
+                "ModSide": "CLIENT",
+                "FMLCorePluginContainsFMLMod": "Yes, yes it does"
+    }
+}

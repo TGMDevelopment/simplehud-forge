@@ -5,6 +5,7 @@ import ga.matthewtgm.simplehud.elements.ElementManager;
 import ga.matthewtgm.simplehud.enums.Colour;
 import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.GuiConfiguration;
+import ga.matthewtgm.simplehud.modcore.ModCoreInstaller;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
@@ -41,6 +42,12 @@ public class SimpleHUD {
         ClientRegistry.registerKeyBinding(openGuiKeyBinding);
         ClientCommandHandler.instance.registerCommand(new SimpleHudCommand());
         this.getElementManager().init();
+    }
+
+    @Mod.EventHandler
+    public void init(FMLInitializationEvent event) {
+        // install (if not found) & initialize ModCore on startup
+        ModCoreInstaller.initializeModCore(Minecraft.getMinecraft().mcDataDir);
     }
 
     @SubscribeEvent

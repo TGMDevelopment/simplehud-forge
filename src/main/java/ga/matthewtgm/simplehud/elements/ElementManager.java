@@ -25,6 +25,9 @@ public class ElementManager {
         this.getElements().add(new ElementPing());
         this.getElements().add(new ElementReachDisplay());
         this.getElements().add(new ElementTime());
+        this.getElements().add(new ElementServerAddress());
+        this.getElements().add(new ElementArmourHUD());
+        this.getElements().add(new ElementPotionEffects());
 
         MinecraftForge.EVENT_BUS.register(this);
         for(Element element : this.getElements()) {
@@ -36,7 +39,7 @@ public class ElementManager {
     @SubscribeEvent
     protected void onGameOverlayRendered(RenderGameOverlayEvent event) {
         for(Element element : this.getElements()) {
-            if(Minecraft.getMinecraft().currentScreen == null && element.isToggled()) element.onRendered();
+            if(Minecraft.getMinecraft().currentScreen == null && element.isToggled() && Minecraft.getMinecraft().thePlayer != null) element.onRendered();
         }
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);

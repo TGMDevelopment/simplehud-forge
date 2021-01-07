@@ -1,12 +1,11 @@
 package ga.matthewtgm.simplehud.command;
 
-import ga.matthewtgm.simplehud.SimpleHUD;
-import net.minecraft.client.Minecraft;
+import ga.matthewtgm.simplehud.utils.ChatUtils;
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 
-public class SimpleHudCommand extends CommandBase {
+public class SimpleHUDCommand extends CommandBase {
 
     @Override
     public String getCommandName() {
@@ -24,8 +23,9 @@ public class SimpleHudCommand extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-        Minecraft.getMinecraft().displayGuiScreen(SimpleHUD.getInstance().configGui);
+    public void processCommand(ICommandSender sender, String[] args) {
+        if(!(sender instanceof EntityPlayer)) return;
+        new ChatUtils().sendModMessage("Please use the keybind, N");
     }
 
 }

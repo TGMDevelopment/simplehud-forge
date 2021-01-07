@@ -14,7 +14,8 @@ public class FileHandler {
     public File matthewtgmModsDir = new File(Minecraft.getMinecraft().mcDataDir.getPath() + "/config", "MatthewTGM's Mods");
     public File modDir = new File(matthewtgmModsDir, Constants.NAME);
     public File elementDir = new File(modDir, "HUD Elements");
-    public List<File> directories = Arrays.asList(matthewtgmModsDir, modDir, elementDir);
+    public File otherDir = new File(modDir, "Other");
+    public List<File> directories = Arrays.asList(matthewtgmModsDir, modDir, elementDir, otherDir);
 
     public void init() {
         this.directories.forEach(d -> {
@@ -25,6 +26,10 @@ public class FileHandler {
     public void save(String name, File directory, JSONObject content) {
         BufferedWriter writer = null;
         try {
+            if(!directory.exists()) {
+                directory.mkdirs();
+                Thread.sleep(1000);
+            }
             File file = new File(directory, name + ".json");
             if(!file.exists()) file.createNewFile();
             writer = new BufferedWriter(new FileWriter(file));
@@ -49,6 +54,10 @@ public class FileHandler {
 
     public JSONObject load(String name, File directory) {
         try {
+            if(!directory.exists()) {
+                directory.mkdirs();
+                Thread.sleep(1000);
+            }
             File file = new File(directory, name + ".json");
             BufferedReader reader = new BufferedReader(new FileReader(file));
             StringBuilder builder = new StringBuilder();

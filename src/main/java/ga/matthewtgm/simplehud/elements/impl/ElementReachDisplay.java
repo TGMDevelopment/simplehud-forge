@@ -36,22 +36,11 @@ public class ElementReachDisplay extends Element {
     }
 
     @Override
-    public String getRenderedString() {
-        StringBuilder sb = new StringBuilder();
-        if (shouldRenderBrackets()) sb.append("[");
-        if (this.prefix != null) sb.append(this.prefix).append(": ");
-        sb.append(getRenderedValue());
-        if (shouldRenderBrackets()) sb.append("]");
-        return sb.toString();
-    }
-
-    @Override
     public void onRendered() {
         if (System.currentTimeMillis() - lastHit > 3000)
             reach = null;
         this.setRenderedValue(reach == null ? "none" : getReachFormatted() + " Blocks");
-        this.mc.fontRendererObj.drawString(this.getRenderedString(), this.getPosition().getX(), this.getPosition().getY(), this.colour.getHex());
-        this.width = this.mc.fontRendererObj.getStringWidth(this.getRenderedString());
+        this.height = 10 * this.getPosition().getScale();
         super.onRendered();
     }
 

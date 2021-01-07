@@ -1,8 +1,7 @@
 package ga.matthewtgm.simplehud;
 
-import ga.matthewtgm.simplehud.command.SimpleHudCommand;
+import ga.matthewtgm.simplehud.command.SimpleHUDCommand;
 import ga.matthewtgm.simplehud.elements.ElementManager;
-import ga.matthewtgm.simplehud.enums.Colour;
 import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.GuiConfiguration;
 import net.minecraft.client.Minecraft;
@@ -27,9 +26,9 @@ public class SimpleHUD {
     }
 
     private static final FileHandler FILE_HANDLER = new FileHandler();
-    private static ElementManager ELEMENT_MANAGER = new ElementManager();
+    private static final ElementManager ELEMENT_MANAGER = new ElementManager();
 
-    private final KeyBinding openGuiKeyBinding = new KeyBinding("Open GUI", Keyboard.KEY_N, "SimpleHUD");
+    public final KeyBinding openGuiKeyBinding = new KeyBinding("Open GUI", Keyboard.KEY_N, "SimpleHUD");
     public GuiScreen configGui;
 
     @Mod.EventHandler
@@ -37,14 +36,15 @@ public class SimpleHUD {
         this.configGui = new GuiConfiguration(null);
         getFileHandler().init();
         MinecraftForge.EVENT_BUS.register(this);
+        //MinecraftForge.EVENT_BUS.register(new PlayerListener());
         ClientRegistry.registerKeyBinding(openGuiKeyBinding);
-        ClientCommandHandler.instance.registerCommand(new SimpleHudCommand());
+        ClientCommandHandler.instance.registerCommand(new SimpleHUDCommand());
         this.getElementManager().init();
     }
 
     @SubscribeEvent
     protected void onKeyPressed(InputEvent.KeyInputEvent event) {
-        if(openGuiKeyBinding.isPressed()) Minecraft.getMinecraft().displayGuiScreen(configGui);
+        if (openGuiKeyBinding.isPressed()) Minecraft.getMinecraft().displayGuiScreen(configGui);
     }
 
     public static FileHandler getFileHandler() {

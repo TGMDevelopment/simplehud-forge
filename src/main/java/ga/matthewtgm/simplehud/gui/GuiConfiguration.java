@@ -6,14 +6,18 @@ import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.Element.ElementGUI;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
 import ga.matthewtgm.simplehud.gui.guielements.GuiSimpleButton;
+import ga.matthewtgm.simplehud.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class GuiConfiguration extends GuiScreen {
@@ -22,7 +26,6 @@ public class GuiConfiguration extends GuiScreen {
 
     private final Logger logger = LogManager.getLogger(Constants.NAME + " (" + this.getClass().getSimpleName() + ")");
 
-    private final Map<Element, ElementPosition> elements = new HashMap<>();
     private Optional<Element> selected = Optional.empty();
 
     private int prevX, prevY;
@@ -37,7 +40,6 @@ public class GuiConfiguration extends GuiScreen {
 
     public GuiConfiguration(GuiScreen parent) {
         this.parent = parent;
-        SimpleHUD.getInstance().getElementManager().getElements().forEach(e -> elements.put(e, e.getPosition()));
     }
 
     @Override
@@ -57,9 +59,14 @@ public class GuiConfiguration extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawDefaultBackground();
-        this.elements.forEach((e, pos) -> {
-            if(e.isToggled()) e.onRendered();
-        });
+        for(Element e : SimpleHUD.getInstance().getElementManager().getElements()) {
+            if(e.isToggled()) {
+                final RenderUtils utils = new RenderUtils();
+                utils.drawHollowRect(e.getPosition().getX() - 1, e.getPosition().getY() - 2, e.width, e.height, new Color(255, 255, 255, 111).getRGB());
+                Gui.drawRect(e.getPosition().getX() - 1, e.getPosition().getY() - 2, e.getPosition().getX() + e.width, e.getPosition().getY() + e.height, new Color(255, 255, 255, 43).getRGB());
+                e.onRendered();
+            }
+        }
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -86,7 +93,7 @@ public class GuiConfiguration extends GuiScreen {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         this.prevX = mouseX;
         this.prevY = mouseY;
-        this.selected = this.elements.keySet().stream().filter(new MouseHoveringElement(mouseX, mouseY)).findFirst();
+        this.selected = SimpleHUD.getInstance().getElementManager().getElements().stream().filter(new MouseHoveringElement(mouseX, mouseY)).findFirst();
         super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 

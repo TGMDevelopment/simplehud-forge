@@ -11,22 +11,11 @@ public class ElementMemory extends Element {
         this.elementScreen = new ElementGUI(this);
     }
 
-    @Override
-    public String getRenderedString() {
-        StringBuilder sb = new StringBuilder();
-        if(this.shouldRenderBrackets()) sb.append("[");
-        sb.append(this.prefix);
-        sb.append(": ");
-        sb.append(this.getRenderedValue());
-        if(this.shouldRenderBrackets()) sb.append("]");
-        return sb.toString();
-    }
 
     @Override
     public void onRendered() {
         this.setRenderedValue(this.bytesToMb(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) + "/" + this.bytesToMb(Runtime.getRuntime().maxMemory()) + "MB");
-        this.mc.fontRendererObj.drawString(this.getRenderedString(), this.getPosition().x, this.getPosition().y, this.colour.getHex());
-        this.width = this.mc.fontRendererObj.getStringWidth(this.getRenderedString());
+        this.height = 10 * this.getPosition().getScale();
         super.onRendered();
     }
 

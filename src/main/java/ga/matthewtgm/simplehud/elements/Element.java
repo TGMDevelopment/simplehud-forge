@@ -41,7 +41,7 @@ public class Element {
 
     //INDIVIDUAL ELEMENT VARIABLES
     public String prefix;
-    public ElementGUI elementScreen;
+    public ElementGUI elementScreen = new ElementGUI(this){};
 
     //REQUIRED FOR DRAGGABLE HUD
     public int width, height;
@@ -103,15 +103,19 @@ public class Element {
 
     private void setup() {
         try {
-            this.onSave();
             this.onSetup();
-            this.onLoad();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void onSetup() {
+        try {
+            this.onSave(new JSONObject());
+            this.onLoad();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onEnabled() {
@@ -130,18 +134,17 @@ public class Element {
         return value;
     }
 
-    public void onRendered() {
+    public void onRendered(ElementPosition position) {
         if (this.background && this.backgroundColor != null)
-            Gui.drawRect(this.getPosition().getX() - 2, this.getPosition().getY() - 2, this.getPosition().getX() + this.width, this.getPosition().getY() + this.height, this.backgroundColor.setTransparency(backgroundTransparent ? 10 : 255));
+            Gui.drawRect(this.getPosition().getX() - 2, position.getY() - 2, position.getX() + this.width, position.getY() + this.height, this.backgroundColor.setTransparency(backgroundTransparent ? 35 : 255));
         GlStateManager.pushMatrix();
         GlStateManager.scale(this.getPosition().getScale(), this.getPosition().getScale(), 1);
-        this.mc.fontRendererObj.drawString(this.getRenderedString(), this.getPosition().getX() / this.getPosition().getScale(), this.getPosition().getY() / this.getPosition().getScale(), this.colour.getHex(), this.getTextShadow());
+        this.mc.fontRendererObj.drawString(this.getRenderedString(), position.getX() / position.getScale(), position.getY() / position.getScale(), this.colour.getHex(), this.getTextShadow());
         this.width = (int) (this.mc.fontRendererObj.getStringWidth(this.getRenderedString()) * this.getPosition().getScale());
         GlStateManager.popMatrix();
     }
 
-    public void onSave() {
-        final JSONObject obj = new JSONObject();
+    public void onSave(JSONObject obj) {
         obj.put("toggle", this.toggle);
         final JSONObject posObj = new JSONObject();
         posObj.put("x", this.position.getX());
@@ -216,10 +219,10 @@ public class Element {
         this.background = background;
     }
 
-    public static class ElementGUI extends GuiScreen {
+    public abstract static class ElementGUI extends GuiScreen {
 
-        private final Element element;
-        private final GuiScreen parent;
+        protected final Element element;
+        protected final GuiScreen parent;
 
         public ElementGUI(GuiScreen parent, Element element) {
             this.parent = parent;
@@ -292,39 +295,18 @@ public class Element {
         @Override
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
             super.drawDefaultBackground();
-            this.element.onRendered();
+            this.element.onRendered(new ElementPosition(this.width / 2 / this.element.getPosition().getScale(), 0, this.element.getPosition().getScale()));
             super.drawScreen(mouseX, mouseY, partialTicks);
         }
 
         @Override
         public void onGuiClosed() {
             for (Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
-                element.onSave();
+                element.onSave(new JSONObject());
                 element.onLoad();
             }
         }
 
-        public void addButton(GuiButton button) {
-            try {
-                Field field = this.getClass().getDeclaredField("buttonList");
-                field.setAccessible(true);
-                Method listAdd = List.class.getDeclaredMethod("add", Object.class);
-                listAdd.invoke(field, button);
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        public void addLabel(GuiLabel button) {
-            try {
-                Field field = this.getClass().getDeclaredField("labelList");
-                field.setAccessible(true);
-                Method listAdd = List.class.getDeclaredMethod("add", Object.class);
-                listAdd.invoke(field, button);
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 }

@@ -1,5 +1,6 @@
 package ga.matthewtgm.simplehud.elements;
 
+import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.impl.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -28,6 +29,8 @@ public class ElementManager {
         this.getElements().add(new ElementServerAddress());
         this.getElements().add(new ElementArmourHUD());
         this.getElements().add(new ElementPotionEffects());
+        this.getElements().add(new ElementSimpleText());
+        this.getElements().add(new ElementComboDisplay());
 
         MinecraftForge.EVENT_BUS.register(this);
         for(Element element : this.getElements()) {
@@ -39,7 +42,7 @@ public class ElementManager {
     @SubscribeEvent
     protected void onGameOverlayRendered(RenderGameOverlayEvent event) {
         for(Element element : this.getElements()) {
-            if(Minecraft.getMinecraft().currentScreen == null && element.isToggled() && Minecraft.getMinecraft().thePlayer != null) element.onRendered();
+            if(SimpleHUD.getInstance().isToggled() && Minecraft.getMinecraft().currentScreen == null && element.isToggled() && Minecraft.getMinecraft().thePlayer != null) element.onRendered(element.getPosition());
         }
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);

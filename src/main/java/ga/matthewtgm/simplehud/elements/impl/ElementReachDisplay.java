@@ -1,6 +1,7 @@
 package ga.matthewtgm.simplehud.elements.impl;
 
 import ga.matthewtgm.simplehud.elements.Element;
+import ga.matthewtgm.simplehud.elements.ElementPosition;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
@@ -20,9 +21,8 @@ public class ElementReachDisplay extends Element {
 
     public ElementReachDisplay() {
         super("Reach Display");
-        this.height = 10;
-        this.elementScreen = new ElementGUI(this);
         if (this.prefix == null) prefix = "Reach Display";
+        this.elementScreen = new ElementGUI(this) {};
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -32,16 +32,15 @@ public class ElementReachDisplay extends Element {
             reach = getReachDistanceFromEntity(event.target);
             lastHit = System.currentTimeMillis();
         }
-        mc.thePlayer.swingItem();
     }
 
     @Override
-    public void onRendered() {
+    public void onRendered(ElementPosition position) {
         if (System.currentTimeMillis() - lastHit > 3000)
             reach = null;
         this.setRenderedValue(reach == null ? "none" : getReachFormatted() + " Blocks");
         this.height = 10 * this.getPosition().getScale();
-        super.onRendered();
+        super.onRendered(position);
     }
 
     private String getReachFormatted() {

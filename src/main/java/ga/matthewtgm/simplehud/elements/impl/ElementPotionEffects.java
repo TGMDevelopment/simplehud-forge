@@ -1,6 +1,7 @@
 package ga.matthewtgm.simplehud.elements.impl;
 
 import ga.matthewtgm.simplehud.elements.Element;
+import ga.matthewtgm.simplehud.elements.ElementPosition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -18,21 +19,22 @@ public class ElementPotionEffects extends Element {
 
     public ElementPotionEffects() {
         super("Potion Effects");
+        this.elementScreen = new ElementGUI(this){};
     }
 
     @Override
-    public void onRendered() {
+    public void onRendered(ElementPosition position) {
         if(this.background && this.backgroundColor != null)
-            Gui.drawRect(this.getPosition().getX() - 2, this.getPosition().getY() - 2, this.getPosition().getX() + this.width, this.getPosition().getY() + this.height, this.backgroundColor.setTransparency(backgroundTransparent ? 10 : 255));
+            Gui.drawRect(position.getX() - 2, position.getY() - 2, position.getX() + this.width, position.getY() + this.height, this.backgroundColor.setTransparency(backgroundTransparent ? 10 : 255));
         GlStateManager.pushMatrix();
-        GlStateManager.scale(this.getPosition().getScale(), this.getPosition().getScale(), 1);
-        this.drawPotions();
-        this.width = 101 * this.getPosition().getScale();
-        this.height = 154 * this.getPosition().getScale();
+        GlStateManager.scale(position.getScale(), position.getScale(), 1);
+        this.drawPotions(position);
+        this.width = 101 * position.getScale();
+        this.height = 154 * position.getScale();
         GlStateManager.popMatrix();
     }
 
-    public void drawPotions() {
+    public void drawPotions(ElementPosition position) {
         int offsetX = 21;
         int offsetY = 14;
         int i2 = 16;
@@ -59,7 +61,7 @@ public class ElementPotionEffects extends Element {
                 {
                     Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/inventory.png"));
                     int i1 = potion.getStatusIconIndex();
-                    drawTexturedModalRect(((this.getPosition().getX() / this.getPosition().getScale()) + offsetX) - 20, ((this.getPosition().getY() / this.getPosition().getScale()) + i2) - offsetY, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
+                    drawTexturedModalRect(((position.getX() / position.getScale()) + offsetX) - 20, ((position.getY() / position.getScale()) + i2) - offsetY, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
                 }
 
                 String s1 = I18n.format(potion.getName(), new Object[0]);
@@ -76,9 +78,9 @@ public class ElementPotionEffects extends Element {
                     s1 = s1 + " " + I18n.format("enchantment.level.4", new Object[0]);
                 }
 
-                this.mc.fontRendererObj.drawString(s1, (this.getPosition().getX() / this.getPosition().getScale()) + offsetX, ((this.getPosition().getY() / this.getPosition().getScale()) + i2) - offsetY, this.colour.getHex(), this.getTextShadow());
+                this.mc.fontRendererObj.drawString(s1, (position.getX() / position.getScale()) + offsetX, ((position.getY() / position.getScale()) + i2) - offsetY, this.colour.getHex(), this.getTextShadow());
                 String s = Potion.getDurationString(potioneffect);
-                this.mc.fontRendererObj.drawString(s, (this.getPosition().getX() / this.getPosition().getScale()) + offsetX, ((this.getPosition().getY() / this.getPosition().getScale()) + i2 + 10) - offsetY, this.colour.getHex(), this.getTextShadow());
+                this.mc.fontRendererObj.drawString(s, (position.getX() / position.getScale()) + offsetX, ((position.getY() / position.getScale()) + i2 + 10) - offsetY, this.colour.getHex(), this.getTextShadow());
                 i2 += l;
             }
         }

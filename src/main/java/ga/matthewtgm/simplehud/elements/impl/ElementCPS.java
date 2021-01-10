@@ -1,6 +1,7 @@
 package ga.matthewtgm.simplehud.elements.impl;
 
 import ga.matthewtgm.simplehud.elements.Element;
+import ga.matthewtgm.simplehud.elements.ElementPosition;
 import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
@@ -19,14 +20,13 @@ public class ElementCPS extends Element {
 
     public ElementCPS() {
         super("CPS");
-        this.elementScreen = new ElementGUI(this);
     }
 
     @Override
-    public void onRendered() {
+    public void onRendered(ElementPosition position) {
         this.setRenderedValue(this.getCPS());
         this.height = 10 * this.getPosition().getScale();
-        super.onRendered();
+        super.onRendered(position);
     }
 
     public String getCPS() {

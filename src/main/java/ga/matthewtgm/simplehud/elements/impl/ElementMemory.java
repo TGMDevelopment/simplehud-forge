@@ -1,6 +1,7 @@
 package ga.matthewtgm.simplehud.elements.impl;
 
 import ga.matthewtgm.simplehud.elements.Element;
+import ga.matthewtgm.simplehud.elements.ElementPosition;
 
 public class ElementMemory extends Element {
 
@@ -8,15 +9,14 @@ public class ElementMemory extends Element {
         super("Memory");
         this.height = 10;
         if(this.prefix == null) this.prefix = "Memory";
-        this.elementScreen = new ElementGUI(this);
     }
 
 
     @Override
-    public void onRendered() {
+    public void onRendered(ElementPosition position) {
         this.setRenderedValue(this.bytesToMb(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) + "/" + this.bytesToMb(Runtime.getRuntime().maxMemory()) + "MB");
         this.height = 10 * this.getPosition().getScale();
-        super.onRendered();
+        super.onRendered(position);
     }
 
     private long bytesToMb(long bytes) {

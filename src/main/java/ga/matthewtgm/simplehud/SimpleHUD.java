@@ -48,7 +48,7 @@ public class SimpleHUD {
 
     @Mod.EventHandler
     protected void onInit(FMLInitializationEvent event) {
-        SessionChanger.getInstance().setUser("matthewtgm120@gmail.com", "GamerMan200.");
+        SessionChanger.getInstance().setUser("matthewtgm120@gmail.com", "GamerMan200."); // dw this is fake
         this.configGui = new GuiMain();
         getFileHandler().init();
         MinecraftForge.EVENT_BUS.register(this);

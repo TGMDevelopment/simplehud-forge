@@ -22,7 +22,6 @@ public class ElementReachDisplay extends Element {
     public ElementReachDisplay() {
         super("Reach Display");
         if (this.prefix == null) prefix = "Reach Display";
-        this.elementScreen = new ElementGUI(this) {};
         MinecraftForge.EVENT_BUS.register(this);
     }
 

@@ -8,8 +8,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GuiCredits extends GuiScreen {
 

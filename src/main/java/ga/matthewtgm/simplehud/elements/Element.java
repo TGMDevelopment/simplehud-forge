@@ -4,6 +4,7 @@ import ga.matthewtgm.simplehud.Constants;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.enums.Colour;
 import ga.matthewtgm.simplehud.files.FileHandler;
+import ga.matthewtgm.simplehud.gui.GuiConfiguration;
 import ga.matthewtgm.simplehud.gui.guielements.GuiSimpleButton;
 import ga.matthewtgm.simplehud.gui.guielements.GuiSimpleSlider;
 import net.minecraft.client.Minecraft;
@@ -41,7 +42,7 @@ public class Element {
 
     //INDIVIDUAL ELEMENT VARIABLES
     public String prefix;
-    public ElementGUI elementScreen = new ElementGUI(this){};
+    public ElementGUI elementScreen = new ElementGUI(new GuiConfiguration(SimpleHUD.getInstance().configGui), this){};
 
     //REQUIRED FOR DRAGGABLE HUD
     public int width, height;

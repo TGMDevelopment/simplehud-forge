@@ -8,7 +8,6 @@ public class ElementServerAddress extends Element {
     public ElementServerAddress() {
         super("Server Address");
         if(this.prefix == null) this.prefix = "Server";
-        this.elementScreen = new ElementGUI(this) {};
     }
 
     @Override

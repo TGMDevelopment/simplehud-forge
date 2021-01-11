@@ -10,7 +10,6 @@ public class ElementTime extends Element {
 
     public ElementTime() {
         super("Time");
-        this.height = 10;
         if (this.prefix == null) prefix = "Time";
     }
 

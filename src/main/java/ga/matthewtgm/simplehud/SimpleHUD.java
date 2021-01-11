@@ -5,6 +5,7 @@ import ga.matthewtgm.simplehud.command.SimpleHUDCommand;
 import ga.matthewtgm.simplehud.elements.ElementManager;
 import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.GuiMain;
+import ga.matthewtgm.simplehud.listener.GuiListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
@@ -13,6 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -39,10 +41,20 @@ public class SimpleHUD {
 
     @Mod.EventHandler
     protected void onPreInit(FMLPreInitializationEvent event) {
+        final ModMetadata modMetadata = event.getModMetadata();
+        modMetadata.description = "Displays simple information on your screen in a neat little overlay." +
+                "\n\nAbout:" +
+                "\nSimpleHUD was originally a private mod for MatthewTGM and friends, now being one of his biggest mods yet." +
+                "\n\nFeatures:" +
+                "\nFPS, CPS, Coordinates, Biome, Combo Display, ArmourHUD, PotionEffectsHUD, Day, Reach Display, Ping, Memory Usage, Time, SimpleText, Server Address" +
+                "\n\nExtras:" +
+                "\nSimpleHUD's \"SimpleText\" element is derived from a mod that Matthew was originally planning to make seperately.";
+
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load("main", SimpleHUD.getFileHandler().modDir) == null;
         if(!isConfigFileNull) this.toggled = (boolean) getFileHandler().load("main", getFileHandler().modDir).get("full_toggle");
         final JSONObject object = new JSONObject();
         object.put("full_toggle", this.toggled);
+        object.put("pause_button", GuiListener.getInstance().mustAddPauseButton());
         getFileHandler().save("main", getFileHandler().modDir, object);
     }
 
@@ -51,6 +63,7 @@ public class SimpleHUD {
         this.configGui = new GuiMain();
         getFileHandler().init();
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(GuiListener.getInstance());
         //MinecraftForge.EVENT_BUS.register(new PlayerListener());
         ClientRegistry.registerKeyBinding(openGuiKeyBinding);
         ClientCommandHandler.instance.registerCommand(new SimpleHUDCommand());

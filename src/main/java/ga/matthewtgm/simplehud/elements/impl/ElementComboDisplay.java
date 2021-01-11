@@ -20,7 +20,6 @@ public class ElementComboDisplay extends Element {
     public ElementComboDisplay() {
         super("Combo Counter");
         this.height = 10;
-        this.elementScreen = new ElementGUI(this){};
         if (this.prefix == null) prefix = "Combo Counter";
         MinecraftForge.EVENT_BUS.register(this);
     }

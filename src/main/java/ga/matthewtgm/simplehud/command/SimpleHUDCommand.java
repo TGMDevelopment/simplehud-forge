@@ -59,7 +59,7 @@ public class SimpleHUDCommand extends CommandBase {
                 builder.append("```");
                 StringSelection clipboard = new StringSelection(builder.toString());
                 Toolkit.getDefaultToolkit().getSystemClipboard().setContents(clipboard, clipboard);
-                ChatUtils.getInstance().sendModMessage(EnumChatFormatting.GOLD + "Element info copied to clipboard!");
+                ChatUtils.getInstance().sendModMessage(EnumChatFormatting.GOLD + "Developer info copied to clipboard!");
                 return;
             }
         } catch (Exception ignored) {

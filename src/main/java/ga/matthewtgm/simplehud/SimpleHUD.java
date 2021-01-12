@@ -1,26 +1,20 @@
 package ga.matthewtgm.simplehud;
 
-import ga.matthewtgm.common.SessionChanger;
 import ga.matthewtgm.simplehud.command.SimpleHUDCommand;
 import ga.matthewtgm.simplehud.elements.ElementManager;
 import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.GuiMain;
 import ga.matthewtgm.simplehud.listener.GuiListener;
 import ga.matthewtgm.simplehud.listener.PlayerListener;
-import ga.matthewtgm.simplehud.utils.MultithreadingUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.json.simple.JSONObject;
 import org.lwjgl.input.Keyboard;
 
@@ -71,7 +65,7 @@ public class SimpleHUD {
         MinecraftForge.EVENT_BUS.register(new PlayerListener());
         ClientRegistry.registerKeyBinding(openGuiKeyBinding);
         ClientCommandHandler.instance.registerCommand(new SimpleHUDCommand());
-        MultithreadingUtils.getInstance().createNewThread("Elements", () -> this.getElementManager().init());
+        this.getElementManager().init();
     }
 
     public boolean isToggled() {

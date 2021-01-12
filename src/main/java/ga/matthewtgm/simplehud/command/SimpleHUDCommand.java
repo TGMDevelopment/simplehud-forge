@@ -8,6 +8,8 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -36,16 +38,23 @@ public class SimpleHUDCommand extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         try {
-            if(args[0].equalsIgnoreCase("help")) {
+            if (args[0].equalsIgnoreCase("help")) {
                 ChatUtils.getInstance().sendMessage("\n" + EnumChatFormatting.GOLD + lineDivider + "\n" + EnumChatFormatting.GREEN + "default - Opens GUI\n" + EnumChatFormatting.GREEN + "/info - Copies dev info to your clipboard.\n" + EnumChatFormatting.GOLD + lineDivider);
                 return;
             }
-            if(args[0].equalsIgnoreCase("info")) {
+            if (args[0].equalsIgnoreCase("info")) {
                 StringBuilder builder = new StringBuilder();
                 builder.append("```md\n");
                 builder.append("# Elements\n");
-                for(Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
+                for (Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
                     builder.append("[").append(element.getName()).append("][").append("(").append(element.isToggled()).append(")").append(",(X:").append(element.getPosition().getX()).append(",Y:").append(element.getPosition().getY()).append(",S:").append(element.getPosition().getScale()).append(")").append(",(Colour:").append(element.colour.getHex()).append(")").append("]").append("\n");
+                }
+                if (Loader.instance().getActiveModList().size() <= 15) {
+                    builder.append("\n# Mods Loaded").append("\n");
+                    for (ModContainer modContainer : Loader.instance().getActiveModList()) {
+                        builder.append("[").append(modContainer.getName()).append("]")
+                                .append("[").append(modContainer.getSource().getName()).append("]\n");
+                    }
                 }
                 builder.append("```");
                 StringSelection clipboard = new StringSelection(builder.toString());
@@ -53,7 +62,8 @@ public class SimpleHUDCommand extends CommandBase {
                 ChatUtils.getInstance().sendModMessage(EnumChatFormatting.GOLD + "Element info copied to clipboard!");
                 return;
             }
-        } catch(Exception ignored){}
+        } catch (Exception ignored) {
+        }
         MinecraftForge.EVENT_BUS.register(this);
     }
 

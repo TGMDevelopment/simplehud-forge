@@ -6,6 +6,7 @@ import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.GuiMain;
 import ga.matthewtgm.simplehud.listener.GuiListener;
 import ga.matthewtgm.simplehud.listener.PlayerListener;
+import ga.matthewtgm.simplehud.other.VersionChecker;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -30,14 +31,19 @@ public class SimpleHUD {
 
     private static final FileHandler FILE_HANDLER = new FileHandler();
     private static final ElementManager ELEMENT_MANAGER = new ElementManager();
+    private static final VersionChecker VERSION_CHECKER = new VersionChecker();
 
     private boolean toggled = true;
+    private boolean latestVersion;
 
     public final KeyBinding openGuiKeyBinding = new KeyBinding("Open GUI", Keyboard.KEY_N, "SimpleHUD");
     public GuiScreen configGui;
 
     @Mod.EventHandler
     protected void onPreInit(FMLPreInitializationEvent event) {
+        if(this.VERSION_CHECKER.getEmergencyStatus()) throw new RuntimeException("PLEASE UPDATE TO THE NEW VERSION OF " + Constants.NAME + "\nTHIS IS AN EMERGENCY!");
+        this.latestVersion = this.VERSION_CHECKER.getVersion().equals(Constants.VER);
+
         final ModMetadata modMetadata = event.getModMetadata();
         modMetadata.description = "Displays simple information on your screen in a neat little overlay." +
                 "\n\nAbout:" +
@@ -82,6 +88,14 @@ public class SimpleHUD {
 
     public ElementManager getElementManager() {
         return ELEMENT_MANAGER;
+    }
+
+    public VersionChecker getVersionChecker() {
+        return VERSION_CHECKER;
+    }
+
+    public boolean isLatestVersion() {
+        return latestVersion;
     }
 
 }

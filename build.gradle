@@ -49,6 +49,12 @@ reobf {
     }
 }
 
+jar {
+    manifest.attributes(
+            'Main-Class': 'SimpleHUDInstaller'
+    )
+}
+
 processResources
 {
     inputs.property "version", project.version

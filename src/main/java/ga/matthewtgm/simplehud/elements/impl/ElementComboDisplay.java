@@ -3,11 +3,9 @@ package ga.matthewtgm.simplehud.elements.impl;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -19,7 +17,6 @@ public class ElementComboDisplay extends Element {
 
     public ElementComboDisplay() {
         super("Combo Counter");
-        this.height = 10;
         if (this.prefix == null) prefix = "Combo Counter";
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -42,6 +39,7 @@ public class ElementComboDisplay extends Element {
 
     @Override
     public void onRendered(ElementPosition position) {
+        this.setToggle(false);
         if (System.currentTimeMillis() - lastHit > 3000)
             combo = 0;
         this.setRenderedValue(combo == 0 ? "none" : combo + " Combo");

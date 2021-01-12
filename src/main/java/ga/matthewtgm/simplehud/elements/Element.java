@@ -198,6 +198,10 @@ public class Element {
         return textShadow;
     }
 
+    public boolean getBackground() {
+        return background;
+    }
+
     protected void setRenderedValue(String renderedValue) {
         this.renderedValue = renderedValue;
     }

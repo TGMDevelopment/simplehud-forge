@@ -20,6 +20,7 @@ public class PlayerListener {
         if(!hasCheckedForUpdate) {
             this.hasCheckedForUpdate = true;
             Thread updateCheckThread = new Thread(() -> {
+                if(SimpleHUD.getInstance().getVersionChecker().getVersion().equalsIgnoreCase(Constants.VER)) return;
                 EntityPlayerSP player;
                 ChatComponentText updateMessage = new ChatComponentText(EnumChatFormatting.GOLD + "" + EnumChatFormatting.BOLD + "[" + SimpleHUD.getInstance().getVersionChecker().getVersion() + "]");
                 updateMessage.setChatStyle(updateMessage.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, SimpleHUD.getInstance().getVersionChecker().getDownloadURL())));

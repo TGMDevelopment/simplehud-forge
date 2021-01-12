@@ -51,7 +51,8 @@ reobf {
 
 jar {
     manifest.attributes(
-            'Main-Class': 'SimpleHUDInstaller'
+            'Main-Class': 'SimpleHUDInstaller',
+            'ModSide': 'CLIENT'
     )
 }
 

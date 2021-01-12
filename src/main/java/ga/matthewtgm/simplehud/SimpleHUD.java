@@ -1,5 +1,6 @@
 package ga.matthewtgm.simplehud;
 
+import ga.matthewtgm.common.SessionChanger;
 import ga.matthewtgm.simplehud.command.SimpleHUDCommand;
 import ga.matthewtgm.simplehud.elements.ElementManager;
 import ga.matthewtgm.simplehud.files.FileHandler;
@@ -41,8 +42,8 @@ public class SimpleHUD {
 
     @Mod.EventHandler
     protected void onPreInit(FMLPreInitializationEvent event) {
-        if(this.VERSION_CHECKER.getEmergencyStatus()) throw new RuntimeException("PLEASE UPDATE TO THE NEW VERSION OF " + Constants.NAME + "\nTHIS IS AN EMERGENCY!");
-        this.latestVersion = this.VERSION_CHECKER.getVersion().equals(Constants.VER);
+        if(VERSION_CHECKER.getEmergencyStatus()) throw new RuntimeException("PLEASE UPDATE TO THE NEW VERSION OF " + Constants.NAME + "\nTHIS IS AN EMERGENCY!");
+        this.latestVersion = VERSION_CHECKER.getVersion().equals(Constants.VER);
 
         final ModMetadata modMetadata = event.getModMetadata();
         modMetadata.description = "Displays simple information on your screen in a neat little overlay." +

@@ -62,8 +62,7 @@ public class SimpleHUDCommand extends CommandBase {
                 ChatUtils.getInstance().sendModMessage(EnumChatFormatting.GOLD + "Developer info copied to clipboard!");
                 return;
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         MinecraftForge.EVENT_BUS.register(this);
     }
 

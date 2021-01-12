@@ -6,6 +6,8 @@ import ga.matthewtgm.simplehud.elements.ElementManager;
 import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.GuiMain;
 import ga.matthewtgm.simplehud.listener.GuiListener;
+import ga.matthewtgm.simplehud.listener.PlayerListener;
+import ga.matthewtgm.simplehud.utils.MultithreadingUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
@@ -27,6 +29,7 @@ public class SimpleHUD {
 
     @Mod.Instance(Constants.MODID)
     protected static SimpleHUD INSTANCE = new SimpleHUD();
+
     public static SimpleHUD getInstance() {
         return INSTANCE;
     }
@@ -51,7 +54,8 @@ public class SimpleHUD {
                 "\nSimpleHUD's \"SimpleText\" element is derived from a mod that Matthew was originally planning to make seperately.";
 
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load("main", SimpleHUD.getFileHandler().modDir) == null;
-        if(!isConfigFileNull) this.toggled = (boolean) getFileHandler().load("main", getFileHandler().modDir).get("full_toggle");
+        if (!isConfigFileNull)
+            this.toggled = (boolean) getFileHandler().load("main", getFileHandler().modDir).get("full_toggle");
         final JSONObject object = new JSONObject();
         object.put("full_toggle", this.toggled);
         object.put("pause_button", GuiListener.getInstance().mustAddPauseButton());
@@ -64,22 +68,10 @@ public class SimpleHUD {
         getFileHandler().init();
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(GuiListener.getInstance());
-        //MinecraftForge.EVENT_BUS.register(new PlayerListener());
+        MinecraftForge.EVENT_BUS.register(new PlayerListener());
         ClientRegistry.registerKeyBinding(openGuiKeyBinding);
         ClientCommandHandler.instance.registerCommand(new SimpleHUDCommand());
-        this.getElementManager().init();
-    }
-
-    @SubscribeEvent
-    protected void onKeyPressed(InputEvent.KeyInputEvent event) {
-        if (openGuiKeyBinding.isPressed()) Minecraft.getMinecraft().displayGuiScreen(configGui);
-    }
-
-    @SubscribeEvent
-    protected void onCommandRan(CommandEvent event) {
-        if(event.command instanceof SimpleHUDCommand) {
-            Minecraft.getMinecraft().displayGuiScreen(this.configGui);
-        }
+        MultithreadingUtils.getInstance().createNewThread("Elements", () -> this.getElementManager().init());
     }
 
     public boolean isToggled() {

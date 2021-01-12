@@ -6,7 +6,18 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ChatUtils {
 
+    private static ChatUtils INSTANCE = new ChatUtils();
+    public static ChatUtils getInstance() {
+        return INSTANCE;
+    }
+
     public String PREFIX = EnumChatFormatting.GRAY + "[" + EnumChatFormatting.RED + "SimpleHUD" + EnumChatFormatting.GRAY + "]";
+
+    public void sendMessage(String msg) {
+        if(msg == null) return;
+        if(Minecraft.getMinecraft().thePlayer == null) return;
+        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(msg));
+    }
 
     public void sendModMessage(String msg) {
         if(msg == null) return;

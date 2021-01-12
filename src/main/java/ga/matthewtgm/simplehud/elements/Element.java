@@ -119,11 +119,9 @@ public class Element {
         }
     }
 
-    public void onEnabled() {
-    }
+    public void onEnabled() {}
 
-    public void onDisabled() {
-    }
+    public void onDisabled() {}
 
     public String getRenderedString() {
         String value = new String();

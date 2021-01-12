@@ -38,6 +38,8 @@ shadowJar {
         include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
     }
 
+    exclude('dummyThing')
+
     classifier = "working"
 }
 

@@ -40,12 +40,15 @@ public class ElementManager {
     }
 
     @SubscribeEvent
-    protected void onGameOverlayRendered(RenderGameOverlayEvent event) {
-        for(Element element : this.getElements()) {
-            if(SimpleHUD.getInstance().isToggled() && Minecraft.getMinecraft().currentScreen == null && element.isToggled() && Minecraft.getMinecraft().thePlayer != null) element.onRendered(element.getPosition());
+    protected void onGameOverlayRendered(RenderGameOverlayEvent.Post event) {
+        if(event.type == RenderGameOverlayEvent.ElementType.ALL) {
+            for (Element element : this.getElements()) {
+                if (SimpleHUD.getInstance().isToggled() && Minecraft.getMinecraft().currentScreen == null && element.isToggled() && Minecraft.getMinecraft().thePlayer != null)
+                    element.onRendered(element.getPosition());
+            }
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
         }
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
     }
 
     public List<Element> getElements() {

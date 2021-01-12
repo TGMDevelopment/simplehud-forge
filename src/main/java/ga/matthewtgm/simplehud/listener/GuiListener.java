@@ -27,7 +27,7 @@ public class GuiListener {
     protected void onGuiInit(GuiScreenEvent.InitGuiEvent event) {
         if(!(event.gui instanceof GuiIngameMenu)) return;
         if(!this.addPauseButton) return;
-        event.buttonList.add(new GuiButton(100001, event.gui.width - 105, (Loader.isModLoaded("skyblockaddons") ? event.gui.height - 70 : event.gui.height - 25), 100, 20, "SimpleHUD"));
+        event.buttonList.add(new GuiButton(100001, event.gui.width - 105, (Loader.isModLoaded("skyblockaddons") ? event.gui.height - 50 : event.gui.height - 25), 100, 20, "SimpleHUD"));
     }
 
     @SubscribeEvent

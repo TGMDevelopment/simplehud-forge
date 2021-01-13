@@ -2,8 +2,7 @@ package ga.matthewtgm.simplehud.elements.impl;
 
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
-import ga.matthewtgm.simplehud.gui.guielements.GuiSimpleButton;
-import ga.matthewtgm.simplehud.gui.guielements.GuiSimpleSlider;
+import ga.matthewtgm.common.gui.GuiTransButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -25,14 +24,14 @@ public class ElementPackDisplay extends Element {
 
             @Override
             public void initGui() {
-                this.buttonList.add(new GuiSimpleButton(0, 0, 0, "Back"));
-                this.buttonList.add(new GuiSimpleButton(1, 0, 20, "Toggle: " + (this.element.isToggled() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-                this.buttonList.add(new GuiSimpleButton(2, 0, 40, "Show Brackets: " + (this.element.shouldRenderBrackets() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-                this.buttonList.add(new GuiSimpleButton(3, 0, 60, "Colour: " + this.element.colour.getAsMCColour(this.element.colour) + this.element.colour.getName().toLowerCase()));
-                this.buttonList.add(new GuiSimpleButton(4, 0, 80, "Text Shadow: " + (this.element.getTextShadow() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-                this.buttonList.add(new GuiSimpleButton(6, 0, 120, "Background: " + (this.element.getBackground() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-                this.buttonList.add(new GuiSimpleButton(7, 0, 140, "Background Colour: " + this.element.backgroundColor.getAsMCColour(this.element.backgroundColor) + this.element.backgroundColor.getName().toLowerCase()));
-                this.buttonList.add(new GuiSimpleButton(8, 0, 160, "Background Transparent: " + (this.element.backgroundTransparent ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+                this.buttonList.add(new GuiTransButton(0, 0, 0, "Back"));
+                this.buttonList.add(new GuiTransButton(1, 0, 20, "Toggle: " + (this.element.isToggled() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+                this.buttonList.add(new GuiTransButton(2, 0, 40, "Show Brackets: " + (this.element.shouldRenderBrackets() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+                this.buttonList.add(new GuiTransButton(3, 0, 60, "Colour: " + this.element.colour.getAsMCColour(this.element.colour) + this.element.colour.getName().toLowerCase()));
+                this.buttonList.add(new GuiTransButton(4, 0, 80, "Text Shadow: " + (this.element.getTextShadow() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+                this.buttonList.add(new GuiTransButton(6, 0, 120, "Background: " + (this.element.getBackground() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+                this.buttonList.add(new GuiTransButton(7, 0, 140, "Background Colour: " + this.element.backgroundColor.getAsMCColour(this.element.backgroundColor) + this.element.backgroundColor.getName().toLowerCase()));
+                this.buttonList.add(new GuiTransButton(8, 0, 160, "Background Transparent: " + (this.element.backgroundTransparent ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
             }
 
         };

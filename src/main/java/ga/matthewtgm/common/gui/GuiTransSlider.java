@@ -1,4 +1,4 @@
-package ga.matthewtgm.simplehud.gui.guielements;
+package ga.matthewtgm.common.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -6,17 +6,17 @@ import net.minecraftforge.fml.client.config.GuiSlider;
 
 import java.awt.*;
 
-public class GuiSimpleSlider extends GuiSlider {
+public class GuiTransSlider extends GuiSlider {
 
-    public GuiSimpleSlider(int id, int xPos, int yPos, int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr) {
+    public GuiTransSlider(int id, int xPos, int yPos, int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr) {
         super(id, xPos, yPos, width, height, prefix, suf, minVal, maxVal, currentVal, showDec, drawStr);
     }
 
-    public GuiSimpleSlider(int id, int xPos, int yPos, int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr, ISlider par) {
+    public GuiTransSlider(int id, int xPos, int yPos, int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr, ISlider par) {
         super(id, xPos, yPos, width, height, prefix, suf, minVal, maxVal, currentVal, showDec, drawStr, par);
     }
 
-    public GuiSimpleSlider(int id, int xPos, int yPos, String displayStr, double minVal, double maxVal, double currentVal, ISlider par) {
+    public GuiTransSlider(int id, int xPos, int yPos, String displayStr, double minVal, double maxVal, double currentVal, ISlider par) {
         super(id, xPos, yPos, displayStr, minVal, maxVal, currentVal, par);
     }
 

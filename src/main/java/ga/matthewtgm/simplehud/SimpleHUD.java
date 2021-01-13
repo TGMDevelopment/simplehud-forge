@@ -1,6 +1,5 @@
 package ga.matthewtgm.simplehud;
 
-import ga.matthewtgm.common.SessionChanger;
 import ga.matthewtgm.simplehud.command.SimpleHUDCommand;
 import ga.matthewtgm.simplehud.elements.ElementManager;
 import ga.matthewtgm.simplehud.files.FileHandler;

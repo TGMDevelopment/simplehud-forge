@@ -1,4 +1,4 @@
-package ga.matthewtgm.simplehud.gui.guielements;
+package ga.matthewtgm.common.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -7,13 +7,13 @@ import net.minecraft.client.renderer.GlStateManager;
 
 import java.awt.*;
 
-public class GuiSimpleButton extends GuiButton {
+public class GuiTransButton extends GuiButton {
 
-    public GuiSimpleButton(int buttonId, int x, int y, String buttonText) {
+    public GuiTransButton(int buttonId, int x, int y, String buttonText) {
         super(buttonId, x, y, buttonText);
     }
 
-    public GuiSimpleButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText) {
+    public GuiTransButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText) {
         super(buttonId, x, y, widthIn, heightIn, buttonText);
     }
 

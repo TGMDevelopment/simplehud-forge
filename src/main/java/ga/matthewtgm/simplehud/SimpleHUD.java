@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.json.simple.JSONObject;
 import org.lwjgl.input.Keyboard;
 
-@Mod(name = Constants.NAME, version = Constants.VER, modid = Constants.MODID)
+@Mod(name = Constants.NAME, version = Constants.VER, modid = Constants.MODID, clientSideOnly = true)
 public class SimpleHUD {
 
     @Mod.Instance(Constants.MODID)

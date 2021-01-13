@@ -30,7 +30,8 @@ public class ElementManager {
         this.getElements().add(new ElementArmourHUD());
         this.getElements().add(new ElementPotionEffects());
         this.getElements().add(new ElementSimpleText());
-        this.getElements().add(new ElementComboDisplay());
+        //this.getElements().add(new ElementComboDisplay());
+        //this.getElements().add(new ElementPackDisplay());
 
         MinecraftForge.EVENT_BUS.register(this);
         for(Element element : this.getElements()) {
@@ -40,12 +41,24 @@ public class ElementManager {
     }
 
     @SubscribeEvent
-    protected void onGameOverlayRendered(RenderGameOverlayEvent event) {
-        for(Element element : this.getElements()) {
-            if(SimpleHUD.getInstance().isToggled() && Minecraft.getMinecraft().currentScreen == null && element.isToggled() && Minecraft.getMinecraft().thePlayer != null) element.onRendered(element.getPosition());
+    protected void onGameOverlayRendered(RenderGameOverlayEvent.Post event) {
+        if(event.type == RenderGameOverlayEvent.ElementType.ALL) {
+            for (Element element : this.getElements()) {
+                if (SimpleHUD.getInstance().isToggled() && Minecraft.getMinecraft().currentScreen == null && element.isToggled() && Minecraft.getMinecraft().thePlayer != null)
+                    element.onRendered(element.getPosition());
+            }
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
         }
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
+    }
+
+    public <T extends Element> T getElement(Class<T> elementClass) {
+        for(Element element : this.getElements()) {
+            if(elementClass.isAssignableFrom(element.getClass())) {
+                return (T) element;
+            }
+        }
+        return null;
     }
 
     public List<Element> getElements() {

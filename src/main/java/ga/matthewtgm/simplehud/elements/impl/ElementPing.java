@@ -8,7 +8,6 @@ public class ElementPing extends Element {
 
     public ElementPing() {
         super("Ping");
-        this.height = 10;
         if(this.prefix == null) this.prefix = "Ping";
     }
 

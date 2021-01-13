@@ -1,6 +1,6 @@
 package ga.matthewtgm.simplehud.gui;
 
-import ga.matthewtgm.simplehud.gui.guielements.GuiSimpleButton;
+import ga.matthewtgm.common.gui.GuiTransButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -8,8 +8,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GuiCredits extends GuiScreen {
 
@@ -24,7 +22,7 @@ public class GuiCredits extends GuiScreen {
 
     @Override
     public void initGui() {
-        this.buttonList.add(new GuiSimpleButton(0, this.width / 2 - 50, this.height - 20, 100, 20, this.getParent() == null ? "Close" : "Back"));
+        this.buttonList.add(new GuiTransButton(0, this.width / 2 - 50, this.height - 20, 100, 20, this.getParent() == null ? "Close" : "Back"));
         super.initGui();
     }
 

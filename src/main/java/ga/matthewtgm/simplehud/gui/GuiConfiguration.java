@@ -3,9 +3,8 @@ package ga.matthewtgm.simplehud.gui;
 import ga.matthewtgm.simplehud.Constants;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
-import ga.matthewtgm.simplehud.elements.Element.ElementGUI;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
-import ga.matthewtgm.simplehud.gui.guielements.GuiSimpleButton;
+import ga.matthewtgm.common.gui.GuiTransButton;
 import ga.matthewtgm.simplehud.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -37,7 +36,7 @@ public class GuiConfiguration extends GuiScreen {
     private List<GuiButton> buttons;
     private void setButtons() {
         this.buttons = Arrays.asList(
-                new GuiSimpleButton(0, this.width / 2 - 50, this.height - 20, 100, 20, this.parent == null ? "Close" : "Back")
+                new GuiTransButton(0, this.width / 2 - 50, this.height - 20, 100, 20, this.parent == null ? "Close" : "Back")
         );
         this.setupElementButtons("init", null);
     }
@@ -141,7 +140,7 @@ public class GuiConfiguration extends GuiScreen {
         int offsetX = 0;
         for(Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
             if(type.equalsIgnoreCase("init")) {
-                this.buttonList.add(new GuiSimpleButton(SimpleHUD.getInstance().getElementManager().getElements().indexOf(element) + 1, offsetX, this.height - offset, 100, 20, element.getName()));
+                this.buttonList.add(new GuiTransButton(SimpleHUD.getInstance().getElementManager().getElements().indexOf(element) + 1, offsetX, this.height - offset, 100, 20, element.getName()));
                 offset = offset + 20;
                 if(offset > 240) {
                     offsetX = this.width - 100;

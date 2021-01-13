@@ -7,7 +7,6 @@ public class ElementMemory extends Element {
 
     public ElementMemory() {
         super("Memory");
-        this.height = 10;
         if(this.prefix == null) this.prefix = "Memory";
     }
 

@@ -1,4 +1,4 @@
-package ga.matthewtgm.common;
+package ga.matthewtgm.common.util;
 
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.AuthenticationService;

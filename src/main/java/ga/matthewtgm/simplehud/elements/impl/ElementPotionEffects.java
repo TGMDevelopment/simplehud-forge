@@ -19,7 +19,6 @@ public class ElementPotionEffects extends Element {
 
     public ElementPotionEffects() {
         super("Potion Effects");
-        this.elementScreen = new ElementGUI(this){};
     }
 
     @Override

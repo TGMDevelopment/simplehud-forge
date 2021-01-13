@@ -1,7 +1,7 @@
 [{
   "modid": "simplehud",
   "name": "SimpleHUD",
-  "description": "Displays simple information on your screen in a neat little overlay.",
+  "description": "",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://github.com/TGMDevelopment/simplehud-forge",

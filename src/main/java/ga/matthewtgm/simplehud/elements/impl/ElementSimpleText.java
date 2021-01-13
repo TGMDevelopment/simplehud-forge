@@ -4,6 +4,7 @@ import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
 import ga.matthewtgm.simplehud.files.FileHandler;
+import ga.matthewtgm.simplehud.gui.GuiConfiguration;
 import net.minecraft.client.gui.GuiTextField;
 import org.json.simple.JSONObject;
 
@@ -29,7 +30,7 @@ public class ElementSimpleText extends Element {
         else this.setText(String.valueOf(handler.load(this.getName(), handler.elementDir).get("text")));
         this.onSave(new JSONObject());
 
-        this.elementScreen = new ElementGUI(this) {
+        this.elementScreen = new ElementGUI(new GuiConfiguration(SimpleHUD.getInstance().configGui), this) {
 
             private GuiTextField inputField;
 

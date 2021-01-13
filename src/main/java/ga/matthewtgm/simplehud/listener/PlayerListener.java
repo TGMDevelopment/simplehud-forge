@@ -2,71 +2,43 @@ package ga.matthewtgm.simplehud.listener;
 
 import ga.matthewtgm.simplehud.Constants;
 import ga.matthewtgm.simplehud.SimpleHUD;
-import ga.matthewtgm.simplehud.utils.ChatUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import org.json.simple.JSONObject;
-import org.lwjgl.input.Keyboard;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 
-import java.io.File;
-
-//TODO: Properly implement (I'm too tired for this shit lmao)
 public class PlayerListener {
 
-    private ChatUtils chatUtils = new ChatUtils();
-
-    public boolean hasLaunched = false;
+    private boolean hasCheckedForUpdate = false;
 
     @SubscribeEvent
-    protected void checkForFirstLaunch(PlayerEvent.PlayerLoggedInEvent event) {
-
-        if(!hasLaunched) {
-
-            boolean isConfigNull = SimpleHUD.getFileHandler().load("Other_Data", SimpleHUD.getFileHandler().otherDir) == null;
-            this.hasLaunched = !isConfigNull || (boolean) SimpleHUD.getFileHandler().load("Other_Data", SimpleHUD.getFileHandler().otherDir).get("has_launched");
-
-            this.hasLaunched = true;
-
-            final JSONObject object = new JSONObject();
-            object.put("has_launched", this.hasLaunched);
-            SimpleHUD.getFileHandler().save("Other_Data", SimpleHUD.getFileHandler().otherDir, object);
-
-            if (!isConfigNull) {
-                this.hasLaunched = (boolean) SimpleHUD.getFileHandler().load("Other_Data", SimpleHUD.getFileHandler().otherDir).get("has_launched");
-            }
-
+    protected void checkForUpdates(EntityJoinWorldEvent event) {
+        if(!hasCheckedForUpdate) {
+            this.hasCheckedForUpdate = true;
+            Thread updateCheckThread = new Thread(() -> {
+                if(SimpleHUD.getInstance().getVersionChecker().getVersion().equalsIgnoreCase(Constants.VER)) return;
+                EntityPlayerSP player;
+                ChatComponentText updateMessage = new ChatComponentText(EnumChatFormatting.GOLD + "" + EnumChatFormatting.BOLD + "[" + SimpleHUD.getInstance().getVersionChecker().getVersion() + "]");
+                updateMessage.setChatStyle(updateMessage.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, SimpleHUD.getInstance().getVersionChecker().getDownloadURL())));
+                try {
+                    Thread.sleep(10000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                player = Minecraft.getMinecraft().thePlayer;
+                player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Your version of " + EnumChatFormatting.GREEN + Constants.NAME + EnumChatFormatting.YELLOW +  " is out of date!\n" + EnumChatFormatting.RED + "Please update: ").appendSibling(updateMessage));
+            });
+            updateCheckThread.start();
         }
-
     }
 
-    public void sendHelpMessage() {
-
-        Thread thread = new Thread(() -> {
-
-            try {
-
-                Thread.sleep(5000);
-
-                if(!hasLaunched && Minecraft.getMinecraft().thePlayer != null) {
-                    ChatComponentText component1 = new ChatComponentText("It seems this is your first time using " + Constants.NAME + "! To get started press " + Keyboard.getKeyName(SimpleHUD.getInstance().openGuiKeyBinding.getKeyCode()) + " or click ");
-                    ChatComponentText component2 = new ChatComponentText(EnumChatFormatting.GREEN + "here!");
-                    component2.setChatStyle(component2.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/simplehud")));
-                    component1.appendSibling(component2);
-                    chatUtils.sendModMessage(component1);
-                }
-
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-
-        });
-        thread.start();
-
+    @SubscribeEvent
+    protected void onKeyPressed(InputEvent.KeyInputEvent event) {
+        if (SimpleHUD.getInstance().openGuiKeyBinding.isPressed()) Minecraft.getMinecraft().displayGuiScreen(SimpleHUD.getInstance().configGui);
     }
 
 }

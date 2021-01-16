@@ -14,7 +14,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-version = "1.7"
+version = "1.8"
 group= "ga.matthewtgm.simplehud"
 archivesBaseName = "SimpleHUD"
 
@@ -31,6 +31,7 @@ minecraft {
 
 dependencies {
     compile('com.googlecode.json-simple:json-simple:1.1.1')
+    provided(files('../modcore.jar'))
 }
 
 shadowJar {
@@ -52,7 +53,9 @@ reobf {
 jar {
     manifest.attributes(
             'Main-Class': 'SimpleHUDInstaller',
-            'ModSide': 'CLIENT'
+            'ModSide': 'CLIENT',
+            'FMLCorePlugin': 'ga.matthewtgm.simplehud.forge.SimpleHUDLoadingPlugin',
+            'FMLCorePluginContainsFMLMod': true
     )
 }
 

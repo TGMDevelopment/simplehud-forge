@@ -28,7 +28,6 @@ public class RenderUtils {
     }
 
     public void drawHollowRoundedRect(int x, int y, int width, int height, double thickness, Color color) {
-        //double thickness = 1.2;
         double radius = 4;
         drawHollowArc(x, y, radius, -180, -90, thickness, color);
         drawVerticalLine(x, y + 3, y + height - 4, color.getRGB());

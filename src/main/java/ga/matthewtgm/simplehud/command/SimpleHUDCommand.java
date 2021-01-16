@@ -12,7 +12,6 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.json.simple.JSONObject;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -24,10 +23,6 @@ public class SimpleHUDCommand extends CommandBase {
     @Override
     public String getCommandName() {
         return "simplehud";
-    }
-
-    public String getFullCommand() {
-        return "/" + this.getCommandName();
     }
 
     @Override
@@ -44,19 +39,7 @@ public class SimpleHUDCommand extends CommandBase {
     public void processCommand(ICommandSender sender, String[] args) {
         try {
             if (args[0].equalsIgnoreCase("help")) {
-                ChatUtils.getInstance().sendMessage(
-                        "\n" +
-                                EnumChatFormatting.GOLD +
-                                lineDivider +
-                                "\n" +
-                                EnumChatFormatting.GREEN +
-                                this.getFullCommand() + " - Opens GUI\n" +
-                                EnumChatFormatting.GREEN +
-                                this.getFullCommand() + " info - Copies dev info to your clipboard.\n" +
-                                EnumChatFormatting.GREEN +
-                                this.getCommandName() + " saveall - Saves all elements.\n" +
-                                EnumChatFormatting.GOLD +
-                                lineDivider);
+                ChatUtils.getInstance().sendMessage("\n" + EnumChatFormatting.GOLD + lineDivider + "\n" + EnumChatFormatting.GREEN + "default - Opens GUI\n" + EnumChatFormatting.GREEN + "/info - Copies dev info to your clipboard.\n" + EnumChatFormatting.GOLD + lineDivider);
                 return;
             }
             if (args[0].equalsIgnoreCase("info")) {
@@ -77,16 +60,6 @@ public class SimpleHUDCommand extends CommandBase {
                 StringSelection clipboard = new StringSelection(builder.toString());
                 Toolkit.getDefaultToolkit().getSystemClipboard().setContents(clipboard, clipboard);
                 ChatUtils.getInstance().sendModMessage(EnumChatFormatting.GOLD + "Developer info copied to clipboard!");
-                return;
-            }
-            if(args[0].equalsIgnoreCase("saveall")) {
-                for(Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
-                    element.onSave(new JSONObject());
-                }
-                return;
-            }
-            if(args[0].equalsIgnoreCase("gc")) {
-                System.gc();
                 return;
             }
         } catch (Exception ignored) {}

@@ -237,7 +237,7 @@ public class Element {
 
         @Override
         public void initGui() {
-            this.buttonList.add(new GuiTransButton(0, 0, 0, "Save and go back"));
+            this.buttonList.add(new GuiTransButton(0, 0, 0, "Back"));
             this.buttonList.add(new GuiTransButton(1, 0, 20, "Toggle: " + (this.element.isToggled() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
             this.buttonList.add(new GuiTransButton(2, 0, 40, "Show Brackets: " + (this.element.shouldRenderBrackets() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
             this.buttonList.add(new GuiTransButton(3, 0, 60, "Colour: " + this.element.colour.getAsMCColour(this.element.colour) + this.element.colour.getName().toLowerCase()));

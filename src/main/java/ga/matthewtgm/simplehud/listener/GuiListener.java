@@ -27,20 +27,13 @@ public class GuiListener {
     protected void onGuiInit(GuiScreenEvent.InitGuiEvent event) {
         if(!(event.gui instanceof GuiIngameMenu)) return;
         if(!this.addPauseButton) return;
-        event.buttonList.add(new GuiButton(100001, event.gui.width - 105, (this.isSBAButtonPresent(event) ? event.gui.height - 50 : event.gui.height - 25), 100, 20, "SimpleHUD"));
+        event.buttonList.add(new GuiButton(100001, event.gui.width - 105, (Loader.isModLoaded("skyblockaddons") ? event.gui.height - 50 : event.gui.height - 25), 100, 20, "SimpleHUD"));
     }
 
     @SubscribeEvent
     protected void onGuiActionPerformed(GuiScreenEvent.ActionPerformedEvent event) {
         if(!(event.gui instanceof GuiIngameMenu)) return;
         if(event.button.id == 100001) Minecraft.getMinecraft().displayGuiScreen(SimpleHUD.getInstance().configGui);
-    }
-
-    private boolean isSBAButtonPresent(GuiScreenEvent.InitGuiEvent event) {
-        for(GuiButton button : event.buttonList) {
-            return button.displayString.contains("SkyBlock") && Loader.isModLoaded("skyblockaddons");
-        }
-        return false;
     }
 
 }

@@ -1,11 +1,11 @@
 package ga.matthewtgm.simplehud.gui;
 
+import ga.matthewtgm.lib.util.RenderUtils;
 import ga.matthewtgm.simplehud.Constants;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
-import ga.matthewtgm.common.gui.GuiTransButton;
-import ga.matthewtgm.simplehud.utils.RenderUtils;
+import ga.matthewtgm.lib.gui.GuiTransButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;

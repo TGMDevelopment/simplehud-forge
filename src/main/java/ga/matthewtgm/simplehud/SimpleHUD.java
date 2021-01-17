@@ -3,6 +3,7 @@ package ga.matthewtgm.simplehud;
 import club.sk1er.mods.core.ModCoreInstaller;
 import ga.matthewtgm.simplehud.command.SimpleHUDCommand;
 import ga.matthewtgm.simplehud.elements.ElementManager;
+import ga.matthewtgm.simplehud.exceptions.OutOfDateException;
 import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.GuiMain;
 import ga.matthewtgm.simplehud.listener.GuiListener;
@@ -22,7 +23,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.json.simple.JSONObject;
 import org.lwjgl.input.Keyboard;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 @Mod(name = Constants.NAME, version = Constants.VER, modid = Constants.MODID, clientSideOnly = true)
@@ -47,7 +47,7 @@ public class SimpleHUD {
 
     @Mod.EventHandler
     protected void onPreInit(FMLPreInitializationEvent event) {
-        if(VERSION_CHECKER.getEmergencyStatus()) throw new RuntimeException("PLEASE UPDATE TO THE NEW VERSION OF " + Constants.NAME + "\nTHIS IS AN EMERGENCY!");
+        if(VERSION_CHECKER.getEmergencyStatus()) throw new OutOfDateException("PLEASE UPDATE TO THE NEW VERSION OF " + Constants.NAME + "\nTHIS IS AN EMERGENCY!");
         this.latestVersion = VERSION_CHECKER.getVersion().equals(Constants.VER);
 
         ModCoreInstaller.initializeModCore(Minecraft.getMinecraft().mcDataDir);
@@ -56,8 +56,10 @@ public class SimpleHUD {
 
 
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load("main", SimpleHUD.getFileHandler().modDir) == null;
-        if (!isConfigFileNull)
+        if (!isConfigFileNull) {
             this.toggled = (boolean) getFileHandler().load("main", getFileHandler().modDir).get("full_toggle");
+            GuiListener.getInstance().setAddPauseButton((boolean) getFileHandler().load("main", getFileHandler().modDir).get("pause_button"));
+        }
         final JSONObject object = new JSONObject();
         object.put("full_toggle", this.toggled);
         object.put("pause_button", GuiListener.getInstance().mustAddPauseButton());

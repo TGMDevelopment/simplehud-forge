@@ -1,11 +1,10 @@
 package ga.matthewtgm.simplehud.gui;
 
-import ga.matthewtgm.common.gui.GuiTransImageButton;
+import ga.matthewtgm.lib.gui.GuiTransImageButton;
 import ga.matthewtgm.simplehud.SimpleHUD;
-import ga.matthewtgm.common.gui.GuiTransButton;
+import ga.matthewtgm.lib.gui.GuiTransButton;
 import ga.matthewtgm.simplehud.listener.GuiListener;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -105,7 +104,6 @@ public class GuiMain extends GuiScreen {
         GlStateManager.scale(scale, scale, 0);
         drawCenteredString(this.fontRendererObj, EnumChatFormatting.LIGHT_PURPLE + "Simple" + EnumChatFormatting.DARK_PURPLE + "HUD", width / 2 / scale, 5 / scale + 10, -1);
         GlStateManager.popMatrix();
-        //Gui.drawRect(0, this.height - 30, this.width, this.height, new Color(0, 0, 0, 55).getRGB());
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

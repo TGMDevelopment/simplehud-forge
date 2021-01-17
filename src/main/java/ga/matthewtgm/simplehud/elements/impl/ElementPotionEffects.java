@@ -24,7 +24,7 @@ public class ElementPotionEffects extends Element {
     @Override
     public void onRendered(ElementPosition position) {
         if(this.background && this.backgroundColor != null)
-            Gui.drawRect(position.getX() - 2, position.getY() - 2, position.getX() + this.width, position.getY() + this.height, this.backgroundColor.setTransparency(backgroundTransparent ? 10 : 255));
+            Gui.drawRect(position.getX() - 2, position.getY() - 2, position.getX() + this.width, position.getY() + this.height, this.backgroundColor.getRGBA());
         GlStateManager.pushMatrix();
         GlStateManager.scale(position.getScale(), position.getScale(), 1);
         this.drawPotions(position);
@@ -77,9 +77,9 @@ public class ElementPotionEffects extends Element {
                     s1 = s1 + " " + I18n.format("enchantment.level.4", new Object[0]);
                 }
 
-                this.mc.fontRendererObj.drawString(s1, (position.getX() / position.getScale()) + offsetX, ((position.getY() / position.getScale()) + i2) - offsetY, this.colour.getHex(), this.getTextShadow());
+                this.mc.fontRendererObj.drawString(s1, (position.getX() / position.getScale()) + offsetX, ((position.getY() / position.getScale()) + i2) - offsetY, this.colour.getRGB(), this.getTextShadow());
                 String s = Potion.getDurationString(potioneffect);
-                this.mc.fontRendererObj.drawString(s, (position.getX() / position.getScale()) + offsetX, ((position.getY() / position.getScale()) + i2 + 10) - offsetY, this.colour.getHex(), this.getTextShadow());
+                this.mc.fontRendererObj.drawString(s, (position.getX() / position.getScale()) + offsetX, ((position.getY() / position.getScale()) + i2 + 10) - offsetY, this.colour.getRGB(), this.getTextShadow());
                 i2 += l;
             }
         }

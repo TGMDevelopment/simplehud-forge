@@ -64,7 +64,7 @@ public class SimpleHUDCommand extends CommandBase {
                 builder.append("```md\n");
                 builder.append("# Elements\n");
                 for (Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
-                    builder.append("[").append(element.getName()).append("][").append("(").append(element.isToggled()).append(")").append(",(X:").append(element.getPosition().getX()).append(",Y:").append(element.getPosition().getY()).append(",S:").append(element.getPosition().getScale()).append(")").append(",(Colour:").append(element.colour.getHex()).append(")").append("]").append("\n");
+                    builder.append("[").append(element.getName()).append("][").append("(").append(element.isToggled()).append(")").append(",(X:").append(element.getPosition().getX()).append(",Y:").append(element.getPosition().getY()).append(",S:").append(element.getPosition().getScale()).append(")").append(",(Colour:").append(element.colour.getRGB()).append(")").append("]").append("\n");
                 }
                 if (Loader.instance().getActiveModList().size() <= 15) {
                     builder.append("\n# Mods Loaded").append("\n");

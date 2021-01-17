@@ -31,12 +31,13 @@ minecraft {
 
 dependencies {
     compile('com.googlecode.json-simple:json-simple:1.1.1')
-    provided(files('../modcore.jar'))
+    compile(files('libs/TGMLib-1.0.jar'))
+    provided(files('../modcore.jar')) //You'll need to get the modcore jar and add it to the libs directory!
 }
 
 shadowJar {
     dependencies {
-        include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
+        include(dependency(files('libs/TGMLib-1.0.jar')))
     }
 
     exclude('dummyThing')

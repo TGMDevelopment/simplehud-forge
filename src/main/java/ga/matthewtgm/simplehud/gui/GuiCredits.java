@@ -1,6 +1,6 @@
 package ga.matthewtgm.simplehud.gui;
 
-import ga.matthewtgm.common.gui.GuiTransButton;
+import ga.matthewtgm.lib.gui.GuiTransButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

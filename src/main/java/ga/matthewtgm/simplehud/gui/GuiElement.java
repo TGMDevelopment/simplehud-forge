@@ -56,6 +56,8 @@ public abstract class GuiElement extends GuiScreen {
         this.buttonList.add(bgGSlider = new GuiTransSlider(10, this.width / 2 + 5, this.height / 2 + 20, 100, 20, "BG Green: ", "", 1, 255, this.element.backgroundColor.getG(), false, true));
         this.buttonList.add(bgBSlider = new GuiTransSlider(11, this.width / 2 - 105, this.height / 2 + 50, 100, 20, "BG Blue: ", "", 1, 255, this.element.backgroundColor.getB(), false, true));
         this.buttonList.add(bgASlider = new GuiTransSlider(12, this.width / 2 + 5, this.height / 2 + 50, 100, 20, "BG Alpha: ", "", 1, 255, this.element.backgroundColor.getA(), false, true));
+        this.buttonList.add(new GuiTransButton(13, this.width / 2 - 105, this.height / 2 + 80, 100, 20, "Show Prefix: " + (this.element.shouldShowPrefix() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+        this.buttonList.add(new GuiTransButton(14, this.width / 2 + 5, this.height / 2 + 80, 100, 20, "Chroma: " + (this.element.isChroma() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
         super.initGui();
     }
 
@@ -74,8 +76,24 @@ public abstract class GuiElement extends GuiScreen {
             this.element.setTextShadow(!this.element.getTextShadow());
             Minecraft.getMinecraft().displayGuiScreen(this);
         }
+        if(button.id == 4) this.element.getPosition().setScale(this.scaleSlider.getValueInt());
+        if(button.id == 5) this.element.colour.setR(this.rSlider.getValueInt());
+        if(button.id == 6) this.element.colour.setG(this.gSlider.getValueInt());
+        if(button.id == 7) this.element.colour.setB(this.bSlider.getValueInt());
         if (button.id == 8) {
             this.element.setBackgroundToggle(!this.element.getBackground());
+            Minecraft.getMinecraft().displayGuiScreen(this);
+        }
+        if(button.id == 9) this.element.backgroundColor.setR(this.bgRSlider.getValueInt());
+        if(button.id == 10) this.element.backgroundColor.setG(this.bgGSlider.getValueInt());
+        if(button.id == 11) this.element.backgroundColor.setB(this.bgBSlider.getValueInt());
+        if(button.id == 12) this.element.backgroundColor.setA(this.bgASlider.getValueInt());
+        if(button.id == 13) {
+            this.element.setShowPrefix(!this.element.shouldShowPrefix());
+            Minecraft.getMinecraft().displayGuiScreen(this);
+        }
+        if(button.id == 14) {
+            this.element.setChroma(!this.element.isChroma());
             Minecraft.getMinecraft().displayGuiScreen(this);
         }
         super.actionPerformed(button);

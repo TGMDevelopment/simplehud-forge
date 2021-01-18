@@ -5,6 +5,7 @@ import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.GuiElement;
 import ga.matthewtgm.simplehud.gui.GuiConfiguration;
+import ga.matthewtgm.simplehud.utils.ColourUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -26,6 +27,8 @@ public class Element {
     private boolean textShadow;
     protected boolean background;
     public ElementColour backgroundColor;
+    private boolean showPrefix;
+    private boolean chroma;
 
     //INDIVIDUAL ELEMENT VARIABLES
     public String prefix;
@@ -91,6 +94,9 @@ public class Element {
             e.printStackTrace();
         }
 
+        if(isConfigFileNull) this.showPrefix = true;
+        else this.showPrefix = (boolean) handler.load(name, handler.elementDir).get("show_prefix");
+
         this.setup();
     }
 
@@ -118,7 +124,7 @@ public class Element {
     public String getRenderedString() {
         String value = new String();
         if (this.shouldRenderBrackets()) value += "[";
-        if (this.prefix != null)
+        if (this.prefix != null && this.showPrefix)
             value += this.prefix + ": ";
         value += this.getRenderedValue();
         if (this.shouldRenderBrackets()) value += "]";
@@ -130,7 +136,7 @@ public class Element {
             Gui.drawRect(position.getX() - 2, position.getY() - 2, position.getX() + this.width, position.getY() + this.height, this.backgroundColor.getRGBA());
         GlStateManager.pushMatrix();
         GlStateManager.scale(this.getPosition().getScale(), this.getPosition().getScale(), 1);
-        this.mc.fontRendererObj.drawString(this.getRenderedString(), position.getX() / position.getScale(), position.getY() / position.getScale(), this.colour.getRGB(), this.getTextShadow());
+        this.mc.fontRendererObj.drawString(this.getRenderedString(), position.getX() / position.getScale(), position.getY() / position.getScale(), this.chroma ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
         this.width = (int) (this.mc.fontRendererObj.getStringWidth(this.getRenderedString()) * this.getPosition().getScale());
         GlStateManager.popMatrix();
     }
@@ -158,6 +164,8 @@ public class Element {
         backgroundColourObj.put("a", this.backgroundColor.getA());
         backgroundObj.put("colour", backgroundColourObj);
         obj.put("background", backgroundObj);
+        obj.put("show_prefix", this.showPrefix);
+        obj.put("chroma", chroma);
         SimpleHUD.getFileHandler().save(this.getName(), SimpleHUD.getFileHandler().elementDir, obj);
     }
 
@@ -183,6 +191,8 @@ public class Element {
                 Integer.parseInt(String.valueOf(backgroundColourObj.get("b"))),
                 Integer.parseInt(String.valueOf(backgroundColourObj.get("a")))
         );
+        this.showPrefix = (boolean) obj.get("show_prefix");
+        this.chroma = (boolean) obj.get("chroma");
     }
 
     public String getName() {
@@ -213,6 +223,14 @@ public class Element {
         return background;
     }
 
+    public boolean shouldShowPrefix() {
+        return showPrefix;
+    }
+
+    public boolean isChroma() {
+        return chroma;
+    }
+
     protected void setRenderedValue(String renderedValue) {
         this.renderedValue = renderedValue;
     }
@@ -232,4 +250,13 @@ public class Element {
     public void setBackgroundToggle(boolean background) {
         this.background = background;
     }
+
+    public void setShowPrefix(boolean showPrefix) {
+        this.showPrefix = showPrefix;
+    }
+
+    public void setChroma(boolean chroma) {
+        this.chroma = chroma;
+    }
+
 }

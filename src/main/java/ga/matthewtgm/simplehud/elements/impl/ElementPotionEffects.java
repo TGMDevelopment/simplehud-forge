@@ -2,6 +2,7 @@ package ga.matthewtgm.simplehud.elements.impl;
 
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
+import ga.matthewtgm.simplehud.utils.ColourUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -77,9 +78,9 @@ public class ElementPotionEffects extends Element {
                     s1 = s1 + " " + I18n.format("enchantment.level.4", new Object[0]);
                 }
 
-                this.mc.fontRendererObj.drawString(s1, (position.getX() / position.getScale()) + offsetX, ((position.getY() / position.getScale()) + i2) - offsetY, this.colour.getRGB(), this.getTextShadow());
+                this.mc.fontRendererObj.drawString(s1, (position.getX() / position.getScale()) + offsetX, ((position.getY() / position.getScale()) + i2) - offsetY, this.isChroma() ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
                 String s = Potion.getDurationString(potioneffect);
-                this.mc.fontRendererObj.drawString(s, (position.getX() / position.getScale()) + offsetX, ((position.getY() / position.getScale()) + i2 + 10) - offsetY, this.colour.getRGB(), this.getTextShadow());
+                this.mc.fontRendererObj.drawString(s, (position.getX() / position.getScale()) + offsetX, ((position.getY() / position.getScale()) + i2 + 10) - offsetY, this.isChroma() ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
                 i2 += l;
             }
         }

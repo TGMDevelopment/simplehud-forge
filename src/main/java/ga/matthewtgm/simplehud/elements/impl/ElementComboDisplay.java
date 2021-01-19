@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ElementComboDisplay extends Element {
 
-    private long lastHit = 0L;
+    private long lastHit = System.currentTimeMillis();
     private int combo = 0;
 
     public ElementComboDisplay() {
@@ -22,16 +22,17 @@ public class ElementComboDisplay extends Element {
     }
 
     @SubscribeEvent
-        protected void onAttack(AttackEntityEvent event) {
+    protected void onAttack(AttackEntityEvent event) {
         if (event.entity instanceof EntityPlayerSP) {
+            if(lastHit > 500L) return;
             lastHit = System.currentTimeMillis();
-            combo += 1;
+            combo++;
         }
     }
 
     @SubscribeEvent
     protected void onDamage(LivingHurtEvent event) {
-        if(event.entity instanceof EntityPlayerMP && event.entity.getDisplayName().getUnformattedText().equalsIgnoreCase(Minecraft.getMinecraft().thePlayer.getDisplayName().getUnformattedText())) {
+        if (event.entity instanceof EntityPlayerMP && event.entity.getDisplayName().getUnformattedText().equalsIgnoreCase(Minecraft.getMinecraft().thePlayer.getDisplayName().getUnformattedText())) {
             lastHit = 0;
             combo = 0;
         }
@@ -39,7 +40,6 @@ public class ElementComboDisplay extends Element {
 
     @Override
     public void onRendered(ElementPosition position) {
-        this.setToggle(false);
         if (System.currentTimeMillis() - lastHit > 3000)
             combo = 0;
         this.setRenderedValue(combo == 0 ? "none" : combo + " Combo");

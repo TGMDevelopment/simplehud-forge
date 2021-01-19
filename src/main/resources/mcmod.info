@@ -7,7 +7,7 @@
   "url": "https://github.com/TGMDevelopment/simplehud-forge",
   "updateUrl": "https://github.com/TGMDevelopment/simplehud-forge/releases/latest",
   "authorList": ["TGMDevelopment"],
-  "credits": "isXander [scaling and reach display]",
+  "credits": "",
   "logoFile": "assets/simplehud/logo.png",
   "screenshots": [],
   "dependencies": []

@@ -38,7 +38,7 @@ public class ElementSimpleText extends Element {
             @Override
             public void initGui() {
                 super.initGui();
-                this.inputField = new GuiTextField(9, this.fontRendererObj, this.width / 2 - 105, this.height / 2 + 80, 210, 20);
+                this.inputField = new GuiTextField(100, this.fontRendererObj, this.width / 2 - 105, this.height / 2 + 110, 210, 20);
                 this.inputField.setEnableBackgroundDrawing(true);
                 this.inputField.setMaxStringLength(128);
                 this.inputField.setVisible(true);

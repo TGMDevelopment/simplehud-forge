@@ -141,7 +141,7 @@ public class GuiConfiguration extends GuiScreen {
         for(Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
             if(type.equalsIgnoreCase("init")) {
                 this.buttonList.add(new GuiTransButton(SimpleHUD.getInstance().getElementManager().getElements().indexOf(element) + 1, offsetX, this.height - offset, 100, 20, element.getName()));
-                offset = offset + 20;
+                offset += 20;
                 if(offset > ((this.height / 2) / SimpleHUD.getInstance().getElementManager().getElements().size() * 20)) {
                     offsetX = this.width / 2 + 5;
                     offset = this.height / 2 - 50;
@@ -171,7 +171,7 @@ public class GuiConfiguration extends GuiScreen {
             int posY = position.y;
             if(x >= posX && x <= posX + element.width) {
                 if(y >= posY && y <= posY + element.height) {
-                    return true;
+                    return element.isToggled();
                 }
             }
             return false;

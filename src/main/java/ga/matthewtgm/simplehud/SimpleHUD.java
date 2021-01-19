@@ -1,6 +1,7 @@
 package ga.matthewtgm.simplehud;
 
 import club.sk1er.mods.core.ModCoreInstaller;
+import ga.matthewtgm.lib.util.SessionChanger;
 import ga.matthewtgm.simplehud.command.SimpleHUDCommand;
 import ga.matthewtgm.simplehud.elements.ElementManager;
 import ga.matthewtgm.simplehud.exceptions.OutOfDateException;
@@ -53,7 +54,6 @@ public class SimpleHUD {
         ModCoreInstaller.initializeModCore(Minecraft.getMinecraft().mcDataDir);
 
         this.setupModMetadata(event);
-
 
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load("main", SimpleHUD.getFileHandler().modDir) == null;
         if (!isConfigFileNull) {

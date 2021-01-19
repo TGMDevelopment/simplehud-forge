@@ -18,7 +18,7 @@ public class ElementPing extends Element {
         } catch(Exception e) {
             this.setRenderedValue("Unknown");
         }
-        this.height = 10 * this.getPosition().getScale();
+        this.height = (int) (10 * this.getPosition().getScale());
         super.onRendered(position);
     }
 

@@ -47,7 +47,7 @@ public abstract class GuiElement extends GuiScreen {
         this.buttonList.add(new GuiTransButton(1, this.width / 2 - 105, this.height / 2 - 100, 100, 20, "Toggle: " + (this.element.isToggled() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
         this.buttonList.add(new GuiTransButton(2, this.width / 2 + 5, this.height / 2 - 100, 100, 20,"Show Brackets: " + (this.element.shouldRenderBrackets() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
         this.buttonList.add(new GuiTransButton(3, this.width / 2 - 105, this.height / 2 - 70, 100, 20, "Text Shadow: " + (this.element.getTextShadow() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-        this.buttonList.add(scaleSlider = new GuiTransSlider(4, this.width / 2 + 5, this.height / 2 - 70, 100, 20, "Scale: ", "", 1, 5, this.element.getPosition().getScale(), false, true));
+        this.buttonList.add(scaleSlider = new GuiTransSlider(4, this.width / 2 + 5, this.height / 2 - 70, 100, 20, "Scale: ", "", 1, 5, this.element.getPosition().getScale(), true, true));
         this.buttonList.add(rSlider = new GuiTransSlider(5, this.width / 2 - 105, this.height / 2 - 40, 100, 20, "Red: ", "", 1, 255, this.element.colour.getR(), false, true));
         this.buttonList.add(gSlider = new GuiTransSlider(6, this.width / 2 + 5, this.height / 2 - 40, 100, 20, "Green: ", "", 1, 255, this.element.colour.getG(), false, true));
         this.buttonList.add(bSlider = new GuiTransSlider(7, this.width / 2 - 105, this.height / 2 - 10, 100, 20, "Blue: ", "", 1, 255, this.element.colour.getB(), false, true));
@@ -76,7 +76,7 @@ public abstract class GuiElement extends GuiScreen {
             this.element.setTextShadow(!this.element.getTextShadow());
             Minecraft.getMinecraft().displayGuiScreen(this);
         }
-        if(button.id == 4) this.element.getPosition().setScale(this.scaleSlider.getValueInt());
+        if(button.id == 4) this.element.getPosition().setScale((float) this.scaleSlider.getValue());
         if(button.id == 5) this.element.colour.setR(this.rSlider.getValueInt());
         if(button.id == 6) this.element.colour.setG(this.gSlider.getValueInt());
         if(button.id == 7) this.element.colour.setB(this.bSlider.getValueInt());
@@ -107,7 +107,7 @@ public abstract class GuiElement extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawDefaultBackground();
-        this.element.onRendered(new ElementPosition(this.width / 2 - 30 / this.element.getPosition().getScale(), 0, this.element.getPosition().getScale()));
+        this.element.onRendered(new ElementPosition((int) (this.width / 2 - 30 / this.element.getPosition().getScale()), 0, this.element.getPosition().getScale()));
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -121,7 +121,7 @@ public abstract class GuiElement extends GuiScreen {
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-        this.element.getPosition().setScale(this.scaleSlider.getValueInt());
+        this.element.getPosition().setScale((float) this.scaleSlider.getValue());
         this.element.colour.setR(this.rSlider.getValueInt());
         this.element.colour.setG(this.gSlider.getValueInt());
         this.element.colour.setB(this.bSlider.getValueInt());

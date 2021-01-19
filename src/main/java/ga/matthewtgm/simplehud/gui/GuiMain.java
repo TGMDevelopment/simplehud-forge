@@ -30,6 +30,7 @@ public class GuiMain extends GuiScreen {
         this.buttonList.add(new GuiTransButton(2, this.width / 2 - 50, this.height / 2 - 60, 100, 20, "Toggle: " + (SimpleHUD.getInstance().isToggled() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
         this.buttonList.add(new GuiTransButton(3, this.width / 2 - 50, this.height / 2 - 40, 100, 20, "Credits"));
         this.buttonList.add(new GuiTransButton(4, this.width / 2 - 50, this.height / 2 - 20, 100, 20, "Pause button: " + (GuiListener.getInstance().mustAddPauseButton() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+        this.buttonList.add(new GuiTransButton(5, this.width / 2 - 50, this.height / 2, 100, 20, "Show in chat: " + (SimpleHUD.getInstance().getElementManager().isShowInChat() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
 
         this.buttonList.add(patreon = new GuiTransImageButton(100, 10, this.height - 30, 30, 30, new ResourceLocation("simplehud", "textures/patreon.png")));
         this.buttonList.add(youtube = new GuiTransImageButton(101, 40, this.height - 30, 30, 30, new ResourceLocation("simplehud", "textures/youtube.png")));
@@ -53,6 +54,7 @@ public class GuiMain extends GuiScreen {
 
                 mainConfigObj.put("full_toggle", SimpleHUD.getInstance().isToggled());
                 mainConfigObj.put("pause_button", GuiListener.getInstance().mustAddPauseButton());
+                mainConfigObj.put("show_in_chat", SimpleHUD.getInstance().getElementManager().isShowInChat());
                 SimpleHUD.getFileHandler().save("main", SimpleHUD.getFileHandler().modDir, mainConfigObj);
 
                 Minecraft.getMinecraft().displayGuiScreen(this);
@@ -65,6 +67,17 @@ public class GuiMain extends GuiScreen {
 
                 mainConfigObj.put("full_toggle", SimpleHUD.getInstance().isToggled());
                 mainConfigObj.put("pause_button", GuiListener.getInstance().mustAddPauseButton());
+                mainConfigObj.put("show_in_chat", SimpleHUD.getInstance().getElementManager().isShowInChat());
+                SimpleHUD.getFileHandler().save("main", SimpleHUD.getFileHandler().modDir, mainConfigObj);
+
+                Minecraft.getMinecraft().displayGuiScreen(this);
+                break;
+            case 5:
+                SimpleHUD.getInstance().getElementManager().setShowInChat(!SimpleHUD.getInstance().getElementManager().isShowInChat());
+
+                mainConfigObj.put("full_toggle", SimpleHUD.getInstance().isToggled());
+                mainConfigObj.put("pause_button", GuiListener.getInstance().mustAddPauseButton());
+                mainConfigObj.put("show_in_chat", SimpleHUD.getInstance().getElementManager().isShowInChat());
                 SimpleHUD.getFileHandler().save("main", SimpleHUD.getFileHandler().modDir, mainConfigObj);
 
                 Minecraft.getMinecraft().displayGuiScreen(this);

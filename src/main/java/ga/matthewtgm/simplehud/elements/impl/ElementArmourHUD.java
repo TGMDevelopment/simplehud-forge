@@ -82,9 +82,9 @@ public class ElementArmourHUD extends Element {
         for(int item = 0; item < mc.thePlayer.inventory.armorInventory.length; item++) {
             renderItemStack(position, item, mc.thePlayer.inventory.armorInventory[item]);
         }
-        if(this.getType() == RenderType.NONE || this.getType() == RenderType.BARS) this.width = 17 * position.getScale();
-        else this.width = 64 * position.getScale();
-        this.height = 64 * position.getScale();
+        if(this.getType() == RenderType.NONE || this.getType() == RenderType.BARS) this.width = (int) (17 * position.getScale());
+        else this.width = (int) (64 * position.getScale());
+        this.height = (int) (64 * position.getScale());
         GlStateManager.popMatrix();
     }
 
@@ -116,12 +116,12 @@ public class ElementArmourHUD extends Element {
             }
         }
         RenderHelper.enableGUIStandardItemLighting();
-        mc.getRenderItem().renderItemAndEffectIntoGUI(item, position.getX() / position.getScale(), position.getY() / position.getScale() + offset);
+        mc.getRenderItem().renderItemAndEffectIntoGUI(item, Math.round(position.getX() / position.getScale()), Math.round(position.getY() / position.getScale() + offset));
         if(this.getType() == RenderType.BARS) {
             GlStateManager.disableLighting();
             GlStateManager.disableDepth();
             GlStateManager.disableBlend();
-            this.mc.getRenderItem().renderItemOverlayIntoGUI(this.mc.fontRendererObj, item, position.getX() / position.getScale(), position.getY() / position.getScale() + offset, "" + (item.stackSize > 1 ? Integer.valueOf(item.stackSize) : ""));
+            this.mc.getRenderItem().renderItemOverlayIntoGUI(this.mc.fontRendererObj, item, Math.round(position.getX() / position.getScale()), Math.round(position.getY() / position.getScale() + offset), "" + (item.stackSize > 1 ? Integer.valueOf(item.stackSize) : ""));
             GlStateManager.enableLighting();
             GlStateManager.enableDepth();
         }

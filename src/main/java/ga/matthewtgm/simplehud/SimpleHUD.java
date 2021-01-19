@@ -63,10 +63,12 @@ public class SimpleHUD {
         if (!isConfigFileNull) {
             this.toggled = (boolean) getFileHandler().load("main", getFileHandler().modDir).get("full_toggle");
             GuiListener.getInstance().setAddPauseButton((boolean) getFileHandler().load("main", getFileHandler().modDir).get("pause_button"));
+            this.getElementManager().setShowInChat((boolean) getFileHandler().load("main", getFileHandler().modDir).get("show_in_chat"));
         }
         final JSONObject object = new JSONObject();
         object.put("full_toggle", this.toggled);
         object.put("pause_button", GuiListener.getInstance().mustAddPauseButton());
+        object.put("show_in_chat", this.getElementManager().isShowInChat());
         getFileHandler().save("main", getFileHandler().modDir, object);
     }
 

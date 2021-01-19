@@ -29,8 +29,8 @@ public class ElementPotionEffects extends Element {
         GlStateManager.pushMatrix();
         GlStateManager.scale(position.getScale(), position.getScale(), 1);
         this.drawPotions(position);
-        this.width = 101 * position.getScale();
-        this.height = 154 * position.getScale();
+        this.width = (int) (101 * position.getScale());
+        this.height = (int) (154 * position.getScale());
         GlStateManager.popMatrix();
     }
 
@@ -61,7 +61,7 @@ public class ElementPotionEffects extends Element {
                 {
                     Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/inventory.png"));
                     int i1 = potion.getStatusIconIndex();
-                    drawTexturedModalRect(((position.getX() / position.getScale()) + offsetX) - 20, ((position.getY() / position.getScale()) + i2) - offsetY, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
+                    drawTexturedModalRect(Math.round((position.getX() / position.getScale()) + offsetX) - 20, Math.round((position.getY() / position.getScale()) + i2), i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
                 }
 
                 String s1 = I18n.format(potion.getName(), new Object[0]);
@@ -78,9 +78,9 @@ public class ElementPotionEffects extends Element {
                     s1 = s1 + " " + I18n.format("enchantment.level.4", new Object[0]);
                 }
 
-                this.mc.fontRendererObj.drawString(s1, (position.getX() / position.getScale()) + offsetX, ((position.getY() / position.getScale()) + i2) - offsetY, this.isChroma() ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
+                this.mc.fontRendererObj.drawString(s1, Math.round((position.getX() / position.getScale()) + offsetX), Math.round(((position.getY() / position.getScale()) + i2) - offsetY), this.isChroma() ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
                 String s = Potion.getDurationString(potioneffect);
-                this.mc.fontRendererObj.drawString(s, (position.getX() / position.getScale()) + offsetX, ((position.getY() / position.getScale()) + i2 + 10) - offsetY, this.isChroma() ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
+                this.mc.fontRendererObj.drawString(s, Math.round((position.getX() / position.getScale()) + offsetX), Math.round(((position.getY() / position.getScale()) + i2 + 10) - offsetY), this.isChroma() ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
                 i2 += l;
             }
         }

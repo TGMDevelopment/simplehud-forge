@@ -81,7 +81,7 @@ public class Element {
                         Integer.parseInt(String.valueOf(((JSONObject) handler.load(this.name, SimpleHUD.getFileHandler().elementDir).get("position")).get("y"))),
                 isConfigFileNull ?
                         1 :
-                        Integer.parseInt(String.valueOf(((JSONObject) handler.load(this.name, SimpleHUD.getFileHandler().elementDir).get("position")).get("scale"))));
+                        Math.round(Float.parseFloat(String.valueOf(((JSONObject) handler.load(this.name, SimpleHUD.getFileHandler().elementDir).get("position")).get("scale")))));
 
         try {
             if (this.colour == null && isConfigFileNull) this.colour = new ElementColour(255, 255, 255);

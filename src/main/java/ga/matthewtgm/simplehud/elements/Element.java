@@ -69,6 +69,9 @@ public class Element {
             );
         }
 
+        if(isConfigFileNull) this.chroma = true;
+        else this.chroma = (boolean) handler.load(name, handler.elementDir).get("chroma");
+
         if (this.position == null) this.position = new ElementPosition(
                 isConfigFileNull ?
                         10 :

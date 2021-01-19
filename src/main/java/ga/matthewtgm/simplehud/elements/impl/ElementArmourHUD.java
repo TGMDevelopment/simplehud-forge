@@ -1,7 +1,6 @@
 package ga.matthewtgm.simplehud.elements.impl;
 
 import ga.matthewtgm.lib.gui.GuiTransButton;
-import ga.matthewtgm.lib.gui.GuiTransSlider;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
@@ -15,7 +14,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.client.config.GuiSlider;
 import org.json.simple.JSONObject;
 import org.lwjgl.opengl.GL11;
 
@@ -48,7 +46,7 @@ public class ElementArmourHUD extends Element {
             @Override
             public void initGui() {
                 super.initGui();
-                this.buttonList.add(new GuiTransButton(100, this.width / 2 - 105, this.height / 2 + 110, 210, 20, "Durability type: " + ((ElementArmourHUD) this.element).getType().name()));
+                this.buttonList.add(new GuiTransButton(100, this.width / 2 - 105, this.height / 2 + 110, 210, 20, "Durability type: " + ((ElementArmourHUD) this.element).getType().name().toLowerCase()));
             }
 
             @Override
@@ -84,7 +82,7 @@ public class ElementArmourHUD extends Element {
         for(int item = 0; item < mc.thePlayer.inventory.armorInventory.length; item++) {
             renderItemStack(position, item, mc.thePlayer.inventory.armorInventory[item]);
         }
-        if(this.getType() == RenderType.NONE) this.width = 17 * position.getScale();
+        if(this.getType() == RenderType.NONE || this.getType() == RenderType.BARS) this.width = 17 * position.getScale();
         else this.width = 64 * position.getScale();
         this.height = 64 * position.getScale();
         GlStateManager.popMatrix();
@@ -108,20 +106,27 @@ public class ElementArmourHUD extends Element {
         GL11.glPushMatrix();
         int offset = (-16 * index) + 48;
         if(item.getItem().isDamageable() && this.getType() != RenderType.NONE) {
-            String rendered = "";
             switch(this.getType()) {
                 case PERCENTAGE:
                     double currentDmg = (item.getMaxDamage() - item.getItemDamage()) / (double) item.getMaxDamage() * 100;
-                    rendered = String.format("%.2f%%", currentDmg);
+                    this.mc.fontRendererObj.drawString(String.format("%.2f%%", currentDmg), (position.getX() / position.getScale()) + 20, (position.getY() / position.getScale()) + 5 + offset, this.isChroma() ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
                     break;
                 case DURABILITY:
-                    rendered = item.getMaxDamage() - item.getItemDamage() + "/" + item.getMaxDamage();
-                    break;
+                    this.mc.fontRendererObj.drawString(item.getMaxDamage() - item.getItemDamage() + "/" + item.getMaxDamage(), (position.getX() / position.getScale()) + 20, (position.getY() / position.getScale()) + 5 + offset, this.isChroma() ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
             }
-            this.mc.fontRendererObj.drawString(rendered, (position.getX() / position.getScale()) + 20, (position.getY() / position.getScale()) + 5 + offset, this.isChroma() ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
         }
         RenderHelper.enableGUIStandardItemLighting();
         mc.getRenderItem().renderItemAndEffectIntoGUI(item, position.getX() / position.getScale(), position.getY() / position.getScale() + offset);
+        if(this.getType() == RenderType.BARS) {
+            GlStateManager.disableLighting();
+            GlStateManager.disableDepth();
+            GlStateManager.disableBlend();
+            this.mc.getRenderItem().renderItemOverlayIntoGUI(this.mc.fontRendererObj, item, position.getX() / position.getScale(), position.getY() / position.getScale() + offset, "" + (item.stackSize > 1 ? Integer.valueOf(item.stackSize) : ""));
+            GlStateManager.enableLighting();
+            GlStateManager.enableDepth();
+        }
+        RenderHelper.disableStandardItemLighting();
+        GlStateManager.disableLighting();
         GL11.glPopMatrix();
     }
 
@@ -129,6 +134,7 @@ public class ElementArmourHUD extends Element {
 
         DURABILITY,
         PERCENTAGE,
+        BARS,
         NONE;
 
         public RenderType getNextType(RenderType type) {

@@ -2,6 +2,10 @@ package ga.matthewtgm.simplehud;
 
 import club.sk1er.mods.core.ModCoreInstaller;
 import ga.matthewtgm.lib.util.SessionChanger;
+import ga.matthewtgm.lib.util.guiscreens.GuiAppendedButton;
+import ga.matthewtgm.lib.util.guiscreens.GuiAppendingManager;
+import ga.matthewtgm.lib.util.keybindings.KeyBind;
+import ga.matthewtgm.lib.util.keybindings.KeyBindManager;
 import ga.matthewtgm.simplehud.command.SimpleHUDCommand;
 import ga.matthewtgm.simplehud.elements.ElementManager;
 import ga.matthewtgm.simplehud.exceptions.OutOfDateException;
@@ -11,6 +15,7 @@ import ga.matthewtgm.simplehud.listener.GuiListener;
 import ga.matthewtgm.simplehud.listener.PlayerListener;
 import ga.matthewtgm.simplehud.other.VersionChecker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.EnumChatFormatting;
@@ -43,7 +48,6 @@ public class SimpleHUD {
     private boolean toggled = true;
     private boolean latestVersion;
 
-    public final KeyBinding openGuiKeyBinding = new KeyBinding("Open GUI", Keyboard.KEY_N, "SimpleHUD");
     public GuiScreen configGui;
 
     @Mod.EventHandler
@@ -68,12 +72,29 @@ public class SimpleHUD {
 
     @Mod.EventHandler
     protected void onInit(FMLInitializationEvent event) {
+        GuiAppendingManager.getInstance().init();
         this.configGui = new GuiMain();
         getFileHandler().init();
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(GuiListener.getInstance());
         MinecraftForge.EVENT_BUS.register(new PlayerListener());
-        ClientRegistry.registerKeyBinding(openGuiKeyBinding);
+        KeyBindManager.getInstance().addKeyBind(new KeyBind() {
+            @Override
+            public String getDescription() {
+                return "Open GUI";
+            }
+
+            @Override
+            public int getKey() {
+                return Keyboard.KEY_N;
+            }
+
+            @Override
+            public void onPressed() {
+                Minecraft.getMinecraft().displayGuiScreen(SimpleHUD.getInstance().configGui);
+            }
+        });
+        KeyBindManager.getInstance().init(Constants.NAME);
         ClientCommandHandler.instance.registerCommand(new SimpleHUDCommand());
         this.getElementManager().init();
     }

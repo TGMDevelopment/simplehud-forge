@@ -1,5 +1,6 @@
 package ga.matthewtgm.simplehud.command;
 
+import ga.matthewtgm.lib.util.GuiScreenUtils;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.utils.ChatUtils;
@@ -90,13 +91,7 @@ public class SimpleHUDCommand extends CommandBase {
                 return;
             }
         } catch (Exception ignored) {}
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @SubscribeEvent
-    protected void onTick(TickEvent.ClientTickEvent event) {
-        Minecraft.getMinecraft().displayGuiScreen(SimpleHUD.getInstance().configGui);
-        MinecraftForge.EVENT_BUS.unregister(this);
+        GuiScreenUtils.getInstance().open(SimpleHUD.getInstance().configGui);
     }
 
 }

@@ -1,5 +1,6 @@
 package ga.matthewtgm.simplehud.command;
 
+import club.sk1er.mods.core.gui.notification.Notifications;
 import ga.matthewtgm.lib.util.GuiScreenUtils;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
@@ -55,7 +56,7 @@ public class SimpleHUDCommand extends CommandBase {
                                 EnumChatFormatting.GREEN +
                                 this.getFullCommand() + " info - Copies dev info to your clipboard.\n" +
                                 EnumChatFormatting.GREEN +
-                                this.getCommandName() + " saveall - Saves all elements.\n" +
+                                this.getFullCommand() + " saveall - Saves all elements.\n" +
                                 EnumChatFormatting.GOLD +
                                 lineDivider);
                 return;
@@ -77,6 +78,7 @@ public class SimpleHUDCommand extends CommandBase {
                 builder.append("```");
                 StringSelection clipboard = new StringSelection(builder.toString());
                 Toolkit.getDefaultToolkit().getSystemClipboard().setContents(clipboard, clipboard);
+                Notifications.INSTANCE.pushNotification("SimpleHUD - Misc", "Developer info copied!");
                 ChatUtils.getInstance().sendModMessage(EnumChatFormatting.GOLD + "Developer info copied to clipboard!");
                 return;
             }
@@ -84,6 +86,7 @@ public class SimpleHUDCommand extends CommandBase {
                 for(Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
                     element.onSave(new JSONObject());
                 }
+                Notifications.INSTANCE.pushNotification("SimpleHUD - Elements", "Saved all elements!");
                 return;
             }
             if(args[0].equalsIgnoreCase("gc")) {

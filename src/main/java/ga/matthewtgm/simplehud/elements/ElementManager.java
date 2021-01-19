@@ -30,7 +30,6 @@ public class ElementManager {
         this.getElements().add(new ElementArmourHUD());
         this.getElements().add(new ElementPotionEffects());
         this.getElements().add(new ElementSimpleText());
-        //this.getElements().add(new ElementComboDisplay());
 
         MinecraftForge.EVENT_BUS.register(this);
         for(Element element : this.getElements()) {

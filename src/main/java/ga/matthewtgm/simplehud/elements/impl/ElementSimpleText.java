@@ -73,7 +73,6 @@ public class ElementSimpleText extends Element {
 
     @Override
     public void onSetup() {
-
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load(this.getName(), SimpleHUD.getFileHandler().elementDir) == null;
         final FileHandler handler = SimpleHUD.getFileHandler();
 

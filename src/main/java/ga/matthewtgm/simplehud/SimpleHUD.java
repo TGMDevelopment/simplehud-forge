@@ -78,17 +78,7 @@ public class SimpleHUD {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(GuiListener.getInstance());
         MinecraftForge.EVENT_BUS.register(new PlayerListener());
-        KeyBindManager.getInstance().addKeyBind(new KeyBind() {
-            @Override
-            public String getDescription() {
-                return "Open GUI";
-            }
-
-            @Override
-            public int getKey() {
-                return Keyboard.KEY_N;
-            }
-
+        KeyBindManager.getInstance().addKeyBind(new KeyBind("Open GUI", Keyboard.KEY_N) {
             @Override
             public void onPressed() {
                 Minecraft.getMinecraft().displayGuiScreen(SimpleHUD.getInstance().configGui);

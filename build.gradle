@@ -15,31 +15,26 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 version = "1.8"
-group= "ga.matthewtgm.simplehud"
+group = "ga.matthewtgm.simplehud"
 archivesBaseName = "SimpleHUD"
 
 sourceCompatibility = targetCompatibility = 1.8
 
+sourceSets { main { output.resourcesDir = output.classesDir } }
+
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
-
     replace("@VER@": project.version)
-
-    mappings = "stable_20"
+    mappings = "stable_22"
 }
 
 dependencies {
-    compile('com.googlecode.json-simple:json-simple:1.1.1')
     compile(files('libs/TGMLib-0.2.jar'))
     provided(files('libs/modcore.jar'))
 }
 
 shadowJar {
-    dependencies {
-        include(dependency(files('libs/TGMLib-0.2.jar')))
-    }
-
     exclude('dummyThing')
     exclude('modcore.jar')
 
@@ -69,7 +64,7 @@ processResources
             from(sourceSets.main.resources.srcDirs) {
                 include 'mcmod.info'
 
-                expand 'version':project.version, 'mcversion':project.minecraft.version
+                expand 'version': project.version, 'mcversion': project.minecraft.version
             }
 
             from(sourceSets.main.resources.srcDirs) {

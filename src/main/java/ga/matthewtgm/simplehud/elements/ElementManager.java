@@ -18,9 +18,11 @@ public class ElementManager {
     private final List<Element> elements = new ArrayList<>();
 
     private boolean showInChat;
+
     public boolean isShowInChat() {
         return showInChat;
     }
+
     public void setShowInChat(boolean showInChat) {
         this.showInChat = showInChat;
     }
@@ -33,6 +35,7 @@ public class ElementManager {
         this.getElements().add(new ElementFPS());
         this.getElements().add(new ElementMemory());
         this.getElements().add(new ElementPing());
+        this.getElements().add(new ElementPlayer());
         this.getElements().add(new ElementReachDisplay());
         this.getElements().add(new ElementTime());
         this.getElements().add(new ElementServerAddress());
@@ -41,15 +44,15 @@ public class ElementManager {
         this.getElements().add(new ElementSimpleText());
 
         MinecraftForge.EVENT_BUS.register(this);
-        for(Element element : this.getElements()) {
-            if(element.isToggled()) element.onEnabled();
+        for (Element element : this.getElements()) {
+            if (element.isToggled()) element.onEnabled();
             else element.onDisabled();
         }
     }
 
     @SubscribeEvent
     protected void onGameOverlayRendered(RenderGameOverlayEvent.Post event) {
-        if(event.type == RenderGameOverlayEvent.ElementType.ALL) {
+        if (event.type == RenderGameOverlayEvent.ElementType.ALL) {
             for (Element element : this.getElements()) {
                 if (SimpleHUD.getInstance().isToggled() && (Minecraft.getMinecraft().currentScreen == null || this.showInChat()) && element.isToggled() && Minecraft.getMinecraft().thePlayer != null)
                     element.onRendered(element.getPosition());
@@ -64,8 +67,8 @@ public class ElementManager {
     }
 
     public <T extends Element> T getElement(Class<T> elementClass) {
-        for(Element element : this.getElements()) {
-            if(elementClass.isAssignableFrom(element.getClass())) {
+        for (Element element : this.getElements()) {
+            if (elementClass.isAssignableFrom(element.getClass())) {
                 return (T) element;
             }
         }

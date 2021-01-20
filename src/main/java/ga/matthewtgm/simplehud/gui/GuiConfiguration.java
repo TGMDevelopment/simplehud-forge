@@ -1,11 +1,11 @@
 package ga.matthewtgm.simplehud.gui;
 
+import ga.matthewtgm.lib.gui.GuiTransButton;
 import ga.matthewtgm.lib.util.RenderUtils;
 import ga.matthewtgm.simplehud.Constants;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
-import ga.matthewtgm.lib.gui.GuiTransButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -16,16 +16,15 @@ import org.json.simple.JSONObject;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class GuiConfiguration extends GuiScreen {
 
-    private GuiScreen parent;
-
     private final Logger logger = LogManager.getLogger(Constants.NAME + " (" + this.getClass().getSimpleName() + ")");
-
+    private GuiScreen parent;
     private boolean dragging;
     private Optional<Element> selectedElement = Optional.empty();
 
@@ -34,15 +33,16 @@ public class GuiConfiguration extends GuiScreen {
     private int prevX, prevY;
 
     private List<GuiButton> buttons;
-    private void setButtons() {
-        this.buttons = Arrays.asList(
-                new GuiTransButton(0, this.width / 2 - 50, this.height - 20, 100, 20, this.parent == null ? "Save and close" : "Save and go back")
-        );
-        this.setupElementButtons("init", null);
-    }
 
     public GuiConfiguration(GuiScreen parent) {
         this.parent = parent;
+    }
+
+    private void setButtons() {
+        this.buttons = Collections.singletonList(
+            new GuiTransButton(0, this.width / 2 - 50, this.height - 20, 100, 20, this.parent == null ? "Save and close" : "Save and go back")
+        );
+        this.setupElementButtons("init", null);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class GuiConfiguration extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        if(button.id == 0) Minecraft.getMinecraft().displayGuiScreen(this.parent);
+        if (button.id == 0) Minecraft.getMinecraft().displayGuiScreen(this.parent);
         this.setupElementButtons("action", button);
         super.actionPerformed(button);
     }
@@ -63,8 +63,8 @@ public class GuiConfiguration extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawDefaultBackground();
         this.updateElementPosition(mouseX, mouseY);
-        for(Element e : SimpleHUD.getInstance().getElementManager().getElements()) {
-            if(e.isToggled()) {
+        for (Element e : SimpleHUD.getInstance().getElementManager().getElements()) {
+            if (e.isToggled()) {
                 final RenderUtils utils = new RenderUtils();
                 utils.drawHollowRect(e.getPosition().getX() - 1, e.getPosition().getY() - 2, e.width, e.height, new Color(255, 255, 255, 111).getRGB());
                 Gui.drawRect(e.getPosition().getX() - 1, e.getPosition().getY() - 2, e.getPosition().getX() + e.width, e.getPosition().getY() + e.height, new Color(255, 255, 255, 43).getRGB());
@@ -76,7 +76,7 @@ public class GuiConfiguration extends GuiScreen {
 
     @Override
     public void onGuiClosed() {
-        for(Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
+        for (Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
             element.onSave(new JSONObject());
             element.onLoad();
         }
@@ -88,18 +88,16 @@ public class GuiConfiguration extends GuiScreen {
         this.prevY = mouseY;
         this.selectedElement = SimpleHUD.getInstance().getElementManager().getElements().stream().filter(new MouseHoveringElement(mouseX, mouseY)).findFirst();
 
-        if(selectedElement.isPresent()) {
-            if(!selectedElement.get().isToggled()) return;
+        if (selectedElement.isPresent()) {
+            if (!selectedElement.get().isToggled()) return;
             this.dragging = true;
         }
 
         if (mouseButton == 0 && !this.selectedElement.isPresent()) {
-            for (int i = 0; i < this.buttonList.size(); ++i)
-            {
+            for (int i = 0; i < this.buttonList.size(); ++i) {
                 GuiButton guibutton = this.buttonList.get(i);
 
-                if (guibutton.mousePressed(this.mc, mouseX, mouseY))
-                {
+                if (guibutton.mousePressed(this.mc, mouseX, mouseY)) {
                     net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre event = new net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre(this, guibutton, this.buttonList);
                     if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))
                         break;
@@ -121,7 +119,7 @@ public class GuiConfiguration extends GuiScreen {
     }
 
     protected void updateElementPosition(int x, int y) {
-        if(selectedElement.isPresent() && this.dragging) {
+        if (selectedElement.isPresent() && this.dragging) {
             Element element = selectedElement.get();
             ElementPosition position = element.getPosition();
             position.setPosition(position.getX() + x - this.prevX, position.getY() + y - this.prevY);
@@ -135,19 +133,21 @@ public class GuiConfiguration extends GuiScreen {
         return false;
     }
 
+
     private void setupElementButtons(String type, GuiButton button) {
         int offset = this.height / 2 - 50;
         int offsetX = this.width / 2 - 105;
-        for(Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
-            if(type.equalsIgnoreCase("init")) {
+        for (Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
+            if (type.equalsIgnoreCase("init")) {
+                //TODO Elements overlapping maybe add scroll or change offset
                 this.buttonList.add(new GuiTransButton(SimpleHUD.getInstance().getElementManager().getElements().indexOf(element) + 1, offsetX, this.height - offset, 100, 20, element.getName()));
                 offset += 20;
-                if(offset > ((this.height / 2) / SimpleHUD.getInstance().getElementManager().getElements().size() * 20)) {
+                if (offset > ((this.height / 2) / SimpleHUD.getInstance().getElementManager().getElements().size() * 20)) {
                     offsetX = this.width / 2 + 5;
                     offset = this.height / 2 - 50;
                 }
-            } else if(type.equalsIgnoreCase("action")) {
-                if(button.id == SimpleHUD.getInstance().getElementManager().getElements().indexOf(element) + 1) {
+            } else if (type.equalsIgnoreCase("action")) {
+                if (button.id == SimpleHUD.getInstance().getElementManager().getElements().indexOf(element) + 1) {
                     Minecraft.getMinecraft().displayGuiScreen(element.elementScreen);
                 }
             }
@@ -169,8 +169,8 @@ public class GuiConfiguration extends GuiScreen {
             ElementPosition position = element.getPosition();
             int posX = position.x;
             int posY = position.y;
-            if(x >= posX && x <= posX + element.width) {
-                if(y >= posY && y <= posY + element.height) {
+            if (x >= posX && x <= posX + element.width) {
+                if (y >= posY && y <= posY + element.height) {
                     return element.isToggled();
                 }
             }

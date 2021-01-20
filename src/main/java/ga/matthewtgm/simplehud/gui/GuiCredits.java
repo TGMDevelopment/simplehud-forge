@@ -30,9 +30,8 @@ public class GuiCredits extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        switch(button.id) {
-            case 0:
-                Minecraft.getMinecraft().displayGuiScreen(this.getParent());
+        if (button.id == 0) {
+            Minecraft.getMinecraft().displayGuiScreen(this.getParent());
         }
         super.actionPerformed(button);
     }

@@ -14,15 +14,13 @@ import java.net.URL;
 
 public class VersionChecker {
 
+    public String verJSON;
+    public JSONObject verOBJ;
+    public Logger logger = LogManager.getLogger(Constants.NAME + " (" + this.getClass().getSimpleName() + ")");
     private String version;
     private String download_url;
     private boolean emergency;
-
     private BufferedReader reader;
-    public String verJSON;
-    public JSONObject verOBJ;
-
-    public Logger logger = LogManager.getLogger(Constants.NAME + " (" + this.getClass().getSimpleName() + ")");
 
     {
         try {
@@ -39,9 +37,9 @@ public class VersionChecker {
             JSONObject obj = (JSONObject) new JSONParser().parse(verJSON);
             version = String.valueOf(obj.get("latest"));
             return version;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return new String();
+            return "";
         }
     }
 
@@ -50,9 +48,9 @@ public class VersionChecker {
             JSONObject obj = (JSONObject) new JSONParser().parse(verJSON);
             download_url = String.valueOf(obj.get("download"));
             return download_url;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return new String();
+            return "";
         }
     }
 
@@ -62,13 +60,13 @@ public class VersionChecker {
 
             JSONObject obj = (JSONObject) new JSONParser().parse(verJSON);
 
-            if(isNull(obj.get("emergency_update_" + Constants.VER)))
+            if (isNull(obj.get("emergency_update_" + Constants.VER)))
                 emergency = false;
             else emergency = (boolean) obj.get("emergency_update_" + Constants.VER);
 
             return emergency;
 
-        } catch(Exception e) {
+        } catch (Exception e) {
 
             e.printStackTrace();
             return false;

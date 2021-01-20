@@ -4,8 +4,12 @@ import java.awt.*;
 
 public class ColourUtils {
 
-    private static ColourUtils INSTANCE = new ColourUtils();
+    private static ColourUtils INSTANCE;
+
     public static ColourUtils getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ColourUtils();
+        }
         return INSTANCE;
     }
 

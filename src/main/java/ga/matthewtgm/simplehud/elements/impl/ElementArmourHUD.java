@@ -14,6 +14,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import org.json.simple.JSONObject;
 import org.lwjgl.opengl.GL11;
 
@@ -46,7 +47,11 @@ public class ElementArmourHUD extends Element {
             @Override
             public void initGui() {
                 super.initGui();
-                this.buttonList.add(new GuiTransButton(100, this.width / 2 - 105, this.height / 2 + 110, 210, 20, "Durability type: " + ((ElementArmourHUD) this.element).getType().name().toLowerCase()));
+                this.buttonList.remove(this.showBrackets);
+                this.buttonList.remove(this.showPrefix);
+                this.buttonList.remove(this.chromaToggle);
+                this.buttonList.add(chromaToggle = new GuiTransButton(14, this.width / 2 - 50, this.height / 2 + 80, 100, 20, "Chroma: " + (this.element.isChroma() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+                this.buttonList.add(new GuiTransButton(100, this.width / 2 + 5, this.height / 2 - 100, 100, 20, "Text Type: " + ((ElementArmourHUD) this.element).getType().name().toLowerCase()));
             }
 
             @Override

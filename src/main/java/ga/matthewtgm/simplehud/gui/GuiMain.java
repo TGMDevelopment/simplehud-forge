@@ -28,9 +28,9 @@ public class GuiMain extends GuiScreen {
         this.buttonList.add(new GuiTransButton(0, this.width / 2 - 50, this.height - 20, 100, 20, "Close"));
         this.buttonList.add(new GuiTransButton(1, this.width - 80, 0, 80, 20, "HUD Editor"));
         this.buttonList.add(new GuiTransButton(2, this.width / 2 - 50, this.height / 2 - 60, 100, 20, "Toggle: " + (SimpleHUD.getInstance().isToggled() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-        this.buttonList.add(new GuiTransButton(3, this.width / 2 - 50, this.height / 2 - 40, 100, 20, "Credits"));
-        this.buttonList.add(new GuiTransButton(4, this.width / 2 - 50, this.height / 2 - 20, 100, 20, "Pause button: " + (GuiListener.getInstance().mustAddPauseButton() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-        this.buttonList.add(new GuiTransButton(5, this.width / 2 - 50, this.height / 2, 100, 20, "Show in chat: " + (SimpleHUD.getInstance().getElementManager().isShowInChat() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+        this.buttonList.add(new GuiTransButton(3, this.width / 2 - 50, this.height / 2, 100, 20, "Credits"));
+        this.buttonList.add(new GuiTransButton(4, this.width / 2 - 50, this.height / 2 - 40, 100, 20, "Pause button: " + (GuiListener.getInstance().mustAddPauseButton() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+        this.buttonList.add(new GuiTransButton(5, this.width / 2 - 50, this.height / 2 - 20, 100, 20, "Show in chat: " + (SimpleHUD.getInstance().getElementManager().isShowInChat() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
 
         this.buttonList.add(patreon = new GuiTransImageButton(100, 10, this.height - 30, 30, 30, new ResourceLocation("simplehud", "textures/patreon.png")));
         this.buttonList.add(youtube = new GuiTransImageButton(101, 40, this.height - 30, 30, 30, new ResourceLocation("simplehud", "textures/youtube.png")));

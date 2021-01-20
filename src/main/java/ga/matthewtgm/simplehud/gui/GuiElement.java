@@ -29,23 +29,27 @@ public abstract class GuiElement extends GuiScreen {
         this.element = element;
     }
 
-    private GuiSlider scaleSlider;
+    protected GuiButton showBrackets;
+    protected GuiButton showPrefix;
+    protected GuiButton chromaToggle;
 
-    private GuiSlider rSlider;
-    private GuiSlider gSlider;
-    private GuiSlider bSlider;
+    protected GuiSlider scaleSlider;
 
-    private GuiSlider bgRSlider;
-    private GuiSlider bgGSlider;
-    private GuiSlider bgBSlider;
-    private GuiSlider bgASlider;
+    protected GuiSlider rSlider;
+    protected GuiSlider gSlider;
+    protected GuiSlider bSlider;
+
+    protected GuiSlider bgRSlider;
+    protected GuiSlider bgGSlider;
+    protected GuiSlider bgBSlider;
+    protected GuiSlider bgASlider;
 
 
     @Override
     public void initGui() {
         this.buttonList.add(new GuiTransButton(0, this.width / 2 - 50, this.height - 20, 100, 20, "Save and go back"));
         this.buttonList.add(new GuiTransButton(1, this.width / 2 - 105, this.height / 2 - 100, 100, 20, "Toggle: " + (this.element.isToggled() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-        this.buttonList.add(new GuiTransButton(2, this.width / 2 + 5, this.height / 2 - 100, 100, 20,"Show Brackets: " + (this.element.shouldRenderBrackets() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+        this.buttonList.add(showBrackets = new GuiTransButton(2, this.width / 2 + 5, this.height / 2 - 100, 100, 20,"Show Brackets: " + (this.element.shouldRenderBrackets() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
         this.buttonList.add(new GuiTransButton(3, this.width / 2 - 105, this.height / 2 - 70, 100, 20, "Text Shadow: " + (this.element.getTextShadow() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
         this.buttonList.add(scaleSlider = new GuiTransSlider(4, this.width / 2 + 5, this.height / 2 - 70, 100, 20, "Scale: ", "", 1, 5, this.element.getPosition().getScale(), true, true));
         this.buttonList.add(rSlider = new GuiTransSlider(5, this.width / 2 - 105, this.height / 2 - 40, 100, 20, "Red: ", "", 1, 255, this.element.colour.getR(), false, true));
@@ -56,8 +60,8 @@ public abstract class GuiElement extends GuiScreen {
         this.buttonList.add(bgGSlider = new GuiTransSlider(10, this.width / 2 + 5, this.height / 2 + 20, 100, 20, "BG Green: ", "", 1, 255, this.element.backgroundColor.getG(), false, true));
         this.buttonList.add(bgBSlider = new GuiTransSlider(11, this.width / 2 - 105, this.height / 2 + 50, 100, 20, "BG Blue: ", "", 1, 255, this.element.backgroundColor.getB(), false, true));
         this.buttonList.add(bgASlider = new GuiTransSlider(12, this.width / 2 + 5, this.height / 2 + 50, 100, 20, "BG Alpha: ", "", 1, 255, this.element.backgroundColor.getA(), false, true));
-        this.buttonList.add(new GuiTransButton(13, this.width / 2 - 105, this.height / 2 + 80, 100, 20, "Show Prefix: " + (this.element.shouldShowPrefix() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-        this.buttonList.add(new GuiTransButton(14, this.width / 2 + 5, this.height / 2 + 80, 100, 20, "Chroma: " + (this.element.isChroma() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+        this.buttonList.add(showPrefix = new GuiTransButton(13, this.width / 2 - 105, this.height / 2 + 80, 100, 20, "Show Prefix: " + (this.element.shouldShowPrefix() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+        this.buttonList.add(chromaToggle = new GuiTransButton(14, this.width / 2 + 5, this.height / 2 + 80, 100, 20, "Chroma: " + (this.element.isChroma() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
         super.initGui();
     }
 

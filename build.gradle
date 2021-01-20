@@ -14,7 +14,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-version = "1.7"
+version = "1.8"
 group= "ga.matthewtgm.simplehud"
 archivesBaseName = "SimpleHUD"
 
@@ -25,20 +25,23 @@ minecraft {
     runDir = "run"
 
     replace("@VER@": project.version)
-	
+
     mappings = "stable_20"
 }
 
 dependencies {
     compile('com.googlecode.json-simple:json-simple:1.1.1')
+    compile(files('libs/TGMLib-0.2.jar'))
+    provided(files('libs/modcore.jar'))
 }
 
 shadowJar {
     dependencies {
-        include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
+        include(dependency(files('libs/TGMLib-0.2.jar')))
     }
 
     exclude('dummyThing')
+    exclude('modcore.jar')
 
     classifier = "working"
 }
@@ -52,24 +55,26 @@ reobf {
 jar {
     manifest.attributes(
             'Main-Class': 'SimpleHUDInstaller',
-            'ModSide': 'CLIENT'
+            'ModSide': 'CLIENT',
+            'FMLCorePlugin': 'ga.matthewtgm.simplehud.forge.SimpleHUDLoadingPlugin',
+            'FMLCorePluginContainsFMLMod': true
     )
 }
 
 processResources
-{
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+        {
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
 
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
+            from(sourceSets.main.resources.srcDirs) {
+                include 'mcmod.info'
+
+                expand 'version':project.version, 'mcversion':project.minecraft.version
+            }
+
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }
 
 tasks.reobfJar.dependsOn(tasks.shadowJar)

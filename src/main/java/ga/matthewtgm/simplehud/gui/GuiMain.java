@@ -1,11 +1,10 @@
 package ga.matthewtgm.simplehud.gui;
 
-import ga.matthewtgm.common.gui.GuiTransImageButton;
+import ga.matthewtgm.lib.gui.GuiTransImageButton;
 import ga.matthewtgm.simplehud.SimpleHUD;
-import ga.matthewtgm.common.gui.GuiTransButton;
+import ga.matthewtgm.lib.gui.GuiTransButton;
 import ga.matthewtgm.simplehud.listener.GuiListener;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -29,8 +28,9 @@ public class GuiMain extends GuiScreen {
         this.buttonList.add(new GuiTransButton(0, this.width / 2 - 50, this.height - 20, 100, 20, "Close"));
         this.buttonList.add(new GuiTransButton(1, this.width - 80, 0, 80, 20, "HUD Editor"));
         this.buttonList.add(new GuiTransButton(2, this.width / 2 - 50, this.height / 2 - 60, 100, 20, "Toggle: " + (SimpleHUD.getInstance().isToggled() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-        this.buttonList.add(new GuiTransButton(3, this.width / 2 - 50, this.height / 2 - 40, 100, 20, "Credits"));
-        this.buttonList.add(new GuiTransButton(4, this.width / 2 - 50, this.height / 2 - 20, 100, 20, "Pause button: " + (GuiListener.getInstance().mustAddPauseButton() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+        this.buttonList.add(new GuiTransButton(3, this.width / 2 - 50, this.height / 2, 100, 20, "Credits"));
+        this.buttonList.add(new GuiTransButton(4, this.width / 2 - 50, this.height / 2 - 40, 100, 20, "Pause button: " + (GuiListener.getInstance().mustAddPauseButton() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
+        this.buttonList.add(new GuiTransButton(5, this.width / 2 - 50, this.height / 2 - 20, 100, 20, "Show in chat: " + (SimpleHUD.getInstance().getElementManager().isShowInChat() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
 
         this.buttonList.add(patreon = new GuiTransImageButton(100, 10, this.height - 30, 30, 30, new ResourceLocation("simplehud", "textures/patreon.png")));
         this.buttonList.add(youtube = new GuiTransImageButton(101, 40, this.height - 30, 30, 30, new ResourceLocation("simplehud", "textures/youtube.png")));
@@ -54,6 +54,7 @@ public class GuiMain extends GuiScreen {
 
                 mainConfigObj.put("full_toggle", SimpleHUD.getInstance().isToggled());
                 mainConfigObj.put("pause_button", GuiListener.getInstance().mustAddPauseButton());
+                mainConfigObj.put("show_in_chat", SimpleHUD.getInstance().getElementManager().isShowInChat());
                 SimpleHUD.getFileHandler().save("main", SimpleHUD.getFileHandler().modDir, mainConfigObj);
 
                 Minecraft.getMinecraft().displayGuiScreen(this);
@@ -66,6 +67,17 @@ public class GuiMain extends GuiScreen {
 
                 mainConfigObj.put("full_toggle", SimpleHUD.getInstance().isToggled());
                 mainConfigObj.put("pause_button", GuiListener.getInstance().mustAddPauseButton());
+                mainConfigObj.put("show_in_chat", SimpleHUD.getInstance().getElementManager().isShowInChat());
+                SimpleHUD.getFileHandler().save("main", SimpleHUD.getFileHandler().modDir, mainConfigObj);
+
+                Minecraft.getMinecraft().displayGuiScreen(this);
+                break;
+            case 5:
+                SimpleHUD.getInstance().getElementManager().setShowInChat(!SimpleHUD.getInstance().getElementManager().isShowInChat());
+
+                mainConfigObj.put("full_toggle", SimpleHUD.getInstance().isToggled());
+                mainConfigObj.put("pause_button", GuiListener.getInstance().mustAddPauseButton());
+                mainConfigObj.put("show_in_chat", SimpleHUD.getInstance().getElementManager().isShowInChat());
                 SimpleHUD.getFileHandler().save("main", SimpleHUD.getFileHandler().modDir, mainConfigObj);
 
                 Minecraft.getMinecraft().displayGuiScreen(this);
@@ -105,7 +117,6 @@ public class GuiMain extends GuiScreen {
         GlStateManager.scale(scale, scale, 0);
         drawCenteredString(this.fontRendererObj, EnumChatFormatting.LIGHT_PURPLE + "Simple" + EnumChatFormatting.DARK_PURPLE + "HUD", width / 2 / scale, 5 / scale + 10, -1);
         GlStateManager.popMatrix();
-        //Gui.drawRect(0, this.height - 30, this.width, this.height, new Color(0, 0, 0, 55).getRGB());
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

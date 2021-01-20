@@ -4,6 +4,7 @@ import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
 import ga.matthewtgm.simplehud.files.FileHandler;
+import ga.matthewtgm.simplehud.gui.GuiElement;
 import ga.matthewtgm.simplehud.gui.GuiConfiguration;
 import net.minecraft.client.gui.GuiTextField;
 import org.json.simple.JSONObject;
@@ -30,14 +31,15 @@ public class ElementSimpleText extends Element {
         else this.setText(String.valueOf(handler.load(this.getName(), handler.elementDir).get("text")));
         this.onSave(new JSONObject());
 
-        this.elementScreen = new ElementGUI(new GuiConfiguration(SimpleHUD.getInstance().configGui), this) {
+        this.elementScreen = new GuiElement(new GuiConfiguration(SimpleHUD.getInstance().configGui), this) {
 
             private GuiTextField inputField;
 
             @Override
             public void initGui() {
                 super.initGui();
-                this.inputField = new GuiTextField(9, this.fontRendererObj, 0, 180, 200, 20);
+                this.buttonList.remove(this.showPrefix);
+                this.inputField = new GuiTextField(100, this.fontRendererObj, this.width / 2 - 105, this.height / 2 + 80, 100, 20);
                 this.inputField.setEnableBackgroundDrawing(true);
                 this.inputField.setMaxStringLength(128);
                 this.inputField.setVisible(true);
@@ -72,7 +74,6 @@ public class ElementSimpleText extends Element {
 
     @Override
     public void onSetup() {
-
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load(this.getName(), SimpleHUD.getFileHandler().elementDir) == null;
         final FileHandler handler = SimpleHUD.getFileHandler();
 
@@ -86,7 +87,7 @@ public class ElementSimpleText extends Element {
     @Override
     public void onRendered(ElementPosition position) {
         this.setRenderedValue(this.getText());
-        this.height = 10 * this.getPosition().getScale();
+        this.height = Math.round(10 * this.getPosition().getScale());
         super.onRendered(position);
     }
 

@@ -16,7 +16,7 @@ public class ElementTime extends Element {
     @Override
     public void onRendered(ElementPosition position) {
         this.setRenderedValue(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-        this.height = 10 * this.getPosition().getScale();
+        this.height = Math.round(10 * this.getPosition().getScale());
         super.onRendered(position);
     }
 

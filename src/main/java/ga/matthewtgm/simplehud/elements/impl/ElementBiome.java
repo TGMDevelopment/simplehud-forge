@@ -13,7 +13,7 @@ public class ElementBiome extends Element {
     @Override
     public void onRendered(ElementPosition position) {
         this.setRenderedValue(this.mc.thePlayer.worldObj.getBiomeGenForCoords(this.mc.thePlayer.getPosition()).biomeName);
-        this.height = 10 * this.getPosition().getScale();
+        this.height = Math.round(10 * this.getPosition().getScale());
         super.onRendered(position);
     }
 

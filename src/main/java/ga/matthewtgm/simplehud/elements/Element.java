@@ -140,7 +140,7 @@ public class Element {
         GlStateManager.pushMatrix();
         GlStateManager.scale(this.getPosition().getScale(), this.getPosition().getScale(), 1);
         this.mc.fontRendererObj.drawString(this.getRenderedString(), position.getX() / position.getScale(), position.getY() / position.getScale(), this.chroma ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
-        this.width = (int) (this.mc.fontRendererObj.getStringWidth(this.getRenderedString()) * this.getPosition().getScale());
+        this.width = Math.round(this.mc.fontRendererObj.getStringWidth(this.getRenderedString()) * this.getPosition().getScale());
         GlStateManager.popMatrix();
     }
 

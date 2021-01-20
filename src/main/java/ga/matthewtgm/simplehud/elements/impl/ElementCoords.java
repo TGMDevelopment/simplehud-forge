@@ -13,7 +13,7 @@ public class ElementCoords extends Element {
     @Override
     public void onRendered(ElementPosition position) {
         this.setRenderedValue(Math.round(this.mc.thePlayer.posX) + ", " + Math.round(this.mc.thePlayer.posY) + ", " + Math.round(this.mc.thePlayer.posZ));
-        this.height = (int) (10 * this.getPosition().getScale());
+        this.height = Math.round(10 * this.getPosition().getScale());
         super.onRendered(position);
     }
 

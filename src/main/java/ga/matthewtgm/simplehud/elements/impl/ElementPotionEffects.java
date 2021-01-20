@@ -29,8 +29,8 @@ public class ElementPotionEffects extends Element {
         GlStateManager.pushMatrix();
         GlStateManager.scale(position.getScale(), position.getScale(), 1);
         this.drawPotions(position);
-        this.width = (int) (101 * position.getScale());
-        this.height = (int) (154 * position.getScale());
+        this.width = Math.round(101 * position.getScale());
+        this.height = Math.round(154 * position.getScale());
         GlStateManager.popMatrix();
     }
 

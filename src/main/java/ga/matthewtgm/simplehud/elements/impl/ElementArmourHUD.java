@@ -83,8 +83,8 @@ public class ElementArmourHUD extends Element {
             renderItemStack(position, item, mc.thePlayer.inventory.armorInventory[item]);
         }
         if(this.getType() == RenderType.NONE || this.getType() == RenderType.BARS) this.width = (int) (17 * position.getScale());
-        else this.width = (int) (64 * position.getScale());
-        this.height = (int) (64 * position.getScale());
+        else this.width = Math.round(64 * position.getScale());
+        this.height = Math.round(64 * position.getScale());
         GlStateManager.popMatrix();
     }
 

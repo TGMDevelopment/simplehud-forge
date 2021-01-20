@@ -14,7 +14,7 @@ public class ElementFPS extends Element {
     @Override
     public void onRendered(ElementPosition position) {
         this.setRenderedValue(String.valueOf(Minecraft.getDebugFPS()));
-        this.height = (int) (10 * this.getPosition().getScale());
+        this.height = Math.round(10 * this.getPosition().getScale());
         super.onRendered(position);
     }
 

@@ -66,4 +66,5 @@ public class ElementColour {
         this.setB(b);
         this.setA(a);
     }
+
 }

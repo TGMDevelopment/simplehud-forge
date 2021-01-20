@@ -4,6 +4,7 @@ import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.impl.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,8 +17,6 @@ public class ElementManager {
 
     private final List<Element> elements = new ArrayList<>();
 
-<<<<<<< Updated upstream
-=======
     private boolean showInChat;
 
     public boolean isShowInChat() {
@@ -28,7 +27,6 @@ public class ElementManager {
         this.showInChat = showInChat;
     }
 
->>>>>>> Stashed changes
     public void init() {
         this.getElements().add(new ElementBiome());
         this.getElements().add(new ElementCoords());
@@ -43,12 +41,7 @@ public class ElementManager {
         this.getElements().add(new ElementArmourHUD());
         this.getElements().add(new ElementPotionEffects());
         this.getElements().add(new ElementSimpleText());
-<<<<<<< Updated upstream
-        //this.getElements().add(new ElementComboDisplay());
-        //this.getElements().add(new ElementPackDisplay());
-=======
         this.getElements().add(new ElementPlayerView());
->>>>>>> Stashed changes
 
         MinecraftForge.EVENT_BUS.register(this);
         for (Element element : this.getElements()) {
@@ -61,12 +54,16 @@ public class ElementManager {
     protected void onGameOverlayRendered(RenderGameOverlayEvent.Post event) {
         if (event.type == RenderGameOverlayEvent.ElementType.ALL) {
             for (Element element : this.getElements()) {
-                if (SimpleHUD.getInstance().isToggled() && Minecraft.getMinecraft().currentScreen == null && element.isToggled() && Minecraft.getMinecraft().thePlayer != null)
+                if (SimpleHUD.getInstance().isToggled() && (Minecraft.getMinecraft().currentScreen == null || this.showInChat()) && element.isToggled() && Minecraft.getMinecraft().thePlayer != null)
                     element.onRendered(element.getPosition());
             }
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
         }
+    }
+
+    private boolean showInChat() {
+        return (this.isShowInChat() && Minecraft.getMinecraft().currentScreen instanceof GuiChat);
     }
 
     public <T extends Element> T getElement(Class<T> elementClass) {

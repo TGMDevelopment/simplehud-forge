@@ -2,28 +2,16 @@ package ga.matthewtgm.simplehud.elements;
 
 import ga.matthewtgm.simplehud.Constants;
 import ga.matthewtgm.simplehud.SimpleHUD;
-import ga.matthewtgm.simplehud.enums.Colour;
 import ga.matthewtgm.simplehud.files.FileHandler;
-import ga.matthewtgm.simplehud.gui.GuiConfiguration;
-<<<<<<< Updated upstream
-import ga.matthewtgm.common.gui.GuiTransButton;
-import ga.matthewtgm.common.gui.GuiTransSlider;
-=======
 import ga.matthewtgm.simplehud.gui.GuiElement;
+import ga.matthewtgm.simplehud.gui.GuiConfiguration;
 import ga.matthewtgm.simplehud.utils.ColourUtils;
->>>>>>> Stashed changes
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.fml.client.config.GuiSlider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
-
-import java.io.IOException;
 
 @SuppressWarnings("all")
 public class Element {
@@ -33,22 +21,18 @@ public class Element {
     //CONFIG
     private ElementPosition position;
     private boolean toggle;
-    public Colour colour;
+    public ElementColour colour;
     private boolean renderBrackets;
     private String renderedValue;
     private boolean textShadow;
     protected boolean background;
-    public Colour backgroundColor;
-    public boolean backgroundTransparent;
+    public ElementColour backgroundColor;
+    private boolean showPrefix;
+    private boolean chroma;
 
     //INDIVIDUAL ELEMENT VARIABLES
     public String prefix;
-<<<<<<< Updated upstream
-    public ElementGUI elementScreen = new ElementGUI(new GuiConfiguration(SimpleHUD.getInstance().configGui), this){};
-=======
-    public GuiElement elementScreen = new GuiElement(new GuiConfiguration(SimpleHUD.getInstance().configGui), this) {
-    };
->>>>>>> Stashed changes
+    public GuiElement elementScreen = new GuiElement(new GuiConfiguration(SimpleHUD.getInstance().configGui), this){};
 
     //REQUIRED FOR DRAGGABLE HUD
     public int width, height;
@@ -74,22 +58,19 @@ public class Element {
         else
             this.background = (boolean) ((JSONObject) handler.load(name, handler.elementDir).get("background")).get("toggle");
 
-        if (isConfigFileNull) this.backgroundTransparent = true;
-        else
-            this.backgroundTransparent = (boolean) ((JSONObject) handler.load(name, handler.elementDir).get("background")).get("transparent");
-
-        if (isConfigFileNull) this.backgroundColor = Colour.WHITE;
+        if (isConfigFileNull) this.backgroundColor = new ElementColour(255, 255, 255, 50);
         else {
-            String colourAsString = String.valueOf(((JSONObject) handler.load(name, SimpleHUD.getFileHandler().elementDir).get("background")).get("colour"));
-            this.colour = Colour.valueOf(colourAsString.toUpperCase().replaceAll(" ", "_"));
+            JSONObject colourObj = (JSONObject) ((JSONObject) handler.load(name, handler.elementDir).get("background")).get("colour");
+            this.backgroundColor = new ElementColour(
+                    Integer.parseInt(String.valueOf(colourObj.get("r"))),
+                    Integer.parseInt(String.valueOf(colourObj.get("g"))),
+                    Integer.parseInt(String.valueOf(colourObj.get("b"))),
+                    Integer.parseInt(String.valueOf(colourObj.get("a")))
+            );
         }
 
-<<<<<<< Updated upstream
-=======
         if (isConfigFileNull) this.chroma = false;
         else this.chroma = (boolean) handler.load(name, handler.elementDir).get("chroma");
-
->>>>>>> Stashed changes
         if (this.position == null) this.position = new ElementPosition(
                 isConfigFileNull ?
                         10 :
@@ -99,24 +80,25 @@ public class Element {
                         Integer.parseInt(String.valueOf(((JSONObject) handler.load(this.name, SimpleHUD.getFileHandler().elementDir).get("position")).get("y"))),
                 isConfigFileNull ?
                         1 :
-                        Integer.parseInt(String.valueOf(((JSONObject) handler.load(this.name, SimpleHUD.getFileHandler().elementDir).get("position")).get("scale"))));
+                        Math.round(Float.parseFloat(String.valueOf(((JSONObject) handler.load(this.name, SimpleHUD.getFileHandler().elementDir).get("position")).get("scale")))));
 
         try {
-            if (this.colour == null && isConfigFileNull) this.colour = Colour.WHITE;
+            if (this.colour == null && isConfigFileNull) this.colour = new ElementColour(255, 255, 255);
             else {
-                String colourAsString = String.valueOf(handler.load(name, SimpleHUD.getFileHandler().elementDir).get("colour"));
-                this.colour = Colour.valueOf(colourAsString.toUpperCase().replaceAll(" ", "_"));
+                JSONObject colourObj = (JSONObject) handler.load(name, handler.elementDir).get("colour");
+                this.colour = new ElementColour(
+                        Integer.parseInt(String.valueOf(colourObj.get("r"))),
+                        Integer.parseInt(String.valueOf(colourObj.get("g"))),
+                        Integer.parseInt(String.valueOf(colourObj.get("b")))
+                );
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-<<<<<<< Updated upstream
-=======
         if (isConfigFileNull) this.showPrefix = true;
         else this.showPrefix = (boolean) handler.load(name, handler.elementDir).get("show_prefix");
-
->>>>>>> Stashed changes
+        
         this.setup();
     }
 
@@ -146,7 +128,7 @@ public class Element {
     public String getRenderedString() {
         String value = new String();
         if (this.shouldRenderBrackets()) value += "[";
-        if (this.prefix != null)
+        if (this.prefix != null && this.showPrefix)
             value += this.prefix + ": ";
         value += this.getRenderedValue();
         if (this.shouldRenderBrackets()) value += "]";
@@ -155,11 +137,11 @@ public class Element {
 
     public void onRendered(ElementPosition position) {
         if (this.background && this.backgroundColor != null)
-            Gui.drawRect(this.getPosition().getX() - 2, position.getY() - 2, position.getX() + this.width, position.getY() + this.height, this.backgroundColor.setTransparency(backgroundTransparent ? 35 : 255));
+            Gui.drawRect(position.getX() - 2, position.getY() - 2, position.getX() + this.width, position.getY() + this.height, this.backgroundColor.getRGBA());
         GlStateManager.pushMatrix();
         GlStateManager.scale(this.getPosition().getScale(), this.getPosition().getScale(), 1);
-        this.mc.fontRendererObj.drawString(this.getRenderedString(), position.getX() / position.getScale(), position.getY() / position.getScale(), this.colour.getHex(), this.getTextShadow());
-        this.width = (int) (this.mc.fontRendererObj.getStringWidth(this.getRenderedString()) * this.getPosition().getScale());
+        this.mc.fontRendererObj.drawString(this.getRenderedString(), position.getX() / position.getScale(), position.getY() / position.getScale(), this.chroma ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
+        this.width = Math.round(this.mc.fontRendererObj.getStringWidth(this.getRenderedString()) * this.getPosition().getScale());
         GlStateManager.popMatrix();
     }
 
@@ -170,28 +152,51 @@ public class Element {
         posObj.put("y", this.position.getY());
         posObj.put("scale", this.position.getScale());
         obj.put("position", posObj);
-        obj.put("colour", this.colour.getName());
+        final JSONObject colourObj = new JSONObject();
+        colourObj.put("r", this.colour.getR());
+        colourObj.put("g", this.colour.getG());
+        colourObj.put("b", this.colour.getB());
+        obj.put("colour", colourObj);
         obj.put("show_brackets", this.shouldRenderBrackets());
         obj.put("text_shadow", this.getTextShadow());
         final JSONObject backgroundObj = new JSONObject();
         backgroundObj.put("toggle", this.background);
-        backgroundObj.put("colour", this.backgroundColor == null ? Colour.WHITE.getName() : this.backgroundColor.getName());
-        backgroundObj.put("transparent", this.backgroundTransparent);
+        final JSONObject backgroundColourObj = new JSONObject();
+        backgroundColourObj.put("r", this.backgroundColor.getR());
+        backgroundColourObj.put("g", this.backgroundColor.getG());
+        backgroundColourObj.put("b", this.backgroundColor.getB());
+        backgroundColourObj.put("a", this.backgroundColor.getA());
+        backgroundObj.put("colour", backgroundColourObj);
         obj.put("background", backgroundObj);
+        obj.put("show_prefix", this.showPrefix);
+        obj.put("chroma", chroma);
         SimpleHUD.getFileHandler().save(this.getName(), SimpleHUD.getFileHandler().elementDir, obj);
     }
 
     public void onLoad() {
         final JSONObject obj = SimpleHUD.getFileHandler().load(this.getName(), SimpleHUD.getFileHandler().elementDir);
+        final JSONObject colourObj = (JSONObject) obj.get("colour");
         final JSONObject posObj = (JSONObject) obj.get("position");
+        final JSONObject backgroundObj = (JSONObject) obj.get("background");
+        final JSONObject backgroundColourObj = (JSONObject) backgroundObj.get("colour");
         this.toggle = (boolean) obj.get("toggle");
         this.position.setPosition(Integer.parseInt(String.valueOf(posObj.get("x"))), Integer.parseInt(String.valueOf(posObj.get("y"))));
-        this.colour = Colour.valueOf(String.valueOf(obj.get("colour")).toUpperCase().replaceAll(" ", "_"));
+        this.colour = new ElementColour(
+                Integer.parseInt(String.valueOf(colourObj.get("r"))),
+                Integer.parseInt(String.valueOf(colourObj.get("g"))),
+                Integer.parseInt(String.valueOf(colourObj.get("b")))
+        );
         this.renderBrackets = (boolean) obj.get("show_brackets");
         this.textShadow = (boolean) obj.get("text_shadow");
         this.background = (boolean) ((JSONObject) obj.get("background")).get("toggle");
-        this.backgroundColor = Colour.valueOf(String.valueOf(((JSONObject) obj.get("background")).get("colour")).toUpperCase().replaceAll(" ", "_"));
-        this.backgroundTransparent = (boolean) ((JSONObject) obj.get("background")).get("transparent");
+        this.backgroundColor = new ElementColour(
+                Integer.parseInt(String.valueOf(backgroundColourObj.get("r"))),
+                Integer.parseInt(String.valueOf(backgroundColourObj.get("g"))),
+                Integer.parseInt(String.valueOf(backgroundColourObj.get("b"))),
+                Integer.parseInt(String.valueOf(backgroundColourObj.get("a")))
+        );
+        this.showPrefix = (boolean) obj.get("show_prefix");
+        this.chroma = (boolean) obj.get("chroma");
     }
 
     public String getName() {
@@ -222,6 +227,14 @@ public class Element {
         return background;
     }
 
+    public boolean shouldShowPrefix() {
+        return showPrefix;
+    }
+
+    public boolean isChroma() {
+        return chroma;
+    }
+
     protected void setRenderedValue(String renderedValue) {
         this.renderedValue = renderedValue;
     }
@@ -242,94 +255,12 @@ public class Element {
         this.background = background;
     }
 
-    public abstract static class ElementGUI extends GuiScreen {
+    public void setShowPrefix(boolean showPrefix) {
+        this.showPrefix = showPrefix;
+    }
 
-        protected final Element element;
-        protected final GuiScreen parent;
-
-        public ElementGUI(GuiScreen parent, Element element) {
-            this.parent = parent;
-            this.element = element;
-        }
-
-        public ElementGUI(Element element) {
-            this.parent = null;
-            this.element = element;
-        }
-
-        private GuiSlider scaleSlider;
-
-        @Override
-        public void initGui() {
-            this.buttonList.add(new GuiTransButton(0, 0, 0, "Back"));
-            this.buttonList.add(new GuiTransButton(1, 0, 20, "Toggle: " + (this.element.isToggled() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-            this.buttonList.add(new GuiTransButton(2, 0, 40, "Show Brackets: " + (this.element.shouldRenderBrackets() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-            this.buttonList.add(new GuiTransButton(3, 0, 60, "Colour: " + this.element.colour.getAsMCColour(this.element.colour) + this.element.colour.getName().toLowerCase()));
-            this.buttonList.add(new GuiTransButton(4, 0, 80, "Text Shadow: " + (this.element.getTextShadow() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-            this.buttonList.add(scaleSlider = new GuiTransSlider(5, 0, 100, 200, 20, "Scale: ", "", 1, 5, this.element.getPosition().getScale(), false, true));
-            this.buttonList.add(new GuiTransButton(6, 0, 120, "Background: " + (this.element.background ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-            this.buttonList.add(new GuiTransButton(7, 0, 140, "Background Colour: " + this.element.backgroundColor.getAsMCColour(this.element.backgroundColor) + this.element.backgroundColor.getName().toLowerCase()));
-            this.buttonList.add(new GuiTransButton(8, 0, 160, "Background Transparent: " + (this.element.backgroundTransparent ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
-            super.initGui();
-        }
-
-        @Override
-        protected void actionPerformed(GuiButton button) throws IOException {
-            if (button.id == 0) Minecraft.getMinecraft().displayGuiScreen(this.parent);
-            if (button.id == 1) {
-                this.element.setToggle(!this.element.isToggled());
-                Minecraft.getMinecraft().displayGuiScreen(this);
-            }
-            if (button.id == 2) {
-                this.element.setRenderBrackets(!this.element.shouldRenderBrackets());
-                Minecraft.getMinecraft().displayGuiScreen(this);
-            }
-            if (button.id == 3) {
-                this.element.colour = this.element.colour.getNextColor(this.element.colour);
-                Minecraft.getMinecraft().displayGuiScreen(this);
-            }
-            if (button.id == 4) {
-                this.element.setTextShadow(!this.element.getTextShadow());
-                Minecraft.getMinecraft().displayGuiScreen(this);
-            }
-            if (button.id == 5) {
-                this.element.getPosition().setScale(this.scaleSlider.getValueInt());
-            }
-            if (button.id == 6) {
-                this.element.setBackgroundToggle(!this.element.background);
-                Minecraft.getMinecraft().displayGuiScreen(this);
-            }
-            if (button.id == 7) {
-                this.element.backgroundColor = this.element.backgroundColor.getNextColor(this.element.backgroundColor);
-                Minecraft.getMinecraft().displayGuiScreen(this);
-            }
-            if (button.id == 8) {
-                this.element.backgroundTransparent = !this.element.backgroundTransparent;
-                Minecraft.getMinecraft().displayGuiScreen(this);
-            }
-            super.actionPerformed(button);
-        }
-
-        @Override
-        public boolean doesGuiPauseGame() {
-            return false;
-        }
-
-        @Override
-        public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-            super.drawDefaultBackground();
-            this.element.onRendered(new ElementPosition(this.width / 2 / this.element.getPosition().getScale(), 0, this.element.getPosition().getScale()));
-            super.drawScreen(mouseX, mouseY, partialTicks);
-        }
-
-        @Override
-        public void onGuiClosed() {
-            for (Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
-                element.onSave(new JSONObject());
-                element.onLoad();
-            }
-        }
-
+    public void setChroma(boolean chroma) {
+        this.chroma = chroma;
     }
 
 }

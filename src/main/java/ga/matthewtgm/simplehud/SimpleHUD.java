@@ -1,27 +1,20 @@
 package ga.matthewtgm.simplehud;
 
-<<<<<<< Updated upstream
-=======
 import club.sk1er.mods.core.ModCoreInstaller;
 import ga.matthewtgm.lib.util.guiscreens.GuiAppendingManager;
 import ga.matthewtgm.lib.util.keybindings.KeyBind;
 import ga.matthewtgm.lib.util.keybindings.KeyBindManager;
->>>>>>> Stashed changes
 import ga.matthewtgm.simplehud.command.SimpleHUDCommand;
 import ga.matthewtgm.simplehud.elements.ElementManager;
+import ga.matthewtgm.simplehud.exceptions.OutOfDateException;
 import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.GuiMain;
 import ga.matthewtgm.simplehud.listener.GuiListener;
 import ga.matthewtgm.simplehud.listener.PlayerListener;
 import ga.matthewtgm.simplehud.other.VersionChecker;
-<<<<<<< Updated upstream
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.settings.KeyBinding;
-=======
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
->>>>>>> Stashed changes
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -30,6 +23,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.json.simple.JSONObject;
 import org.lwjgl.input.Keyboard;
+
+import java.util.Collections;
 
 @Mod(name = Constants.NAME, version = Constants.VER, modid = Constants.MODID, clientSideOnly = true)
 public class SimpleHUD {
@@ -47,21 +42,6 @@ public class SimpleHUD {
         return INSTANCE;
     }
 
-<<<<<<< Updated upstream
-    private static final FileHandler FILE_HANDLER = new FileHandler();
-    private static final ElementManager ELEMENT_MANAGER = new ElementManager();
-    private static final VersionChecker VERSION_CHECKER = new VersionChecker();
-
-    private boolean toggled = true;
-    private boolean latestVersion;
-
-    public final KeyBinding openGuiKeyBinding = new KeyBinding("Open GUI", Keyboard.KEY_N, "SimpleHUD");
-    public GuiScreen configGui;
-
-    @Mod.EventHandler
-    protected void onPreInit(FMLPreInitializationEvent event) {
-        if(VERSION_CHECKER.getEmergencyStatus()) throw new RuntimeException("PLEASE UPDATE TO THE NEW VERSION OF " + Constants.NAME + "\nTHIS IS AN EMERGENCY!");
-=======
     public static FileHandler getFileHandler() {
         return FILE_HANDLER;
     }
@@ -70,35 +50,40 @@ public class SimpleHUD {
     protected void onPreInit(FMLPreInitializationEvent event) {
         if (VERSION_CHECKER.getEmergencyStatus())
             throw new OutOfDateException("PLEASE UPDATE TO THE NEW VERSION OF " + Constants.NAME + "\nTHIS IS AN EMERGENCY!");
->>>>>>> Stashed changes
         this.latestVersion = VERSION_CHECKER.getVersion().equals(Constants.VER);
 
-        final ModMetadata modMetadata = event.getModMetadata();
-        modMetadata.description = "Displays simple information on your screen in a neat little overlay." +
-                "\n\nAbout:" +
-                "\nSimpleHUD was originally a private mod for MatthewTGM and friends, now being one of his biggest mods yet." +
-                "\n\nFeatures:" +
-                "\nFPS, CPS, Coordinates, Biome, Combo Display, ArmourHUD, PotionEffectsHUD, Day, Reach Display, Ping, Memory Usage, Time, SimpleText, Server Address" +
-                "\n\nExtras:" +
-                "\nSimpleHUD's \"SimpleText\" element is derived from a mod that Matthew was originally planning to make seperately.";
+        ModCoreInstaller.initializeModCore(Minecraft.getMinecraft().mcDataDir);
+
+        this.setupModMetadata(event);
 
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load("main", SimpleHUD.getFileHandler().modDir) == null;
-        if (!isConfigFileNull)
+        if (!isConfigFileNull) {
             this.toggled = (boolean) getFileHandler().load("main", getFileHandler().modDir).get("full_toggle");
+            GuiListener.getInstance().setAddPauseButton((boolean) getFileHandler().load("main", getFileHandler().modDir).get("pause_button"));
+            this.getElementManager().setShowInChat((boolean) getFileHandler().load("main", getFileHandler().modDir).get("show_in_chat"));
+        }
         final JSONObject object = new JSONObject();
         object.put("full_toggle", this.toggled);
         object.put("pause_button", GuiListener.getInstance().mustAddPauseButton());
+        object.put("show_in_chat", this.getElementManager().isShowInChat());
         getFileHandler().save("main", getFileHandler().modDir, object);
     }
 
     @Mod.EventHandler
     protected void onInit(FMLInitializationEvent event) {
+        GuiAppendingManager.getInstance().init();
         this.configGui = new GuiMain();
         getFileHandler().init();
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(GuiListener.getInstance());
         MinecraftForge.EVENT_BUS.register(new PlayerListener());
-        ClientRegistry.registerKeyBinding(openGuiKeyBinding);
+        KeyBindManager.getInstance().addKeyBind(new KeyBind("Open GUI", Keyboard.KEY_N) {
+            @Override
+            public void onPressed() {
+                Minecraft.getMinecraft().displayGuiScreen(SimpleHUD.getInstance().configGui);
+            }
+        });
+        KeyBindManager.getInstance().init(Constants.NAME);
         ClientCommandHandler.instance.registerCommand(new SimpleHUDCommand());
         this.getElementManager().init();
     }
@@ -123,9 +108,6 @@ public class SimpleHUD {
         return latestVersion;
     }
 
-<<<<<<< Updated upstream
-}
-=======
     /**
      * Adding this just to make things look less cluttered :D
      *
@@ -154,4 +136,3 @@ public class SimpleHUD {
     }
 
 }
->>>>>>> Stashed changes

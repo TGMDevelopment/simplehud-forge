@@ -13,7 +13,7 @@ public class ElementServerAddress extends Element {
     @Override
     public void onRendered(ElementPosition position) {
         this.setRenderedValue(mc.getCurrentServerData() == null ? "Singleplayer" : mc.getCurrentServerData().serverIP);
-        this.height = 10;
+        this.height = Math.round(10 * this.getPosition().getScale());
         super.onRendered(position);
     }
 

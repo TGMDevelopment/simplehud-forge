@@ -38,7 +38,7 @@ public class ElementReachDisplay extends Element {
         if (System.currentTimeMillis() - lastHit > 3000)
             reach = null;
         this.setRenderedValue(reach == null ? "none" : getReachFormatted() + " Blocks");
-        this.height = 10 * this.getPosition().getScale();
+        this.height = Math.round(10 * this.getPosition().getScale());
         super.onRendered(position);
     }
 

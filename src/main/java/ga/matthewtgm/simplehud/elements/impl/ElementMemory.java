@@ -14,7 +14,7 @@ public class ElementMemory extends Element {
     @Override
     public void onRendered(ElementPosition position) {
         this.setRenderedValue(this.bytesToMb(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) + "/" + this.bytesToMb(Runtime.getRuntime().maxMemory()) + "MB");
-        this.height = 10 * this.getPosition().getScale();
+        this.height = Math.round(10 * this.getPosition().getScale());
         super.onRendered(position);
     }
 

@@ -124,11 +124,9 @@ public class GuiMain extends GuiScreen {
         if((mouseX >= patreon.xPosition && mouseX <= patreon.width + patreon.xPosition) && (mouseY >= patreon.yPosition && mouseY <= patreon.height + patreon.yPosition)) {
             this.fontRendererObj.drawString("Patreon", patreon.xPosition - 3, patreon.yPosition - 10, -1);
         }
-
         if((mouseX >= youtube.xPosition && mouseX <= youtube.width + youtube.xPosition) && (mouseY >= youtube.yPosition && mouseY <= youtube.height + youtube.yPosition)) {
             this.fontRendererObj.drawString("YouTube", youtube.xPosition - 4, youtube.yPosition - 10, -1);
         }
-
         if((mouseX >= discord.xPosition && mouseX <= discord.width + discord.xPosition) && (mouseY >= discord.yPosition && mouseY <= discord.height + discord.yPosition)) {
             this.fontRendererObj.drawString("Discord", discord.xPosition - 3, discord.yPosition - 10, -1);
         }

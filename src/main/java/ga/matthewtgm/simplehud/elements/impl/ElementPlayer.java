@@ -27,10 +27,6 @@ public class ElementPlayer extends Element {
                 this.buttonList.remove(this.rSlider);
                 this.buttonList.remove(this.gSlider);
                 this.buttonList.remove(this.bSlider);
-                this.buttonList.remove(this.bgRSlider);
-                this.buttonList.remove(this.bgGSlider);
-                this.buttonList.remove(this.bgBSlider);
-                this.buttonList.remove(this.bgASlider);
             }
 
         };
@@ -43,6 +39,5 @@ public class ElementPlayer extends Element {
             GuiInventory.drawEntityOnScreen(position.x, position.y, (int) position.scale * 5, mc.thePlayer.rotationYaw,
                 mc.thePlayer.rotationPitch, mc.thePlayer);
         }
-        super.onRendered(position);
     }
 }

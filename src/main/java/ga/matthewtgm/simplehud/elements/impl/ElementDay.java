@@ -7,7 +7,7 @@ public class ElementDay extends Element {
 
     public ElementDay() {
         super("Day");
-        if(this.prefix == null) this.prefix = "Day";
+        if (this.prefix == null) this.prefix = "Day";
     }
 
     @Override

@@ -14,17 +14,24 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.github.johnrengelman.shadow'
 
+<<<<<<< Updated upstream
 version = "1.7"
 group= "ga.matthewtgm.simplehud"
+=======
+version = "1.8.1"
+group = "ga.matthewtgm.simplehud"
+>>>>>>> Stashed changes
 archivesBaseName = "SimpleHUD"
 
 sourceCompatibility = targetCompatibility = 1.8
 
+sourceSets { main { output.resourcesDir = output.classesDir } }
+
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
-
     replace("@VER@": project.version)
+<<<<<<< Updated upstream
 	
     mappings = "stable_20"
 }
@@ -38,6 +45,18 @@ shadowJar {
         include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
     }
 
+=======
+    mappings = "stable_22"
+}
+
+dependencies {
+    compile(files('libs/TGMLib-0.2.jar'))
+    provided(files('libs/modcore.jar'))
+}
+
+shadowJar {
+    minimize()
+>>>>>>> Stashed changes
     exclude('dummyThing')
 
     classifier = "working"
@@ -50,6 +69,8 @@ reobf {
 }
 
 jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     manifest.attributes(
             'Main-Class': 'SimpleHUDInstaller',
             'ModSide': 'CLIENT'
@@ -57,6 +78,7 @@ jar {
 }
 
 processResources
+<<<<<<< Updated upstream
 {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
@@ -71,5 +93,21 @@ processResources
         exclude 'mcmod.info'
     }
 }
+=======
+        {
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
+
+            from(sourceSets.main.resources.srcDirs) {
+                include 'mcmod.info'
+
+                expand 'version': project.version, 'mcversion': project.minecraft.version
+            }
+
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }
+>>>>>>> Stashed changes
 
 tasks.reobfJar.dependsOn(tasks.shadowJar)

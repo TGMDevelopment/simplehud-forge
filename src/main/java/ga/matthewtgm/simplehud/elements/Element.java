@@ -5,8 +5,13 @@ import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.enums.Colour;
 import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.GuiConfiguration;
+<<<<<<< Updated upstream
 import ga.matthewtgm.common.gui.GuiTransButton;
 import ga.matthewtgm.common.gui.GuiTransSlider;
+=======
+import ga.matthewtgm.simplehud.gui.GuiElement;
+import ga.matthewtgm.simplehud.utils.ColourUtils;
+>>>>>>> Stashed changes
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -38,7 +43,12 @@ public class Element {
 
     //INDIVIDUAL ELEMENT VARIABLES
     public String prefix;
+<<<<<<< Updated upstream
     public ElementGUI elementScreen = new ElementGUI(new GuiConfiguration(SimpleHUD.getInstance().configGui), this){};
+=======
+    public GuiElement elementScreen = new GuiElement(new GuiConfiguration(SimpleHUD.getInstance().configGui), this) {
+    };
+>>>>>>> Stashed changes
 
     //REQUIRED FOR DRAGGABLE HUD
     public int width, height;
@@ -74,6 +84,12 @@ public class Element {
             this.colour = Colour.valueOf(colourAsString.toUpperCase().replaceAll(" ", "_"));
         }
 
+<<<<<<< Updated upstream
+=======
+        if (isConfigFileNull) this.chroma = false;
+        else this.chroma = (boolean) handler.load(name, handler.elementDir).get("chroma");
+
+>>>>>>> Stashed changes
         if (this.position == null) this.position = new ElementPosition(
                 isConfigFileNull ?
                         10 :
@@ -95,6 +111,12 @@ public class Element {
             e.printStackTrace();
         }
 
+<<<<<<< Updated upstream
+=======
+        if (isConfigFileNull) this.showPrefix = true;
+        else this.showPrefix = (boolean) handler.load(name, handler.elementDir).get("show_prefix");
+
+>>>>>>> Stashed changes
         this.setup();
     }
 
@@ -115,9 +137,11 @@ public class Element {
         }
     }
 
-    public void onEnabled() {}
+    public void onEnabled() {
+    }
 
-    public void onDisabled() {}
+    public void onDisabled() {
+    }
 
     public String getRenderedString() {
         String value = new String();

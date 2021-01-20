@@ -7,7 +7,7 @@ public class ElementBiome extends Element {
 
     public ElementBiome() {
         super("Biome");
-        if(this.prefix == null) this.prefix = "Biome";
+        if (this.prefix == null) this.prefix = "Biome";
     }
 
     @Override

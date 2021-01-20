@@ -8,7 +8,7 @@ public class ElementFPS extends Element {
 
     public ElementFPS() {
         super("FPS");
-        if(this.prefix == null) this.prefix = "FPS";
+        if (this.prefix == null) this.prefix = "FPS";
     }
 
     @Override

@@ -7,7 +7,7 @@ public class ElementServerAddress extends Element {
 
     public ElementServerAddress() {
         super("Server Address");
-        if(this.prefix == null) this.prefix = "Server";
+        if (this.prefix == null) this.prefix = "Server";
     }
 
     @Override

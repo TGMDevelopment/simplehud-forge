@@ -1,8 +1,14 @@
 package ga.matthewtgm.simplehud.gui;
 
+<<<<<<< Updated upstream
 import ga.matthewtgm.common.gui.GuiTransImageButton;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.common.gui.GuiTransButton;
+=======
+import ga.matthewtgm.lib.gui.GuiTransButton;
+import ga.matthewtgm.lib.gui.GuiTransImageButton;
+import ga.matthewtgm.simplehud.SimpleHUD;
+>>>>>>> Stashed changes
 import ga.matthewtgm.simplehud.listener.GuiListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -42,7 +48,7 @@ public class GuiMain extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         final JSONObject mainConfigObj = new JSONObject();
-        switch(button.id) {
+        switch (button.id) {
             case 0:
                 Minecraft.getMinecraft().displayGuiScreen(null);
                 break;
@@ -85,7 +91,7 @@ public class GuiMain extends GuiScreen {
     private URI URLtoURI(URL url) {
         try {
             return url.toURI();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -110,13 +116,13 @@ public class GuiMain extends GuiScreen {
     }
 
     private void renderHoverText(int mouseX, int mouseY) {
-        if((mouseX >= patreon.xPosition && mouseX <= patreon.width + patreon.xPosition) && (mouseY >= patreon.yPosition && mouseY <= patreon.height + patreon.yPosition)) {
+        if ((mouseX >= patreon.xPosition && mouseX <= patreon.width + patreon.xPosition) && (mouseY >= patreon.yPosition && mouseY <= patreon.height + patreon.yPosition)) {
             this.fontRendererObj.drawString("Patreon", patreon.xPosition - 3, patreon.yPosition - 10, -1);
         }
-        if((mouseX >= youtube.xPosition && mouseX <= youtube.width + youtube.xPosition) && (mouseY >= youtube.yPosition && mouseY <= youtube.height + youtube.yPosition)) {
+        if ((mouseX >= youtube.xPosition && mouseX <= youtube.width + youtube.xPosition) && (mouseY >= youtube.yPosition && mouseY <= youtube.height + youtube.yPosition)) {
             this.fontRendererObj.drawString("YouTube", youtube.xPosition - 4, youtube.yPosition - 10, -1);
         }
-        if((mouseX >= discord.xPosition && mouseX <= discord.width + discord.xPosition) && (mouseY >= discord.yPosition && mouseY <= discord.height + discord.yPosition)) {
+        if ((mouseX >= discord.xPosition && mouseX <= discord.width + discord.xPosition) && (mouseY >= discord.yPosition && mouseY <= discord.height + discord.yPosition)) {
             this.fontRendererObj.drawString("Discord", discord.xPosition - 3, discord.yPosition - 10, -1);
         }
     }

@@ -1,5 +1,12 @@
 package ga.matthewtgm.simplehud;
 
+<<<<<<< Updated upstream
+=======
+import club.sk1er.mods.core.ModCoreInstaller;
+import ga.matthewtgm.lib.util.guiscreens.GuiAppendingManager;
+import ga.matthewtgm.lib.util.keybindings.KeyBind;
+import ga.matthewtgm.lib.util.keybindings.KeyBindManager;
+>>>>>>> Stashed changes
 import ga.matthewtgm.simplehud.command.SimpleHUDCommand;
 import ga.matthewtgm.simplehud.elements.ElementManager;
 import ga.matthewtgm.simplehud.files.FileHandler;
@@ -7,11 +14,16 @@ import ga.matthewtgm.simplehud.gui.GuiMain;
 import ga.matthewtgm.simplehud.listener.GuiListener;
 import ga.matthewtgm.simplehud.listener.PlayerListener;
 import ga.matthewtgm.simplehud.other.VersionChecker;
+<<<<<<< Updated upstream
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
+=======
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.EnumChatFormatting;
+>>>>>>> Stashed changes
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -22,13 +34,20 @@ import org.lwjgl.input.Keyboard;
 @Mod(name = Constants.NAME, version = Constants.VER, modid = Constants.MODID, clientSideOnly = true)
 public class SimpleHUD {
 
+    private static final FileHandler FILE_HANDLER = new FileHandler();
+    private static final ElementManager ELEMENT_MANAGER = new ElementManager();
+    private static final VersionChecker VERSION_CHECKER = new VersionChecker();
     @Mod.Instance(Constants.MODID)
     protected static SimpleHUD INSTANCE = new SimpleHUD();
+    public GuiScreen configGui;
+    private boolean toggled = true;
+    private boolean latestVersion;
 
     public static SimpleHUD getInstance() {
         return INSTANCE;
     }
 
+<<<<<<< Updated upstream
     private static final FileHandler FILE_HANDLER = new FileHandler();
     private static final ElementManager ELEMENT_MANAGER = new ElementManager();
     private static final VersionChecker VERSION_CHECKER = new VersionChecker();
@@ -42,6 +61,16 @@ public class SimpleHUD {
     @Mod.EventHandler
     protected void onPreInit(FMLPreInitializationEvent event) {
         if(VERSION_CHECKER.getEmergencyStatus()) throw new RuntimeException("PLEASE UPDATE TO THE NEW VERSION OF " + Constants.NAME + "\nTHIS IS AN EMERGENCY!");
+=======
+    public static FileHandler getFileHandler() {
+        return FILE_HANDLER;
+    }
+
+    @Mod.EventHandler
+    protected void onPreInit(FMLPreInitializationEvent event) {
+        if (VERSION_CHECKER.getEmergencyStatus())
+            throw new OutOfDateException("PLEASE UPDATE TO THE NEW VERSION OF " + Constants.NAME + "\nTHIS IS AN EMERGENCY!");
+>>>>>>> Stashed changes
         this.latestVersion = VERSION_CHECKER.getVersion().equals(Constants.VER);
 
         final ModMetadata modMetadata = event.getModMetadata();
@@ -82,10 +111,6 @@ public class SimpleHUD {
         this.toggled = toggled;
     }
 
-    public static FileHandler getFileHandler() {
-        return FILE_HANDLER;
-    }
-
     public ElementManager getElementManager() {
         return ELEMENT_MANAGER;
     }
@@ -98,4 +123,35 @@ public class SimpleHUD {
         return latestVersion;
     }
 
+<<<<<<< Updated upstream
 }
+=======
+    /**
+     * Adding this just to make things look less cluttered :D
+     *
+     * @param event the pre init event, used to get the metadata of the mod.
+     */
+    private void setupModMetadata(FMLPreInitializationEvent event) {
+
+        final ModMetadata modMetadata = event.getModMetadata();
+
+        modMetadata.name = EnumChatFormatting.LIGHT_PURPLE + "Simple" + EnumChatFormatting.DARK_PURPLE + "HUD";
+
+        modMetadata.credits = "\n" + EnumChatFormatting.LIGHT_PURPLE + "Moulberry " + EnumChatFormatting.GRAY + "(Bug fixing)\n" +
+                EnumChatFormatting.YELLOW + "Wyvest " + EnumChatFormatting.GRAY + "(Combo Counter)\n" +
+                EnumChatFormatting.RED + "Shoddy " + EnumChatFormatting.GRAY + "(Mass bug reporting)\n";
+
+        modMetadata.authorList = Collections.singletonList(EnumChatFormatting.GOLD + "TGM" + EnumChatFormatting.AQUA + "Development\n");
+
+        modMetadata.description = EnumChatFormatting.GREEN + "Displays simple information on your screen in a neat little overlay.\n\n" +
+                EnumChatFormatting.YELLOW + "About:\n" +
+                EnumChatFormatting.GOLD + "SimpleHUD was originally a private mod for MatthewTGM and friends, now being one of his biggest mods yet.\n\n" +
+                EnumChatFormatting.YELLOW + "Features:\n" +
+                EnumChatFormatting.GOLD + "FPS, CPS, Coordinates, Biome, Combo Display, ArmourHUD, PotionEffectsHUD, Day, Reach Display, Ping, Memory Usage, Time, SimpleText, Server Address\n\n" +
+                EnumChatFormatting.YELLOW + "Extras:\n" +
+                EnumChatFormatting.GOLD + "SimpleHUD's \"SimpleText\" element is derived from a mod that Matthew was originally planning to make seperately.";
+
+    }
+
+}
+>>>>>>> Stashed changes

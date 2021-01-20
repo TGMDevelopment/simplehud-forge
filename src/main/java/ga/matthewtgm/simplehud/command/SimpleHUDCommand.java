@@ -3,15 +3,17 @@ package ga.matthewtgm.simplehud.command;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.utils.ChatUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
+<<<<<<< Updated upstream
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+=======
+import org.json.simple.JSONObject;
+>>>>>>> Stashed changes
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -62,6 +64,7 @@ public class SimpleHUDCommand extends CommandBase {
                 ChatUtils.getInstance().sendModMessage(EnumChatFormatting.GOLD + "Developer info copied to clipboard!");
                 return;
             }
+<<<<<<< Updated upstream
         } catch (Exception ignored) {}
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -70,6 +73,22 @@ public class SimpleHUDCommand extends CommandBase {
     protected void onTick(TickEvent.ClientTickEvent event) {
         Minecraft.getMinecraft().displayGuiScreen(SimpleHUD.getInstance().configGui);
         MinecraftForge.EVENT_BUS.unregister(this);
+=======
+            if (args[0].equalsIgnoreCase("saveall")) {
+                for (Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
+                    element.onSave(new JSONObject());
+                }
+                Notifications.INSTANCE.pushNotification("SimpleHUD - Elements", "Saved all elements!");
+                return;
+            }
+            if (args[0].equalsIgnoreCase("gc")) {
+                System.gc();
+                return;
+            }
+        } catch (Exception ignored) {
+        }
+        GuiScreenUtils.getInstance().open(SimpleHUD.getInstance().configGui);
+>>>>>>> Stashed changes
     }
 
 }

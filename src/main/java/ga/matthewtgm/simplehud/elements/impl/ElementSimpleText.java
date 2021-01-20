@@ -5,6 +5,7 @@ import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
 import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.GuiConfiguration;
+import ga.matthewtgm.simplehud.gui.GuiElement;
 import net.minecraft.client.gui.GuiTextField;
 import org.json.simple.JSONObject;
 
@@ -13,9 +14,11 @@ import java.io.IOException;
 public class ElementSimpleText extends Element {
 
     protected String text = "Placeholder text";
+
     public String getText() {
         return text;
     }
+
     public void setText(String text) {
         this.text = text;
     }
@@ -26,7 +29,7 @@ public class ElementSimpleText extends Element {
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load(this.getName(), SimpleHUD.getFileHandler().elementDir) == null;
         final FileHandler handler = SimpleHUD.getFileHandler();
 
-        if(isConfigFileNull) this.setText("");
+        if (isConfigFileNull) this.setText("");
         else this.setText(String.valueOf(handler.load(this.getName(), handler.elementDir).get("text")));
         this.onSave(new JSONObject());
 
@@ -76,7 +79,7 @@ public class ElementSimpleText extends Element {
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load(this.getName(), SimpleHUD.getFileHandler().elementDir) == null;
         final FileHandler handler = SimpleHUD.getFileHandler();
 
-        if(isConfigFileNull) this.setText("");
+        if (isConfigFileNull) this.setText("");
         else this.setText(String.valueOf(handler.load(this.getName(), handler.elementDir).get("text")));
         this.onSave(new JSONObject());
 

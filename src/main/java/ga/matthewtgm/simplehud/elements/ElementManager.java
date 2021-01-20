@@ -16,6 +16,19 @@ public class ElementManager {
 
     private final List<Element> elements = new ArrayList<>();
 
+<<<<<<< Updated upstream
+=======
+    private boolean showInChat;
+
+    public boolean isShowInChat() {
+        return showInChat;
+    }
+
+    public void setShowInChat(boolean showInChat) {
+        this.showInChat = showInChat;
+    }
+
+>>>>>>> Stashed changes
     public void init() {
         this.getElements().add(new ElementBiome());
         this.getElements().add(new ElementCoords());
@@ -30,19 +43,23 @@ public class ElementManager {
         this.getElements().add(new ElementArmourHUD());
         this.getElements().add(new ElementPotionEffects());
         this.getElements().add(new ElementSimpleText());
+<<<<<<< Updated upstream
         //this.getElements().add(new ElementComboDisplay());
         //this.getElements().add(new ElementPackDisplay());
+=======
+        this.getElements().add(new ElementPlayerView());
+>>>>>>> Stashed changes
 
         MinecraftForge.EVENT_BUS.register(this);
-        for(Element element : this.getElements()) {
-            if(element.isToggled()) element.onEnabled();
+        for (Element element : this.getElements()) {
+            if (element.isToggled()) element.onEnabled();
             else element.onDisabled();
         }
     }
 
     @SubscribeEvent
     protected void onGameOverlayRendered(RenderGameOverlayEvent.Post event) {
-        if(event.type == RenderGameOverlayEvent.ElementType.ALL) {
+        if (event.type == RenderGameOverlayEvent.ElementType.ALL) {
             for (Element element : this.getElements()) {
                 if (SimpleHUD.getInstance().isToggled() && Minecraft.getMinecraft().currentScreen == null && element.isToggled() && Minecraft.getMinecraft().thePlayer != null)
                     element.onRendered(element.getPosition());
@@ -53,8 +70,8 @@ public class ElementManager {
     }
 
     public <T extends Element> T getElement(Class<T> elementClass) {
-        for(Element element : this.getElements()) {
-            if(elementClass.isAssignableFrom(element.getClass())) {
+        for (Element element : this.getElements()) {
+            if (elementClass.isAssignableFrom(element.getClass())) {
                 return (T) element;
             }
         }

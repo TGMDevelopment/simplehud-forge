@@ -19,22 +19,22 @@ public class FileHandler {
 
     public void init() {
         this.directories.forEach(d -> {
-            if(!d.exists()) d.mkdirs();
+            if (!d.exists()) d.mkdirs();
         });
     }
 
     public void save(String name, File directory, JSONObject content) {
         BufferedWriter writer = null;
         try {
-            if(!directory.exists()) {
+            if (!directory.exists()) {
                 directory.mkdirs();
                 Thread.sleep(1000);
             }
             File file = new File(directory, name + ".json");
-            if(!file.exists()) file.createNewFile();
+            if (!file.exists()) file.createNewFile();
             writer = new BufferedWriter(new FileWriter(file));
             writer.write(content.toJSONString());
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             try {
                 writer.flush();
@@ -54,7 +54,7 @@ public class FileHandler {
 
     public JSONObject load(String name, File directory) {
         try {
-            if(!directory.exists()) {
+            if (!directory.exists()) {
                 directory.mkdirs();
                 Thread.sleep(1000);
             }
@@ -63,7 +63,7 @@ public class FileHandler {
             StringBuilder builder = new StringBuilder();
             reader.lines().forEach(builder::append);
             return (JSONObject) new JSONParser().parse(builder.toString());
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

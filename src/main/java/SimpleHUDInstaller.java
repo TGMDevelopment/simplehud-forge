@@ -73,38 +73,38 @@ public class SimpleHUDInstaller {
 
     private static void tryToInstall(File modFile, File modsFolder) {
         System.out.println("1");
-        if(modFile != null) {
+        if (modFile != null) {
             boolean isInASubFolder = false;
-            if(Pattern.compile("1\\.8\\.9[/\\\\]?$").matcher(modsFolder.getPath()).find()) {
+            if (Pattern.compile("1\\.8\\.9[/\\\\]?$").matcher(modsFolder.getPath()).find()) {
                 isInASubFolder = true;
             }
 
             System.out.println("2");
 
             boolean deletingOldFailed = false;
-            if(modsFolder.isDirectory()) {
+            if (modsFolder.isDirectory()) {
                 boolean hasFailed = findSimpleHUDAndDeleteOld(modsFolder.listFiles());
-                if(hasFailed) deletingOldFailed = true;
+                if (hasFailed) deletingOldFailed = true;
                 System.out.println("3");
             }
-            if(isInASubFolder) {
-                if(modsFolder.getParentFile().isDirectory()) {
+            if (isInASubFolder) {
+                if (modsFolder.getParentFile().isDirectory()) {
                     boolean hasFailed = findSimpleHUDAndDeleteOld(modsFolder.listFiles());
                     if (hasFailed) deletingOldFailed = true;
                     System.out.println("4");
                 }
             } else {
                 File sub = new File(modsFolder, "1.8.9");
-                if(sub.exists() && sub.isDirectory()) {
+                if (sub.exists() && sub.isDirectory()) {
                     boolean hasFailed = findSimpleHUDAndDeleteOld(modsFolder.listFiles());
-                    if(hasFailed) deletingOldFailed = true;
+                    if (hasFailed) deletingOldFailed = true;
                     System.out.println("5");
                 }
             }
 
-            if(deletingOldFailed) return;
+            if (deletingOldFailed) return;
             System.out.println("6");
-            if(modFile.isDirectory()) return;
+            if (modFile.isDirectory()) return;
             System.out.println("7");
 
             try {
@@ -144,7 +144,8 @@ public class SimpleHUDInstaller {
                         }
                     }
                     jarFile.close();
-                } catch (Exception ignored){}
+                } catch (Exception ignored) {
+                }
             }
         }
         return false;
@@ -161,14 +162,16 @@ public class SimpleHUDInstaller {
                     break;
                 }
             }
-        } catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
         return version;
     }
 
     private static void openModsFolder() {
         try {
             Desktop.getDesktop().open(getModsFolder());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
     private static File getModsFolder() {
@@ -235,7 +238,7 @@ public class SimpleHUDInstaller {
     private static File getThisAsFile() {
         try {
             return new File(SimpleHUDInstaller.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

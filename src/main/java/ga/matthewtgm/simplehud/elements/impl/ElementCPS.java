@@ -37,10 +37,10 @@ public class ElementCPS extends Element {
 
         final boolean pressed = Mouse.isButtonDown(0);
 
-        if(pressed != leftWasPressed) {
+        if (pressed != leftWasPressed) {
             leftWasPressed = pressed;
             leftLastPressed = System.currentTimeMillis();
-            if(pressed) {
+            if (pressed) {
                 this.leftClicks.add(leftLastPressed);
             }
         }
@@ -52,10 +52,10 @@ public class ElementCPS extends Element {
     private int getPlayerRightCPS() {
         final boolean pressed = Mouse.isButtonDown(1);
 
-        if(pressed != rightWasPressed) {
+        if (pressed != rightWasPressed) {
             rightWasPressed = pressed;
             rightLastPressed = System.currentTimeMillis();
-            if(pressed) {
+            if (pressed) {
                 this.rightClicks.add(rightLastPressed);
             }
         }

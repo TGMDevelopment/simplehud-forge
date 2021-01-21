@@ -14,7 +14,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-version = "1.8.1"
+version = "1.8.2"
 group = "ga.matthewtgm.simplehud"
 archivesBaseName = "SimpleHUD"
 
@@ -31,7 +31,7 @@ minecraft {
 }
 
 dependencies {
-    compile(files('libs/TGMLib-0.2.jar'))
+    compile(files('libs/TGMLib-0.3.jar'))
     provided(files('libs/modcore.jar'))
 }
 

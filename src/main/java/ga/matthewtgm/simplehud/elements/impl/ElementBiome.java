@@ -6,7 +6,7 @@ import ga.matthewtgm.simplehud.elements.ElementPosition;
 public class ElementBiome extends Element {
 
     public ElementBiome() {
-        super("Biome");
+        super("Biome", "General");
         if (this.prefix == null) this.prefix = "Biome";
     }
 

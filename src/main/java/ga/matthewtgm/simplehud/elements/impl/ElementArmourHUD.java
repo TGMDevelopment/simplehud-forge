@@ -6,7 +6,8 @@ import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
 import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.GuiConfiguration;
-import ga.matthewtgm.simplehud.gui.GuiElement;
+import ga.matthewtgm.simplehud.gui.GuiConfigurationCategories;
+import ga.matthewtgm.simplehud.gui.elements.GuiElement;
 import ga.matthewtgm.simplehud.utils.ColourUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -14,18 +15,22 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.json.simple.JSONObject;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
+import java.util.*;
 
 public class ElementArmourHUD extends Element {
 
+    List<ItemStack> armourList = new ArrayList<>();
     private RenderType type = RenderType.DURABILITY;
 
     public ElementArmourHUD() {
-        super("ArmourHUD");
+        super("ArmourHUD", "PvP");
         this.width = 64;
         this.height = 64;
 
@@ -37,15 +42,13 @@ public class ElementArmourHUD extends Element {
             this.setType(RenderType.valueOf(String.valueOf(handler.load(this.getName(), handler.elementDir).get("type"))));
         this.onSave(new JSONObject());
 
-        this.elementScreen = new GuiElement(new GuiConfiguration(SimpleHUD.getInstance().configGui), this) {
+        this.elementScreen = new GuiElement(new GuiConfigurationCategories.GuiConfigurationPvP(new GuiConfiguration(SimpleHUD.getInstance().configGui)), this) {
 
             @Override
             public void initGui() {
                 super.initGui();
                 this.buttonList.remove(this.showBrackets);
                 this.buttonList.remove(this.showPrefix);
-                this.buttonList.remove(this.chromaToggle);
-                this.buttonList.add(chromaToggle = new GuiTransButton(14, this.width / 2 - 50, this.height / 2 + 80, 100, 20, "Chroma: " + (this.element.isChroma() ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF")));
                 this.buttonList.add(new GuiTransButton(100, this.width / 2 + 5, this.height / 2 - 100, 100, 20, "Text Type: " + ((ElementArmourHUD) this.element).getType().name().toLowerCase()));
             }
 
@@ -83,8 +86,18 @@ public class ElementArmourHUD extends Element {
     }
 
     @Override
+    public void onEnabled() {
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    @Override
+    public void onDisabled() {
+        MinecraftForge.EVENT_BUS.unregister(this);
+    }
+
+    @Override
     public void onRendered(ElementPosition position) {
-        if (this.background && this.backgroundColor != null)
+        if (this.background && this.backgroundColor != null && !armourList.isEmpty())
             Gui.drawRect(position.getX() - 2, position.getY() - 2, position.getX() + this.width, position.getY() + this.height, this.backgroundColor.getRGBA());
         GlStateManager.pushMatrix();
         GlStateManager.scale(position.getScale(), position.getScale(), 1);
@@ -96,6 +109,19 @@ public class ElementArmourHUD extends Element {
         else this.width = Math.round(64 * position.getScale());
         this.height = Math.round(64 * position.getScale());
         GlStateManager.popMatrix();
+    }
+
+    @SubscribeEvent
+    protected void onTick(TickEvent.ClientTickEvent event) {
+        if(mc.thePlayer == null) return;
+        if(mc.thePlayer.inventory == null) return;
+        if(mc.thePlayer.inventory.armorInventory == null) return;
+        Collections.addAll(armourList, mc.thePlayer.inventory.armorInventory);
+        armourList.removeIf(i -> {
+            if(i == null) return true;
+            if(!Arrays.asList(mc.thePlayer.inventory.armorInventory).contains(i)) return true;
+            return false;
+        });
     }
 
     @Override

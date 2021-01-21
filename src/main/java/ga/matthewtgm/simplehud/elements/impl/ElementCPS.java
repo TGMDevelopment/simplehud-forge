@@ -1,7 +1,11 @@
 package ga.matthewtgm.simplehud.elements.impl;
 
+import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
+import ga.matthewtgm.simplehud.gui.GuiConfiguration;
+import ga.matthewtgm.simplehud.gui.GuiConfigurationCategories;
+import ga.matthewtgm.simplehud.gui.elements.GuiElement;
 import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
@@ -19,7 +23,16 @@ public class ElementCPS extends Element {
     private long rightLastPressed;
 
     public ElementCPS() {
-        super("CPS");
+        super("CPS", "PvP");
+        this.elementScreen = new GuiElement(new GuiConfigurationCategories.GuiConfigurationPvP(new GuiConfiguration(SimpleHUD.getInstance().configGui)), this) {
+
+            @Override
+            public void initGui() {
+                super.initGui();
+                this.buttonList.remove(this.showPrefix);
+            }
+
+        };
     }
 
     @Override

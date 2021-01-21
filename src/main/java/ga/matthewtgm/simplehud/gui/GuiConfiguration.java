@@ -10,6 +10,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.EnumChatFormatting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -24,7 +26,7 @@ import java.util.function.Predicate;
 public class GuiConfiguration extends GuiScreen {
 
     private final Logger logger = LogManager.getLogger(Constants.NAME + " (" + this.getClass().getSimpleName() + ")");
-    private GuiScreen parent;
+    private final GuiScreen parent;
     private boolean dragging;
     private Optional<Element> selectedElement = Optional.empty();
 
@@ -40,9 +42,10 @@ public class GuiConfiguration extends GuiScreen {
 
     private void setButtons() {
         this.buttons = Arrays.asList(
-                new GuiTransButton(0, this.width / 2 - 50, this.height - 20, 100, 20, this.parent == null ? "Save and close" : "Save and go back")
+                new GuiTransButton(0, this.width / 2 - 50, this.height - 20, 100, 20, this.parent == null ? "Save and close" : "Save and go back"),
+                new GuiTransButton(1, this.width / 2 - 50, this.height / 2 - 30, 100, 20, "PvP"),
+                new GuiTransButton(2, this.width / 2 - 50, this.height / 2, 100, 20, "General")
         );
-        this.setupElementButtons("init", null);
     }
 
     @Override
@@ -55,7 +58,8 @@ public class GuiConfiguration extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if (button.id == 0) Minecraft.getMinecraft().displayGuiScreen(this.parent);
-        this.setupElementButtons("action", button);
+        if (button.id == 1) Minecraft.getMinecraft().displayGuiScreen(new GuiConfigurationCategories.GuiConfigurationPvP(this));
+        if (button.id == 2) Minecraft.getMinecraft().displayGuiScreen(new GuiConfigurationCategories.GuiConfigurationGeneral(this));
         super.actionPerformed(button);
     }
 
@@ -71,6 +75,16 @@ public class GuiConfiguration extends GuiScreen {
                 e.onRendered(e.getPosition());
             }
         }
+        GlStateManager.pushMatrix();
+        int scale = 3;
+        GlStateManager.scale(scale, scale, 0);
+        drawCenteredString(this.fontRendererObj, EnumChatFormatting.LIGHT_PURPLE + "Simple" + EnumChatFormatting.DARK_PURPLE + "HUD", width / 2 / scale, 5 / scale + 10, -1);
+        GlStateManager.popMatrix();
+        GlStateManager.pushMatrix();
+        int scale2 = 2;
+        GlStateManager.scale(scale2, scale2, 0);
+        drawCenteredString(this.fontRendererObj, EnumChatFormatting.RED + "HUD Editor", width / 2 / scale2,  5 / scale2 + 30, -1);
+        GlStateManager.popMatrix();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -131,26 +145,6 @@ public class GuiConfiguration extends GuiScreen {
     @Override
     public boolean doesGuiPauseGame() {
         return false;
-    }
-
-    //TODO: Fix offset making buttons overlap on smaller resolution screens.
-    private void setupElementButtons(String type, GuiButton button) {
-        int offset = this.height / 2 - 50;
-        int offsetX = this.width / 2 - 105;
-        for (Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
-            if (type.equalsIgnoreCase("init")) {
-                this.buttonList.add(new GuiTransButton(SimpleHUD.getInstance().getElementManager().getElements().indexOf(element) + 1, offsetX, this.height - offset, 100, 20, element.getName()));
-                offset += 20;
-                if (offset > ((this.height / 2) / SimpleHUD.getInstance().getElementManager().getElements().size() * 20)) {
-                    offsetX = this.width / 2 + 5;
-                    offset = this.height / 2 - 50;
-                }
-            } else if (type.equalsIgnoreCase("action")) {
-                if (button.id == SimpleHUD.getInstance().getElementManager().getElements().indexOf(element) + 1) {
-                    Minecraft.getMinecraft().displayGuiScreen(element.elementScreen);
-                }
-            }
-        }
     }
 
     private static class MouseHoveringElement implements Predicate<Element> {

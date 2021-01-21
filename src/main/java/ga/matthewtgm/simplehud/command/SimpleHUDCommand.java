@@ -2,6 +2,7 @@ package ga.matthewtgm.simplehud.command;
 
 import club.sk1er.mods.core.gui.notification.Notifications;
 import ga.matthewtgm.lib.util.GuiScreenUtils;
+import ga.matthewtgm.simplehud.Constants;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.utils.ChatUtils;
@@ -52,8 +53,15 @@ public class SimpleHUDCommand extends CommandBase {
                                 this.getFullCommand() + " info - Copies dev info to your clipboard.\n" +
                                 EnumChatFormatting.GREEN +
                                 this.getFullCommand() + " saveall - Saves all elements.\n" +
+                                EnumChatFormatting.GREEN +
+                                this.getFullCommand()  + " checkver - Checks for new updates.\n" +
                                 EnumChatFormatting.GOLD +
                                 lineDivider);
+                return;
+            }
+            if(args[0].equalsIgnoreCase("checkver")) {
+                SimpleHUD.getInstance().getVersionChecker().reload();
+                ChatUtils.getInstance().sendModMessage("You are using " + EnumChatFormatting.GREEN + Constants.VER + EnumChatFormatting.WHITE + " and the latest version is currently " + SimpleHUD.getInstance().getVersionChecker().getVersion());
                 return;
             }
             if (args[0].equalsIgnoreCase("info")) {

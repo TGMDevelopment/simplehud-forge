@@ -20,7 +20,7 @@ public class ElementReachDisplay extends Element {
     private long lastHit = 0L;
 
     public ElementReachDisplay() {
-        super("Reach Display");
+        super("Reach Display", "PvP");
         if (this.prefix == null) prefix = "Reach Display";
         MinecraftForge.EVENT_BUS.register(this);
     }

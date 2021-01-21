@@ -57,8 +57,6 @@ public class ElementManager {
                 if (SimpleHUD.getInstance().isToggled() && (Minecraft.getMinecraft().currentScreen == null || this.showInChat()) && element.isToggled() && Minecraft.getMinecraft().thePlayer != null)
                     element.onRendered(element.getPosition());
             }
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
         }
     }
 

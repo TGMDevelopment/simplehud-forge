@@ -3,7 +3,8 @@ package ga.matthewtgm.simplehud.elements;
 import ga.matthewtgm.simplehud.Constants;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.files.FileHandler;
-import ga.matthewtgm.simplehud.gui.GuiElement;
+import ga.matthewtgm.simplehud.gui.GuiConfigurationCategories;
+import ga.matthewtgm.simplehud.gui.elements.GuiElement;
 import ga.matthewtgm.simplehud.gui.GuiConfiguration;
 import ga.matthewtgm.simplehud.utils.ColourUtils;
 import net.minecraft.client.Minecraft;
@@ -17,6 +18,7 @@ import org.json.simple.JSONObject;
 public class Element {
 
     private String name;
+    public String category;
 
     //CONFIG
     private ElementPosition position;
@@ -32,7 +34,7 @@ public class Element {
 
     //INDIVIDUAL ELEMENT VARIABLES
     public String prefix;
-    public GuiElement elementScreen = new GuiElement(new GuiConfiguration(SimpleHUD.getInstance().configGui), this){};
+    public GuiElement elementScreen;
 
     //REQUIRED FOR DRAGGABLE HUD
     public int width, height;
@@ -41,9 +43,16 @@ public class Element {
     protected Logger logger;
     protected final Minecraft mc = Minecraft.getMinecraft();
 
-    public Element(String name) {
+    public Element(String name, String category) {
         this.name = name;
+        this.category = category;
         this.logger = LogManager.getLogger(Constants.NAME + " (" + name + ")");
+
+        if(this.category.equals("PvP")) {
+            this.elementScreen = new GuiElement(new GuiConfigurationCategories.GuiConfigurationPvP(new GuiConfiguration(SimpleHUD.getInstance().configGui)), this) {};
+        } else if(this.category.equals("General")) {
+            this.elementScreen = new GuiElement(new GuiConfigurationCategories.GuiConfigurationGeneral(new GuiConfiguration(SimpleHUD.getInstance().configGui)), this) {};
+        }
 
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load(name, SimpleHUD.getFileHandler().elementDir) == null;
         final FileHandler handler = SimpleHUD.getFileHandler();

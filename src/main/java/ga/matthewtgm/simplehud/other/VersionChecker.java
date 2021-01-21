@@ -75,6 +75,16 @@ public class VersionChecker {
 
     }
 
+    public void reload() {
+        try {
+            reader = new BufferedReader(new InputStreamReader(new URL("https://dl.dropboxusercontent.com/s/2s4vdn26af04q6w/version.json").openStream()));
+            verJSON = reader.readLine();
+            verOBJ = (JSONObject) new JSONParser().parse(verJSON);
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
     private boolean isNull(Object o) {
         return o == null;
     }

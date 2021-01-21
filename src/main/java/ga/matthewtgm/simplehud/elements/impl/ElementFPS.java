@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 public class ElementFPS extends Element {
 
     public ElementFPS() {
-        super("FPS");
+        super("FPS", "General");
         if (this.prefix == null) this.prefix = "FPS";
     }
 

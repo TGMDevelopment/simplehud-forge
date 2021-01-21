@@ -6,7 +6,7 @@ import ga.matthewtgm.simplehud.elements.ElementPosition;
 public class ElementDay extends Element {
 
     public ElementDay() {
-        super("Day");
+        super("Day", "General");
         if (this.prefix == null) this.prefix = "Day";
     }
 

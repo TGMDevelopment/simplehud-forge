@@ -6,7 +6,7 @@ import ga.matthewtgm.simplehud.elements.ElementPosition;
 public class ElementServerAddress extends Element {
 
     public ElementServerAddress() {
-        super("Server Address");
+        super("Server Address", "General");
         if (this.prefix == null) this.prefix = "Server";
     }
 

@@ -1,6 +1,9 @@
 package ga.matthewtgm.simplehud;
 
 import club.sk1er.mods.core.ModCoreInstaller;
+import club.sk1er.mods.core.gui.notification.Notifications;
+import ga.matthewtgm.lib.TGMLib;
+import ga.matthewtgm.lib.util.ModConflicts;
 import ga.matthewtgm.lib.util.guiscreens.GuiAppendingManager;
 import ga.matthewtgm.lib.util.keybindings.KeyBind;
 import ga.matthewtgm.lib.util.keybindings.KeyBindManager;
@@ -17,9 +20,11 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.json.simple.JSONObject;
 import org.lwjgl.input.Keyboard;
@@ -38,6 +43,8 @@ public class SimpleHUD {
     private boolean toggled = true;
     private boolean latestVersion;
 
+    private final ModConflicts conflicts = new ModConflicts();
+
     public static SimpleHUD getInstance() {
         return INSTANCE;
     }
@@ -46,8 +53,16 @@ public class SimpleHUD {
         return FILE_HANDLER;
     }
 
+    public ModConflicts getConflicts() {
+        return conflicts;
+    }
+
     @Mod.EventHandler
     protected void onPreInit(FMLPreInitializationEvent event) {
+        TGMLib.getInstance().setModName(Constants.NAME);
+
+        this.getConflicts().add("orangesimplemod");
+
         if (VERSION_CHECKER.getEmergencyStatus())
             throw new OutOfDateException("PLEASE UPDATE TO THE NEW VERSION OF " + Constants.NAME + "\nTHIS IS AN EMERGENCY!");
         this.latestVersion = VERSION_CHECKER.getVersion().equals(Constants.VER);
@@ -86,6 +101,15 @@ public class SimpleHUD {
         KeyBindManager.getInstance().init(Constants.NAME);
         ClientCommandHandler.instance.registerCommand(new SimpleHUDCommand());
         this.getElementManager().init();
+    }
+
+    @Mod.EventHandler
+    protected void onPostInit(FMLPostInitializationEvent event) {
+        this.conflicts.forEach(c -> {
+            if(this.conflicts.isConflictLoaded(c)) {
+                Notifications.INSTANCE.pushNotification("SimpleHUD - Mod Conflict", Loader.instance().getCustomModProperties(c).get("name") + " is incompatible with SimpleHUD");
+            }
+        });
     }
 
     public boolean isToggled() {
@@ -129,7 +153,7 @@ public class SimpleHUD {
                 EnumChatFormatting.YELLOW + "About:\n" +
                 EnumChatFormatting.GOLD + "SimpleHUD was originally a private mod for MatthewTGM and friends, now being one of his biggest mods yet.\n\n" +
                 EnumChatFormatting.YELLOW + "Features:\n" +
-                EnumChatFormatting.GOLD + "FPS, CPS, Coordinates, Biome, Combo Display, ArmourHUD, PotionEffectsHUD, Day, Reach Display, Ping, Memory Usage, Time, SimpleText, Server Address\n\n" +
+                EnumChatFormatting.GOLD + "FPS, CPS, Coordinates, Biome, ArmourHUD, PotionEffectsHUD, Day, Reach Display, Ping, Memory Usage, Time, SimpleText, Server Address\n\n" +
                 EnumChatFormatting.YELLOW + "Extras:\n" +
                 EnumChatFormatting.GOLD + "SimpleHUD's \"SimpleText\" element is derived from a mod that Matthew was originally planning to make seperately.";
 

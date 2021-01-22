@@ -63,6 +63,9 @@ public class Element {
         if (isConfigFileNull) this.textShadow = true;
         else this.textShadow = (boolean) handler.load(name, handler.elementDir).get("text_shadow");
 
+        if(isConfigFileNull) this.renderBrackets = false;
+        else this.renderBrackets = (boolean) handler.load(name, handler.elementDir).get("show_brackets");
+
         if (isConfigFileNull) this.background = false;
         else
             this.background = (boolean) ((JSONObject) handler.load(name, handler.elementDir).get("background")).get("toggle");
@@ -80,6 +83,7 @@ public class Element {
 
         if (isConfigFileNull) this.chroma = false;
         else this.chroma = (boolean) handler.load(name, handler.elementDir).get("chroma");
+
         if (this.position == null) this.position = new ElementPosition(
                 isConfigFileNull ?
                         10 :

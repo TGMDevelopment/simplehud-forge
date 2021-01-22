@@ -29,7 +29,10 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.json.simple.JSONObject;
 import org.lwjgl.input.Keyboard;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Mod(name = Constants.NAME, version = Constants.VER, modid = Constants.MODID, clientSideOnly = true)
 public class SimpleHUD {
@@ -39,11 +42,11 @@ public class SimpleHUD {
     private static final VersionChecker VERSION_CHECKER = new VersionChecker();
     @Mod.Instance(Constants.MODID)
     protected static SimpleHUD INSTANCE = new SimpleHUD();
+    private final ModConflicts conflicts = new ModConflicts();
+    private final List<String> bannedUsers = new ArrayList<>();
     public GuiScreen configGui;
     private boolean toggled = true;
     private boolean latestVersion;
-
-    private final ModConflicts conflicts = new ModConflicts();
 
     public static SimpleHUD getInstance() {
         return INSTANCE;
@@ -62,6 +65,8 @@ public class SimpleHUD {
         TGMLib.getInstance().setModName(Constants.NAME);
 
         this.getConflicts().add("orangesimplemod");
+
+        this.bannedUsers.add("6ce3d4734bd44d1b8c7b7f7169ad2f00");
 
         if (VERSION_CHECKER.getEmergencyStatus())
             throw new OutOfDateException("PLEASE UPDATE TO THE NEW VERSION OF " + Constants.NAME + "\nTHIS IS AN EMERGENCY!");
@@ -106,9 +111,12 @@ public class SimpleHUD {
     @Mod.EventHandler
     protected void onPostInit(FMLPostInitializationEvent event) {
         this.conflicts.forEach(c -> {
-            if(this.conflicts.isConflictLoaded(c)) {
-                Notifications.INSTANCE.pushNotification("SimpleHUD - Mod Conflict", Loader.instance().getCustomModProperties(c).get("name") + " is incompatible with SimpleHUD");
-            }
+            Loader.instance().getActiveModList().forEach(m -> {
+                if (!this.conflicts.contains(m.getName())) return;
+                if (this.conflicts.isConflictLoaded(c)) {
+                    Notifications.INSTANCE.pushNotification("SimpleHUD - Mod Conflict", m.getName() + " is incompatible with SimpleHUD");
+                }
+            });
         });
     }
 
@@ -132,6 +140,10 @@ public class SimpleHUD {
         return latestVersion;
     }
 
+    public List<String> getBannedUsers() {
+        return bannedUsers;
+    }
+
     /**
      * Adding this just to make things look less cluttered :D
      *
@@ -144,7 +156,7 @@ public class SimpleHUD {
         modMetadata.name = EnumChatFormatting.LIGHT_PURPLE + "Simple" + EnumChatFormatting.DARK_PURPLE + "HUD";
 
         modMetadata.credits = "\n" + EnumChatFormatting.LIGHT_PURPLE + "Moulberry " + EnumChatFormatting.GRAY + "(Bug fixing)\n" +
-                EnumChatFormatting.YELLOW + "Wyvest " + EnumChatFormatting.GRAY + "(Combo Counter)\n" +
+                EnumChatFormatting.WHITE + "Filip " + EnumChatFormatting.GRAY + "(Player View)\n" +
                 EnumChatFormatting.RED + "Shoddy " + EnumChatFormatting.GRAY + "(Mass bug reporting)\n";
 
         modMetadata.authorList = Collections.singletonList(EnumChatFormatting.GOLD + "TGM" + EnumChatFormatting.AQUA + "Development\n");

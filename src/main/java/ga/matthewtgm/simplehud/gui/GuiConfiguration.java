@@ -6,6 +6,7 @@ import ga.matthewtgm.simplehud.Constants;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
+import ga.matthewtgm.simplehud.utils.GuiScreenUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -75,16 +76,7 @@ public class GuiConfiguration extends GuiScreen {
                 e.onRendered(e.getPosition());
             }
         }
-        GlStateManager.pushMatrix();
-        int scale = 3;
-        GlStateManager.scale(scale, scale, 0);
-        drawCenteredString(this.fontRendererObj, EnumChatFormatting.LIGHT_PURPLE + "Simple" + EnumChatFormatting.DARK_PURPLE + "HUD", width / 2 / scale, 5 / scale + 10, -1);
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
-        int scale2 = 2;
-        GlStateManager.scale(scale2, scale2, 0);
-        drawCenteredString(this.fontRendererObj, EnumChatFormatting.RED + "HUD Editor", width / 2 / scale2,  5 / scale2 + 30, -1);
-        GlStateManager.popMatrix();
+        GuiScreenUtils.getInstance().slideGuiTitleIntoScreen(this, EnumChatFormatting.LIGHT_PURPLE + "Simple" + EnumChatFormatting.DARK_PURPLE + "HUD" + EnumChatFormatting.WHITE + " - " + EnumChatFormatting.RED + "HUD Editor");
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

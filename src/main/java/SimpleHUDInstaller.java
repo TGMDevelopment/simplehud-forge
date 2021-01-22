@@ -1,8 +1,10 @@
 import ga.matthewtgm.simplehud.Constants;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.Locale;
 import java.util.jar.JarFile;
@@ -11,8 +13,6 @@ import java.util.zip.ZipEntry;
 
 public class SimpleHUDInstaller {
 
-    private static final JFrame window = new JFrame(Constants.NAME + " Installer");
-
     private static final JPanel panel = new JPanel();
 
     private static final JButton buttonInstall = new JButton();
@@ -20,22 +20,32 @@ public class SimpleHUDInstaller {
     private static final JButton buttonClose = new JButton();
 
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        createWindow();
+        createWindow(new JFrame(Constants.NAME + " Installer"), 500, 80);
     }
 
-    private static void createWindow() throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+    private static void createWindow(JFrame frame, int width, int height) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        window.setSize(500, 80);
-        window.setVisible(true);
-        window.setFocusable(true);
-        window.setLocationRelativeTo(null);
-        window.setResizable(false);
-        window.setIconImage(new ImageIcon(SimpleHUDInstaller.class.getResource("assets/simplehud/high_res_logo.png")).getImage());
-        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        addButtonsToWindow();
+        frame.setSize(width, height);
+        frame.setVisible(true);
+        frame.setFocusable(true);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    frame.setIconImage(new ImageIcon(ImageIO.read(new URL(Constants.LOGO_URL).openStream())).getImage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        addButtonsToWindow(frame);
     }
 
-    private static void addButtonsToWindow() {
+    private static void addButtonsToWindow(JFrame frame) {
         buttonInstall.setPreferredSize(new Dimension(150, 25));
         buttonOpenModsFolder.setPreferredSize(new Dimension(150, 25));
         buttonClose.setPreferredSize(new Dimension(150, 25));
@@ -61,7 +71,7 @@ public class SimpleHUDInstaller {
         panel.setPreferredSize(new Dimension(440, 560));
         panel.setBounds(0, 0, 440, 560);
 
-        window.add(panel);
+        frame.add(panel);
 
         panel.add(buttonInstall);
         panel.add(buttonOpenModsFolder);
@@ -113,8 +123,6 @@ public class SimpleHUDInstaller {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            System.exit(1);
         }
     }
 
@@ -165,6 +173,10 @@ public class SimpleHUDInstaller {
         } catch (Exception ignored) {
         }
         return version;
+    }
+
+    private static void addFinishedInstallingButtonsToWindow(JFrame frame) {
+
     }
 
     private static void openModsFolder() {

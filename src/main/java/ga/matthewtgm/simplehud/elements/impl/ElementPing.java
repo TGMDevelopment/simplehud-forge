@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 public class ElementPing extends Element {
 
     public ElementPing() {
-        super("Ping", "General");
+        super("Ping", "PvP");
         if (this.prefix == null) this.prefix = "Ping";
     }
 

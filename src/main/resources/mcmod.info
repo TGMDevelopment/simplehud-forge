@@ -8,7 +8,7 @@
   "updateUrl": "https://github.com/TGMDevelopment/simplehud-forge/releases/latest",
   "authorList": ["TGMDevelopment"],
   "credits": "",
-  "logoFile": "assets/simplehud/logo.png",
+  "logoFile": "",
   "screenshots": [],
   "dependencies": []
 }]

@@ -2,10 +2,9 @@ package ga.matthewtgm.simplehud.elements;
 
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.impl.*;
+import ga.matthewtgm.simplehud.elements.impl.ElementFPS;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

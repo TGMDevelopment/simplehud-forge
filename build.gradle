@@ -14,13 +14,17 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-version = "1.8.2"
+version = "1.8.3"
 group = "ga.matthewtgm.simplehud"
 archivesBaseName = "SimpleHUD"
 
 sourceCompatibility = targetCompatibility = 1.8
 
-sourceSets { main { output.resourcesDir = output.classesDir } }
+sourceSets {
+    main {
+        output.resourcesDir = output.classesDir
+    }
+}
 
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
@@ -30,13 +34,21 @@ minecraft {
     mappings = "stable_22"
 }
 
+repositories {
+    jcenter()
+    maven { url 'https://jitpack.io' }
+}
+
 dependencies {
-    compile(files('libs/TGMLib-0.3.jar'))
+    compile('com.github.TGMDevelopment:TGMLib:0.5')
     provided(files('libs/modcore.jar'))
 }
 
 shadowJar {
-    minimize()
+    dependencies {
+        include(dependency('com.github.TGMDevelopment:TGMLib:0.5'))
+    }
+
     exclude('dummyThing')
     exclude('modcore.jar')
 
@@ -60,20 +72,19 @@ jar {
     )
 }
 
-processResources
-        {
-            inputs.property "version", project.version
-            inputs.property "mcversion", project.minecraft.version
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
 
-            from(sourceSets.main.resources.srcDirs) {
-                include 'mcmod.info'
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
 
-                expand 'version':project.version, 'mcversion':project.minecraft.version
-            }
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
 
-            from(sourceSets.main.resources.srcDirs) {
-                exclude 'mcmod.info'
-            }
-        }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
 
 tasks.reobfJar.dependsOn(tasks.shadowJar)

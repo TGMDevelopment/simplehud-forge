@@ -3,6 +3,7 @@ package ga.matthewtgm.simplehud.gui;
 import ga.matthewtgm.lib.gui.GuiTransButton;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
+import ga.matthewtgm.simplehud.utils.GuiScreenUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -38,11 +39,7 @@ public class GuiConfigurationCategories {
         @Override
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
             super.drawDefaultBackground();
-            GlStateManager.pushMatrix();
-            int scale = 3;
-            GlStateManager.scale(scale, scale, 0);
-            drawCenteredString(this.fontRendererObj, EnumChatFormatting.LIGHT_PURPLE + "Simple" + EnumChatFormatting.DARK_PURPLE + "HUD " + EnumChatFormatting.WHITE + "- " + EnumChatFormatting.RED + "PvP", width / 2 / scale, 5 / scale + 10, -1);
-            GlStateManager.popMatrix();
+            GuiScreenUtils.getInstance().slideGuiTitleIntoScreen(this, EnumChatFormatting.LIGHT_PURPLE + "Simple" + EnumChatFormatting.DARK_PURPLE + "HUD " + EnumChatFormatting.WHITE + "- " + EnumChatFormatting.RED + "PvP");
             super.drawScreen(mouseX, mouseY, partialTicks);
         }
 
@@ -94,11 +91,7 @@ public class GuiConfigurationCategories {
         @Override
         public void drawScreen(int mouseX, int mouseY, float partialTicks) {
             super.drawDefaultBackground();
-            GlStateManager.pushMatrix();
-            int scale = 3;
-            GlStateManager.scale(scale, scale, 0);
-            drawCenteredString(this.fontRendererObj, EnumChatFormatting.LIGHT_PURPLE + "Simple" + EnumChatFormatting.DARK_PURPLE + "HUD " + EnumChatFormatting.WHITE + "- " + EnumChatFormatting.AQUA + "General", width / 2 / scale, 5 / scale + 10, -1);
-            GlStateManager.popMatrix();
+            GuiScreenUtils.getInstance().slideGuiTitleIntoScreen(this, EnumChatFormatting.LIGHT_PURPLE + "Simple" + EnumChatFormatting.DARK_PURPLE + "HUD " + EnumChatFormatting.WHITE + "- " + EnumChatFormatting.AQUA + "General");
             super.drawScreen(mouseX, mouseY, partialTicks);
         }
 

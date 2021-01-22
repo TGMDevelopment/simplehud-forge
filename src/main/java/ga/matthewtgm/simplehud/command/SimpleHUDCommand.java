@@ -52,16 +52,19 @@ public class SimpleHUDCommand extends CommandBase {
                                 EnumChatFormatting.GREEN +
                                 this.getFullCommand() + " info - Copies dev info to your clipboard.\n" +
                                 EnumChatFormatting.GREEN +
-                                this.getFullCommand() + " saveall - Saves all elements.\n" +
-                                EnumChatFormatting.GREEN +
-                                this.getFullCommand()  + " checkver - Checks for new updates.\n" +
+                                this.getFullCommand() + " checkver - Checks for new updates.\n" +
                                 EnumChatFormatting.GOLD +
                                 lineDivider);
                 return;
             }
+            if(args[0].equalsIgnoreCase("reloadelements")) {
+                SimpleHUD.getInstance().getElementManager().getElements().clear();
+                SimpleHUD.getInstance().getElementManager().init();
+                return;
+            }
             if(args[0].equalsIgnoreCase("checkver")) {
                 SimpleHUD.getInstance().getVersionChecker().reload();
-                ChatUtils.getInstance().sendModMessage("You are using " + EnumChatFormatting.GREEN + Constants.VER + EnumChatFormatting.WHITE + " and the latest version is currently " + SimpleHUD.getInstance().getVersionChecker().getVersion());
+                ChatUtils.getInstance().sendModMessage("You are using " + EnumChatFormatting.GREEN + Constants.VER + EnumChatFormatting.WHITE + " and the latest version is currently " + EnumChatFormatting.GREEN + SimpleHUD.getInstance().getVersionChecker().getVersion());
                 return;
             }
             if (args[0].equalsIgnoreCase("info")) {

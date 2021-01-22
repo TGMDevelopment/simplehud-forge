@@ -35,4 +35,14 @@ public class PlayerListener {
         }
     }
 
+    @SubscribeEvent
+    protected void checkIsBanned(EntityJoinWorldEvent event) {
+        if (event.entity == Minecraft.getMinecraft().thePlayer) {
+            SimpleHUD.getInstance().getBannedUsers().forEach(u -> {
+                if (event.entity.getUniqueID().toString().equals(u))
+                    throw new RuntimeException("You are banned from using " + Constants.NAME + ".");
+            });
+        }
+    }
+
 }

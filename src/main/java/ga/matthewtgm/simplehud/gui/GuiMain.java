@@ -4,6 +4,7 @@ import ga.matthewtgm.lib.gui.GuiTransButton;
 import ga.matthewtgm.lib.gui.GuiTransImageButton;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.listener.GuiListener;
+import ga.matthewtgm.simplehud.utils.GuiScreenUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -112,11 +113,7 @@ public class GuiMain extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawDefaultBackground();
         this.renderHoverText(mouseX, mouseY);
-        GlStateManager.pushMatrix();
-        int scale = 3;
-        GlStateManager.scale(scale, scale, 0);
-        drawCenteredString(this.fontRendererObj, EnumChatFormatting.LIGHT_PURPLE + "Simple" + EnumChatFormatting.DARK_PURPLE + "HUD", width / 2 / scale, 5 / scale + 10, -1);
-        GlStateManager.popMatrix();
+        GuiScreenUtils.getInstance().slideGuiTitleIntoScreen(this, EnumChatFormatting.LIGHT_PURPLE + "Simple" + EnumChatFormatting.DARK_PURPLE + "HUD");
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

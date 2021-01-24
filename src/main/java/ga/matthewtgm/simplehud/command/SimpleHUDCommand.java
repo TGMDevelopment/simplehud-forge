@@ -53,8 +53,6 @@ public class SimpleHUDCommand extends CommandBase {
                                 this.getFullCommand() + " info - Copies dev info to your clipboard.\n" +
                                 EnumChatFormatting.GREEN +
                                 this.getFullCommand() + " checkver - Checks for new updates.\n" +
-                                EnumChatFormatting.GREEN +
-                                this.getFullCommand() + " reloadelements - Reloads all elements in the mod.\n" +
                                 EnumChatFormatting.GOLD +
                                 lineDivider);
                 return;

@@ -1,6 +1,7 @@
 package ga.matthewtgm.simplehud.elements.impl;
 
 import ga.matthewtgm.lib.gui.GuiTransButton;
+import ga.matthewtgm.lib.util.ColourUtils;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
@@ -8,7 +9,6 @@ import ga.matthewtgm.simplehud.files.FileHandler;
 import ga.matthewtgm.simplehud.gui.GuiConfiguration;
 import ga.matthewtgm.simplehud.gui.GuiConfigurationCategories;
 import ga.matthewtgm.simplehud.gui.elements.GuiElement;
-import ga.matthewtgm.simplehud.utils.ColourUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -145,10 +145,10 @@ public class ElementArmourHUD extends Element {
             switch (this.getType()) {
                 case PERCENTAGE:
                     double currentDmg = (item.getMaxDamage() - item.getItemDamage()) / (double) item.getMaxDamage() * 100;
-                    this.mc.fontRendererObj.drawString(String.format("%.2f%%", currentDmg), (position.getX() / position.getScale()) + 20, (position.getY() / position.getScale()) + 5 + offset, this.isChroma() ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
+                    this.mc.fontRendererObj.drawString(String.format("%.2f%%", currentDmg), (position.getX() / position.getScale()) + 20, (position.getY() / position.getScale()) + 5 + offset, this.isChroma() ? ColourUtils.getInstance().chroma() : this.colour.getRGB(), this.getTextShadow());
                     break;
                 case DURABILITY:
-                    this.mc.fontRendererObj.drawString(item.getMaxDamage() - item.getItemDamage() + "/" + item.getMaxDamage(), (position.getX() / position.getScale()) + 20, (position.getY() / position.getScale()) + 5 + offset, this.isChroma() ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
+                    this.mc.fontRendererObj.drawString(item.getMaxDamage() - item.getItemDamage() + "/" + item.getMaxDamage(), (position.getX() / position.getScale()) + 20, (position.getY() / position.getScale()) + 5 + offset, this.isChroma() ? ColourUtils.getInstance().chroma() : this.colour.getRGB(), this.getTextShadow());
             }
         }
         RenderHelper.enableGUIStandardItemLighting();

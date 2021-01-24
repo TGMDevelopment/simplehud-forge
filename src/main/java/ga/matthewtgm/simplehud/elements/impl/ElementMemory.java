@@ -6,8 +6,8 @@ import ga.matthewtgm.simplehud.elements.ElementPosition;
 public class ElementMemory extends Element {
 
     public ElementMemory() {
-        super("Memory");
-        if(this.prefix == null) this.prefix = "Memory";
+        super("Memory", "General");
+        if (this.prefix == null) this.prefix = "Memory";
     }
 
 

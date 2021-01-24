@@ -4,7 +4,8 @@ import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
 import ga.matthewtgm.simplehud.files.FileHandler;
-import ga.matthewtgm.simplehud.gui.GuiElement;
+import ga.matthewtgm.simplehud.gui.GuiConfigurationCategories;
+import ga.matthewtgm.simplehud.gui.elements.GuiElement;
 import ga.matthewtgm.simplehud.gui.GuiConfiguration;
 import net.minecraft.client.gui.GuiTextField;
 import org.json.simple.JSONObject;
@@ -14,24 +15,26 @@ import java.io.IOException;
 public class ElementSimpleText extends Element {
 
     protected String text = "Placeholder text";
+
     public String getText() {
         return text;
     }
+
     public void setText(String text) {
         this.text = text;
     }
 
     public ElementSimpleText() {
-        super("Simple Text");
+        super("Simple Text", "General");
 
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load(this.getName(), SimpleHUD.getFileHandler().elementDir) == null;
         final FileHandler handler = SimpleHUD.getFileHandler();
 
-        if(isConfigFileNull) this.setText("");
+        if (isConfigFileNull) this.setText("");
         else this.setText(String.valueOf(handler.load(this.getName(), handler.elementDir).get("text")));
         this.onSave(new JSONObject());
 
-        this.elementScreen = new GuiElement(new GuiConfiguration(SimpleHUD.getInstance().configGui), this) {
+        this.elementScreen = new GuiElement(new GuiConfigurationCategories.GuiConfigurationGeneral(new GuiConfiguration(SimpleHUD.getInstance().configGui)), this) {
 
             private GuiTextField inputField;
 
@@ -39,7 +42,7 @@ public class ElementSimpleText extends Element {
             public void initGui() {
                 super.initGui();
                 this.buttonList.remove(this.showPrefix);
-                this.inputField = new GuiTextField(100, this.fontRendererObj, this.width / 2 - 105, this.height / 2 + 80, 100, 20);
+                this.inputField = new GuiTextField(100, this.fontRendererObj, this.width / 2 - 105, this.height / 2 - 10, 210, 20);
                 this.inputField.setEnableBackgroundDrawing(true);
                 this.inputField.setMaxStringLength(128);
                 this.inputField.setVisible(true);
@@ -77,7 +80,7 @@ public class ElementSimpleText extends Element {
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load(this.getName(), SimpleHUD.getFileHandler().elementDir) == null;
         final FileHandler handler = SimpleHUD.getFileHandler();
 
-        if(isConfigFileNull) this.setText("");
+        if (isConfigFileNull) this.setText("");
         else this.setText(String.valueOf(handler.load(this.getName(), handler.elementDir).get("text")));
         this.onSave(new JSONObject());
 

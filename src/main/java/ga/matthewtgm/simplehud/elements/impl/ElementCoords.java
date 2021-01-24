@@ -6,7 +6,7 @@ import ga.matthewtgm.simplehud.elements.ElementPosition;
 public class ElementCoords extends Element {
 
     public ElementCoords() {
-        super("Coords");
+        super("Coords", "General");
         if (this.prefix == null) prefix = "Coords";
     }
 

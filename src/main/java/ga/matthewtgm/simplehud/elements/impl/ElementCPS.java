@@ -1,7 +1,11 @@
 package ga.matthewtgm.simplehud.elements.impl;
 
+import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.elements.ElementPosition;
+import ga.matthewtgm.simplehud.gui.GuiConfiguration;
+import ga.matthewtgm.simplehud.gui.GuiConfigurationCategories;
+import ga.matthewtgm.simplehud.gui.elements.GuiElement;
 import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
@@ -19,7 +23,16 @@ public class ElementCPS extends Element {
     private long rightLastPressed;
 
     public ElementCPS() {
-        super("CPS");
+        super("CPS", "PvP");
+        this.elementScreen = new GuiElement(new GuiConfigurationCategories.GuiConfigurationPvP(new GuiConfiguration(SimpleHUD.getInstance().configGui)), this) {
+
+            @Override
+            public void initGui() {
+                super.initGui();
+                this.buttonList.remove(this.showPrefix);
+            }
+
+        };
     }
 
     @Override
@@ -37,10 +50,10 @@ public class ElementCPS extends Element {
 
         final boolean pressed = Mouse.isButtonDown(0);
 
-        if(pressed != leftWasPressed) {
+        if (pressed != leftWasPressed) {
             leftWasPressed = pressed;
             leftLastPressed = System.currentTimeMillis();
-            if(pressed) {
+            if (pressed) {
                 this.leftClicks.add(leftLastPressed);
             }
         }
@@ -52,10 +65,10 @@ public class ElementCPS extends Element {
     private int getPlayerRightCPS() {
         final boolean pressed = Mouse.isButtonDown(1);
 
-        if(pressed != rightWasPressed) {
+        if (pressed != rightWasPressed) {
             rightWasPressed = pressed;
             rightLastPressed = System.currentTimeMillis();
-            if(pressed) {
+            if (pressed) {
                 this.rightClicks.add(rightLastPressed);
             }
         }

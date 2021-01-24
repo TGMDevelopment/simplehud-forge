@@ -9,7 +9,7 @@ import java.util.Date;
 public class ElementTime extends Element {
 
     public ElementTime() {
-        super("Time");
+        super("Time", "General");
         if (this.prefix == null) prefix = "Time";
     }
 

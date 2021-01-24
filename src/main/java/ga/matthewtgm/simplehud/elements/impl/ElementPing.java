@@ -7,15 +7,15 @@ import net.minecraft.client.Minecraft;
 public class ElementPing extends Element {
 
     public ElementPing() {
-        super("Ping");
-        if(this.prefix == null) this.prefix = "Ping";
+        super("Ping", "PvP");
+        if (this.prefix == null) this.prefix = "Ping";
     }
 
     @Override
     public void onRendered(ElementPosition position) {
         try {
             this.setRenderedValue(String.valueOf(Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime()));
-        } catch(Exception e) {
+        } catch (Exception e) {
             this.setRenderedValue("Unknown");
         }
         this.height = Math.round(10 * this.getPosition().getScale());

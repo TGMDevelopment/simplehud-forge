@@ -2,19 +2,15 @@ package ga.matthewtgm.simplehud.command;
 
 import club.sk1er.mods.core.gui.notification.Notifications;
 import ga.matthewtgm.lib.util.GuiScreenUtils;
+import ga.matthewtgm.simplehud.Constants;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.elements.Element;
 import ga.matthewtgm.simplehud.utils.ChatUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.json.simple.JSONObject;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -56,9 +52,21 @@ public class SimpleHUDCommand extends CommandBase {
                                 EnumChatFormatting.GREEN +
                                 this.getFullCommand() + " info - Copies dev info to your clipboard.\n" +
                                 EnumChatFormatting.GREEN +
-                                this.getFullCommand() + " saveall - Saves all elements.\n" +
+                                this.getFullCommand() + " checkver - Checks for new updates.\n" +
+                                EnumChatFormatting.GREEN +
+                                this.getFullCommand() + " reloadelements - Reloads all elements in the mod.\n" +
                                 EnumChatFormatting.GOLD +
                                 lineDivider);
+                return;
+            }
+            if(args[0].equalsIgnoreCase("reloadelements")) {
+                SimpleHUD.getInstance().getElementManager().getElements().clear();
+                SimpleHUD.getInstance().getElementManager().init();
+                return;
+            }
+            if(args[0].equalsIgnoreCase("checkver")) {
+                SimpleHUD.getInstance().getVersionChecker().reload();
+                ChatUtils.getInstance().sendModMessage("You are using " + EnumChatFormatting.GREEN + Constants.VER + EnumChatFormatting.WHITE + " and the latest version is currently " + EnumChatFormatting.GREEN + SimpleHUD.getInstance().getVersionChecker().getVersion());
                 return;
             }
             if (args[0].equalsIgnoreCase("info")) {
@@ -80,17 +88,6 @@ public class SimpleHUDCommand extends CommandBase {
                 Toolkit.getDefaultToolkit().getSystemClipboard().setContents(clipboard, clipboard);
                 Notifications.INSTANCE.pushNotification("SimpleHUD - Misc", "Developer info copied!");
                 ChatUtils.getInstance().sendModMessage(EnumChatFormatting.GOLD + "Developer info copied to clipboard!");
-                return;
-            }
-            if(args[0].equalsIgnoreCase("saveall")) {
-                for(Element element : SimpleHUD.getInstance().getElementManager().getElements()) {
-                    element.onSave(new JSONObject());
-                }
-                Notifications.INSTANCE.pushNotification("SimpleHUD - Elements", "Saved all elements!");
-                return;
-            }
-            if(args[0].equalsIgnoreCase("gc")) {
-                System.gc();
                 return;
             }
         } catch (Exception ignored) {}

@@ -6,8 +6,8 @@ import ga.matthewtgm.simplehud.elements.ElementPosition;
 public class ElementDay extends Element {
 
     public ElementDay() {
-        super("Day");
-        if(this.prefix == null) this.prefix = "Day";
+        super("Day", "General");
+        if (this.prefix == null) this.prefix = "Day";
     }
 
     @Override

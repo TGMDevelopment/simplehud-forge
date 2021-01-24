@@ -1,11 +1,12 @@
 package ga.matthewtgm.simplehud.elements;
 
+import ga.matthewtgm.lib.util.ColourUtils;
 import ga.matthewtgm.simplehud.Constants;
 import ga.matthewtgm.simplehud.SimpleHUD;
 import ga.matthewtgm.simplehud.files.FileHandler;
-import ga.matthewtgm.simplehud.gui.GuiElement;
+import ga.matthewtgm.simplehud.gui.GuiConfigurationCategories;
+import ga.matthewtgm.simplehud.gui.elements.GuiElement;
 import ga.matthewtgm.simplehud.gui.GuiConfiguration;
-import ga.matthewtgm.simplehud.utils.ColourUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,6 +18,7 @@ import org.json.simple.JSONObject;
 public class Element {
 
     private String name;
+    public String category;
 
     //CONFIG
     private ElementPosition position;
@@ -32,7 +34,7 @@ public class Element {
 
     //INDIVIDUAL ELEMENT VARIABLES
     public String prefix;
-    public GuiElement elementScreen = new GuiElement(new GuiConfiguration(SimpleHUD.getInstance().configGui), this){};
+    public GuiElement elementScreen;
 
     //REQUIRED FOR DRAGGABLE HUD
     public int width, height;
@@ -41,9 +43,16 @@ public class Element {
     protected Logger logger;
     protected final Minecraft mc = Minecraft.getMinecraft();
 
-    public Element(String name) {
+    public Element(String name, String category) {
         this.name = name;
+        this.category = category;
         this.logger = LogManager.getLogger(Constants.NAME + " (" + name + ")");
+
+        if(this.category.equals("PvP")) {
+            this.elementScreen = new GuiElement(new GuiConfigurationCategories.GuiConfigurationPvP(new GuiConfiguration(SimpleHUD.getInstance().configGui)), this) {};
+        } else if(this.category.equals("General")) {
+            this.elementScreen = new GuiElement(new GuiConfigurationCategories.GuiConfigurationGeneral(new GuiConfiguration(SimpleHUD.getInstance().configGui)), this) {};
+        }
 
         boolean isConfigFileNull = SimpleHUD.getFileHandler().load(name, SimpleHUD.getFileHandler().elementDir) == null;
         final FileHandler handler = SimpleHUD.getFileHandler();
@@ -53,6 +62,9 @@ public class Element {
 
         if (isConfigFileNull) this.textShadow = true;
         else this.textShadow = (boolean) handler.load(name, handler.elementDir).get("text_shadow");
+
+        if(isConfigFileNull) this.renderBrackets = false;
+        else this.renderBrackets = (boolean) handler.load(name, handler.elementDir).get("show_brackets");
 
         if (isConfigFileNull) this.background = false;
         else
@@ -69,7 +81,7 @@ public class Element {
             );
         }
 
-        if(isConfigFileNull) this.chroma = true;
+        if (isConfigFileNull) this.chroma = false;
         else this.chroma = (boolean) handler.load(name, handler.elementDir).get("chroma");
 
         if (this.position == null) this.position = new ElementPosition(
@@ -97,7 +109,7 @@ public class Element {
             e.printStackTrace();
         }
 
-        if(isConfigFileNull) this.showPrefix = true;
+        if (isConfigFileNull) this.showPrefix = true;
         else this.showPrefix = (boolean) handler.load(name, handler.elementDir).get("show_prefix");
 
         this.setup();
@@ -120,9 +132,11 @@ public class Element {
         }
     }
 
-    public void onEnabled() {}
+    public void onEnabled() {
+    }
 
-    public void onDisabled() {}
+    public void onDisabled() {
+    }
 
     public String getRenderedString() {
         String value = new String();
@@ -139,7 +153,7 @@ public class Element {
             Gui.drawRect(position.getX() - 2, position.getY() - 2, position.getX() + this.width, position.getY() + this.height, this.backgroundColor.getRGBA());
         GlStateManager.pushMatrix();
         GlStateManager.scale(this.getPosition().getScale(), this.getPosition().getScale(), 1);
-        this.mc.fontRendererObj.drawString(this.getRenderedString(), position.getX() / position.getScale(), position.getY() / position.getScale(), this.chroma ? ColourUtils.getInstance().getChroma() : this.colour.getRGB(), this.getTextShadow());
+        this.mc.fontRendererObj.drawString(this.getRenderedString(), position.getX() / position.getScale(), position.getY() / position.getScale(), this.chroma ? ColourUtils.getInstance().chroma() : this.colour.getRGB(), this.getTextShadow());
         this.width = Math.round(this.mc.fontRendererObj.getStringWidth(this.getRenderedString()) * this.getPosition().getScale());
         GlStateManager.popMatrix();
     }

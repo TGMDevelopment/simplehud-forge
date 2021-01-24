@@ -32,7 +32,6 @@ public class GuiScreenUtils {
         GlStateManager.popMatrix();
         if (this.slideYPos < (5 / scale + 10)) {
             slideYPos = slideYPos + 2D;
-            System.out.println(this.slideYPos);
         }
     }
 

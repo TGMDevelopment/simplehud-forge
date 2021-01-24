@@ -50,6 +50,9 @@ public class GuiMain extends GuiScreen {
             case 2:
                 Minecraft.getMinecraft().displayGuiScreen(new GuiModConfiguration(this));
                 break;
+            case 3:
+                Minecraft.getMinecraft().displayGuiScreen(new GuiCredits(this));
+                break;
             case 100:
                 Desktop.getDesktop().browse(this.URLtoURI(new URL("https://patreon.com/MatthewTGM")));
                 break;

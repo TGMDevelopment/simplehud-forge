@@ -13,8 +13,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.github.johnrengelman.shadow'
-
-version = "1.8.3"
+version = "1.9"
 group = "ga.matthewtgm.simplehud"
 archivesBaseName = "SimpleHUD"
 
@@ -40,13 +39,15 @@ repositories {
 }
 
 dependencies {
-    compile('com.github.TGMDevelopment:TGMLib:0.5')
+    compile('com.github.TGMDevelopment:TGMLib:0.6')
+    compile('com.googlecode.json-simple:json-simple:1.1.1')
     provided(files('libs/modcore.jar'))
 }
 
 shadowJar {
     dependencies {
-        include(dependency('com.github.TGMDevelopment:TGMLib:0.5'))
+        include(dependency('com.github.TGMDevelopment:TGMLib:0.6'))
+        include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
     }
 
     exclude('dummyThing')

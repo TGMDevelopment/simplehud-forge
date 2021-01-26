@@ -70,9 +70,11 @@ public class GuiConfiguration extends GuiScreen {
         this.updateElementPosition(mouseX, mouseY);
         for (Element e : SimpleHUD.getInstance().getElementManager().getElements()) {
             if (e.isToggled()) {
+                this.fontRendererObj.drawString(e.getName(), e.getPosition().getX(), e.getPosition().getY() - 10, -1);
                 final RenderUtils utils = new RenderUtils();
-                utils.drawHollowRect(e.getPosition().getX() - 1, e.getPosition().getY() - 2, e.width, e.height, new Color(255, 255, 255, 111).getRGB());
-                Gui.drawRect(e.getPosition().getX() - 1, e.getPosition().getY() - 2, e.getPosition().getX() + e.width, e.getPosition().getY() + e.height, new Color(255, 255, 255, 43).getRGB());
+                GlStateManager.color(1F, 1F, 1F);
+                utils.drawHollowRect(e.getPosition().getX() - 1, e.getPosition().getY() - 2, e.width, e.height, -1);
+                Gui.drawRect(e.getPosition().getX() - 1, e.getPosition().getY() - 2, e.getPosition().getX() + e.width, e.getPosition().getY() + e.height, new Color(255, 255, 255, 100).getRGB());
                 e.onRendered(e.getPosition());
             }
         }

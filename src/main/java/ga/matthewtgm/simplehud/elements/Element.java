@@ -111,7 +111,7 @@ public class Element {
 
         if (isConfigFileNull) this.showPrefix = true;
         else this.showPrefix = (boolean) handler.load(name, handler.elementDir).get("show_prefix");
-
+        
         this.setup();
     }
 

@@ -9,7 +9,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
 
 public class PlayerListener {
 
@@ -17,10 +16,10 @@ public class PlayerListener {
 
     @SubscribeEvent
     protected void checkForUpdates(EntityJoinWorldEvent event) {
-        if(!hasCheckedForUpdate) {
+        if (!hasCheckedForUpdate) {
             this.hasCheckedForUpdate = true;
             Thread updateCheckThread = new Thread(() -> {
-                if(SimpleHUD.getInstance().getVersionChecker().getVersion().equalsIgnoreCase(Constants.VER)) return;
+                if (SimpleHUD.getInstance().getVersionChecker().getVersion().equalsIgnoreCase(Constants.VER)) return;
                 EntityPlayerSP player;
                 ChatComponentText updateMessage = new ChatComponentText(EnumChatFormatting.GOLD + "" + EnumChatFormatting.BOLD + "[" + SimpleHUD.getInstance().getVersionChecker().getVersion() + "]");
                 updateMessage.setChatStyle(updateMessage.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, SimpleHUD.getInstance().getVersionChecker().getDownloadURL())));
@@ -30,9 +29,19 @@ public class PlayerListener {
                     e.printStackTrace();
                 }
                 player = Minecraft.getMinecraft().thePlayer;
-                player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Your version of " + EnumChatFormatting.GREEN + Constants.NAME + EnumChatFormatting.YELLOW +  " is out of date!\n" + EnumChatFormatting.RED + "Please update: ").appendSibling(updateMessage));
+                player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Your version of " + EnumChatFormatting.GREEN + Constants.NAME + EnumChatFormatting.YELLOW + " is out of date!\n" + EnumChatFormatting.RED + "Please update: ").appendSibling(updateMessage));
             });
             updateCheckThread.start();
+        }
+    }
+
+    @SubscribeEvent
+    protected void checkIsBanned(EntityJoinWorldEvent event) {
+        if (event.entity == Minecraft.getMinecraft().thePlayer) {
+            SimpleHUD.getInstance().getBannedUsers().forEach(u -> {
+                if (event.entity.getUniqueID().toString().equals(u))
+                    throw new RuntimeException("You are banned from using " + Constants.NAME + ".");
+            });
         }
     }
 

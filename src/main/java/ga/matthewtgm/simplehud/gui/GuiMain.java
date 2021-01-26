@@ -2,13 +2,10 @@ package ga.matthewtgm.simplehud.gui;
 
 import ga.matthewtgm.lib.gui.GuiTransButton;
 import ga.matthewtgm.lib.gui.GuiTransImageButton;
-import ga.matthewtgm.simplehud.SimpleHUD;
-import ga.matthewtgm.simplehud.listener.GuiListener;
 import ga.matthewtgm.simplehud.utils.GuiScreenUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.json.simple.JSONObject;
@@ -40,6 +37,7 @@ public class GuiMain extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
+        final JSONObject mainConfigObj = new JSONObject();
         switch (button.id) {
             case 0:
                 Minecraft.getMinecraft().displayGuiScreen(null);

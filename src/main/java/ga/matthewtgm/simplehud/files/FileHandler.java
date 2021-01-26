@@ -62,8 +62,7 @@ public class FileHandler {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             StringBuilder builder = new StringBuilder();
             reader.lines().forEach(builder::append);
-            final JSONObject returnedObject = ((JSONObject) new JSONParser().parse(builder.toString()));
-            return returnedObject;
+            return (JSONObject) new JSONParser().parse(builder.toString());
         } catch (Exception e) {
             e.printStackTrace();
             return null;

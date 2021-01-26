@@ -6,8 +6,10 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ChatUtils {
 
-    private static ChatUtils INSTANCE = new ChatUtils();
+    private static ChatUtils INSTANCE;
     public static ChatUtils getInstance() {
+        if(INSTANCE == null)
+            INSTANCE = new ChatUtils();
         return INSTANCE;
     }
 
